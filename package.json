@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "axios": "^1.5.0",
     "lucide-react-native": "^0.269.0",
     "nativewind": "^2.0.11",
     "radio-buttons-react-native": "^1.0.4",

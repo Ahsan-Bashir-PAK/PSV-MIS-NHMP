@@ -7,12 +7,30 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
 
 import SelectDropdown from 'react-native-select-dropdown';
+import axios from 'axios';
 
 const user_status = [ "User" ,"Admin"]; 
 const webaccess = [ "Yes" ,"No"]; 
 const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
 const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO HQ, Islamabad"];  
+
+const user ={
+
+}
+const api = process.env.BASE_URL
+
 const SignUp = () => {
+
+//------------------------save user
+  const saveUser = ()=>{
+    // axios({
+    //   method: 'post',
+    //   url: `${api}/users/addUser`,
+    //   data:{user}
+    // });
+
+    console.log("i m user ")
+  }
  
 
   return (
