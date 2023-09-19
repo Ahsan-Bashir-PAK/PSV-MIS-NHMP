@@ -16,6 +16,17 @@ const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N
 
 
 const user ={
+      userCnic:officercnic,
+      userName:officername,
+      userPwd:officerpwd,
+      cellNo :officercell ,
+      rank:officerrank,
+      beltNo:officerbelt,
+      role:officerrole,
+      status:"Active",
+      beatId :officerbeat ,
+      sectorId: officersector,
+      zoneId:officerzone
 
 }
 const api = process.env.BASE_URL
@@ -46,7 +57,7 @@ const SignUp = () => {
     //   data:{user}
     // });
 
-    console.log("i m user ")
+    console.log(user)
   }
  
 const [searchcnic, setCnic] = useState("");
