@@ -23,6 +23,21 @@ const api = process.env.BASE_URL
 
 const SignUp = () => {
 
+  // Clear Data
+  function clearAll (){
+    setCnic("")
+    setOfcrname("")
+    setOfcrcnic("")
+    setOfcrcell("")
+    setOfcrpwd("")
+    setOfcrrank("")
+    setOfcrzone("")
+    setOfcrsector("")
+    setOfcrbeat("")
+    setOfcrrole("")
+  }
+
+
 //------------------------save user
   const saveUser = ()=>{
     // axios({
@@ -267,7 +282,7 @@ return (
                 </TouchableOpacity>
               </View>
               <View className="">
-                <TouchableOpacity className="bg-[#a54932] px-8 py-2 rounded-md m-2">
+                <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">
                   <Text className="text-white text-lg">Clear</Text>
                 </TouchableOpacity>
               </View>
