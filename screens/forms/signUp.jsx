@@ -14,10 +14,12 @@ const webaccess = [ "Yes" ,"No"];
 const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
 const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO HQ, Islamabad"];  
 
+
 const user ={
 
 }
 const api = process.env.BASE_URL
+
 
 const SignUp = () => {
 
@@ -32,8 +34,23 @@ const SignUp = () => {
     console.log("i m user ")
   }
  
+const [searchcnic, setCnic] = useState("");
+const [officername, setOfcrname] = useState("");
+const [officercnic, setOfcrcnic] = useState("");
+const [officercell, setOfcrcell] = useState("");
+const [officerpwd, setOfcrpwd] = useState("");
 
-  return (
+const [officerrank, setOfcrrank] = useState("");
+
+const [officerbelt, setOfcrbelt] = useState("");
+const [officerzone, setOfcrzone] = useState("");
+const [officersector, setOfcrsector] = useState("");
+const [officerbeat, setOfcrbeat] = useState("");
+
+const [officerrole, setOfcrrole] = useState("");
+
+  
+return (
     <ScrollView className=" ">
     <View className=" flex flex-col   ">
       <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
@@ -56,7 +73,7 @@ const SignUp = () => {
               placeholder='Search User CNIC'
               maxLength={13}
               keyboardType='numeric'
-
+              
               className=' text-black rounded-md  text-lg' />
               
           </View>
@@ -74,7 +91,7 @@ const SignUp = () => {
               placeholderTextColor={'grey'}
               placeholder='Officer Name'
               maxLength={60}
-
+              onChangeText={e=>setOfcrname(e)}
               className=' border-black text-black rounded-md  text-lg' />
 
           </View>
@@ -88,6 +105,7 @@ const SignUp = () => {
               placeholderTextColor={'grey'}
               placeholder='0000000000000'
               maxLength={13}
+              onChangeText={e=>setOfcrcnic(e)}
               className=' border-black text-black rounded-md  text-lg' />
 
           </View>
@@ -100,9 +118,10 @@ const SignUp = () => {
           <View className="w-4/6 items-center">
             <TextInput
               placeholderTextColor={'grey'}
-              placeholder='Cell Number'
+              placeholder='00000000000'
               maxLength={11}
               keyboardType='numeric'
+              onChangeText={e=>setOfcrcell(e)}
               className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
           </View>
@@ -118,6 +137,7 @@ const SignUp = () => {
               placeholder='Password'
               maxLength={10}
               secureTextEntry={true}
+              onChangeText={e=>setOfcrpwd(e)}
               className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
           </View>
@@ -131,7 +151,7 @@ const SignUp = () => {
               <SelectDropdown
                 data= {ranks}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setOfcrrank(index);
                 }}
                 defaultButtonText='Select Rank'
                 buttonStyle={{
@@ -153,7 +173,7 @@ const SignUp = () => {
               placeholderTextColor={'grey'}
               placeholder='Belt No'
               maxLength={10}
-
+              onChangeText={e=>setOfcrbelt(e)}
               className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
           </View>
@@ -167,7 +187,7 @@ const SignUp = () => {
               <SelectDropdown
                 data= {Zone}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setOfcrzone(index);
                 }}
                 defaultButtonText='Select Zone'
                 buttonStyle={{
@@ -189,8 +209,9 @@ const SignUp = () => {
             <TextInput
               placeholderTextColor={'grey'}
               placeholder='Sector'
-              keyboardType='numeric'
+              
               maxLength={11}
+              onChangeText={e=>setOfcrsector(e)}
               className=' border-black text-black rounded-md  text-lg' />
           </View>
         </View>
@@ -201,14 +222,15 @@ const SignUp = () => {
           <View className="w-4/6 items-center">
             <TextInput
               placeholderTextColor={'grey'}
-              placeholder='Beat'
-              keyboardType='numeric'
-              maxLength={11}
+              placeholder='(Beat-09)'
+              
+              maxLength={15}
+              onChangeText={e=>setOfcrbeat(e)}
               className=' border-black text-black rounded-md  text-lg' />
           </View>
         </View>
 
-        {/* Status */}
+        {/* Role*/}
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Role</Text></View>
           <View className="w-4/6 items-center">
@@ -217,7 +239,7 @@ const SignUp = () => {
               <SelectDropdown
                 data= {user_status}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setOfcrrole(index);
                 }}
                 defaultButtonText='Select Status'
                 buttonStyle={{
