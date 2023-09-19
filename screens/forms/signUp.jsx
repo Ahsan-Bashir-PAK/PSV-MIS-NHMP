@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert } from 'react-native';
 
-import { BusFront, Scroll, User } from 'lucide-react-native';
+import { BusFront, DnaOff, Scroll, User } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
+
 
 import SelectDropdown from 'react-native-select-dropdown';
 //import axios from 'axios';
@@ -15,27 +16,16 @@ const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];
 const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO HQ, Islamabad"];  
 
 
-const user ={
-      userCnic:officercnic,
-      userName:officername,
-      userPwd:officerpwd,
-      cellNo :officercell ,
-      rank:officerrank,
-      beltNo:officerbelt,
-      role:officerrole,
-      status:"Active",
-      beatId :officerbeat ,
-      sectorId: officersector,
-      zoneId:officerzone
 
-}
-const api = process.env.BASE_URL
+const api = "http://192.168.10.16:5000"
 
 
 const SignUp = () => {
 
   // Clear Data
   function clearAll (){
+    console.log("working");
+    
     setCnic("")
     setOfcrname("")
     setOfcrcnic("")
@@ -49,18 +39,8 @@ const SignUp = () => {
   }
 
 
-//------------------------save user
-  const saveUser = ()=>{
-    // axios({
-    //   method: 'post',
-    //   url: `${api}/users/addUser`,
-    //   data:{user}
-    // });
 
-    console.log(user)
-  }
- 
-const [searchcnic, setCnic] = useState("");
+const [searchcnic, setCnic] = useState();
 const [officername, setOfcrname] = useState("");
 const [officercnic, setOfcrcnic] = useState("");
 const [officercell, setOfcrcell] = useState("");
@@ -75,7 +55,47 @@ const [officerbeat, setOfcrbeat] = useState("");
 
 const [officerrole, setOfcrrole] = useState("");
 
+const user ={
+  userCnic:officercnic,
+  userName:officername,
+  userPwd:officerpwd,
+  cellNo :officercell ,
+  rank:officerrank,
+  beltNo:officerbelt,
+  role:officerrole,
+  status:"Active",
+  beatId :officerbeat ,
+  sectorId: officersector,
+  zoneId:officerzone
+
+}
+
+//------------------------save user
+const saveUser = async () => {
+  if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerzone && officerbeat !== "" ) {
+      await fetch(`${api}/users/addUser`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      }) 
+        .then(response => {
+          if (response.ok) {
+            Alert.alert('Data inserted successfully');
+            clearAll();
+          } else {
+            Alert.alert('Failed to insert data');
+          }
   
+        })
+  
+        .catch(error => {
+          Alert.alert(error);
+        });
+      } else { Alert.alert("Note: Please Fill All Fields");}
+      }
+
 return (
     <ScrollView className=" ">
     <View className=" flex flex-col   ">
@@ -130,8 +150,10 @@ return (
             <TextInput
               placeholderTextColor={'grey'}
               placeholder='0000000000000'
+              keyboardType='numeric'
               maxLength={13}
               onChangeText={e=>setOfcrcnic(e)}
+              
               className=' border-black text-black rounded-md  text-lg' />
 
           </View>
@@ -169,7 +191,7 @@ return (
           </View>
         </View>
 
-        {/* Designation*/}
+        {/* Rank*/}
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Designation</Text></View>
           <View className="w-4/6 items-center ">
@@ -177,7 +199,7 @@ return (
               <SelectDropdown
                 data= {ranks}
                 onSelect={(selectedItem, index) => {
-                  setOfcrrank(index);
+                  setOfcrrank(selectedItem);
                 }}
                 defaultButtonText='Select Rank'
                 buttonStyle={{
@@ -213,7 +235,7 @@ return (
               <SelectDropdown
                 data= {Zone}
                 onSelect={(selectedItem, index) => {
-                  setOfcrzone(index);
+                  setOfcrzone(selectedItem);
                 }}
                 defaultButtonText='Select Zone'
                 buttonStyle={{
@@ -265,7 +287,7 @@ return (
               <SelectDropdown
                 data= {user_status}
                 onSelect={(selectedItem, index) => {
-                  setOfcrrole(index);
+                  setOfcrrole(selectedItem);
                 }}
                 defaultButtonText='Select Status'
                 buttonStyle={{
