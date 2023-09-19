@@ -75,6 +75,22 @@ const SignUp = () => {
           </View>
         </View>
 
+
+        {/* Cell No */}
+        <View className={styles.outerview}>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Cell Number</Text></View>
+          <View className="w-4/6 items-center">
+            <TextInput
+              placeholderTextColor={'grey'}
+              placeholder='Cell Number'
+              maxLength={11}
+              keyboardType='numeric'
+              className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
+
+          </View>
+        </View>
+
+
         {/* Password */}
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">User Password</Text></View>
