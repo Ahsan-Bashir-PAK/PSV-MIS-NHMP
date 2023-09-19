@@ -7,7 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
 
 import SelectDropdown from 'react-native-select-dropdown';
-import axios from 'axios';
+//import axios from 'axios';
 
 const user_status = [ "User" ,"Admin"]; 
 const webaccess = [ "Yes" ,"No"]; 
@@ -255,7 +255,7 @@ return (
          {/* Buttons Save - Clear -Update */}
          <View className="flex-row items-center justify-center ">
               <View className=" ">
-                <TouchableOpacity onPress = {()=>saveUser()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                <TouchableOpacity onPress= {()=>saveUser()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
                   <Text className="text-white  text-lg">Save</Text>
                 </TouchableOpacity>
               </View>
