@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert } from 'react-native';
 
-import { BusFront, DnaOff, Scroll, User } from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { Bus } from 'lucide-react-native';
+import { User } from 'lucide-react-native';
+
 
 
 import SelectDropdown from 'react-native-select-dropdown';
 //import axios from 'axios';
 
 const user_status = [ "User" ,"Admin"]; 
-const webaccess = [ "Yes" ,"No"]; 
+
 const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
 const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO HQ, Islamabad"];  
 
@@ -22,25 +20,11 @@ const api = "http://192.168.10.16:5000"
 
 const SignUp = () => {
 
-  // Clear Data
-  function clearAll (){
-    console.log("working");
-    
-    setCnic("")
-    setOfcrname("")
-    setOfcrcnic("")
-    setOfcrcell("")
-    setOfcrpwd("")
-    setOfcrrank("")
-    setOfcrzone("")
-    setOfcrsector("")
-    setOfcrbeat("")
-    setOfcrrole("")
-  }
+ 
 
 
 
-const [searchcnic, setCnic] = useState();
+const [searchcnic, setCnic] = useState("");
 const [officername, setOfcrname] = useState("");
 const [officercnic, setOfcrcnic] = useState("");
 const [officercell, setOfcrcell] = useState("");
@@ -54,6 +38,25 @@ const [officersector, setOfcrsector] = useState("");
 const [officerbeat, setOfcrbeat] = useState("");
 
 const [officerrole, setOfcrrole] = useState("");
+
+ // Clear Data
+const  clearAll =()=>{
+  
+
+  setCnic("");
+  setOfcrname("");
+  setOfcrcnic("");
+  setOfcrcell("");
+  setOfcrpwd("");
+  setOfcrrank("");
+  setOfcrzone("");
+  setOfcrsector("");
+  setOfcrbeat("");
+  setOfcrrole("");
+  setOfcrbelt("");
+  
+}
+
 
 const user ={
   userCnic:officercnic,
@@ -72,7 +75,7 @@ const user ={
 
 //------------------------save user
 const saveUser = async () => {
-  if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerzone && officerbeat !== "" ) {
+  if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerzone && officerbeat ) {
       await fetch(`${api}/users/addUser`, {
         method: 'POST',
         headers: {
@@ -119,7 +122,8 @@ return (
               placeholder='Search User CNIC'
               maxLength={13}
               keyboardType='numeric'
-              
+              value={searchcnic}            
+              onChangeText={e=>setCnic(e)}
               className=' text-black rounded-md  text-lg' />
               
           </View>
@@ -137,6 +141,7 @@ return (
               placeholderTextColor={'grey'}
               placeholder='Officer Name'
               maxLength={60}
+              value={officername}
               onChangeText={e=>setOfcrname(e)}
               className=' border-black text-black rounded-md  text-lg' />
 
@@ -153,7 +158,7 @@ return (
               keyboardType='numeric'
               maxLength={13}
               onChangeText={e=>setOfcrcnic(e)}
-              
+              value={officercnic}
               className=' border-black text-black rounded-md  text-lg' />
 
           </View>
@@ -169,6 +174,7 @@ return (
               placeholder='00000000000'
               maxLength={11}
               keyboardType='numeric'
+              value={officercell}
               onChangeText={e=>setOfcrcell(e)}
               className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
@@ -185,6 +191,7 @@ return (
               placeholder='Password'
               maxLength={10}
               secureTextEntry={true}
+              value={officerpwd}
               onChangeText={e=>setOfcrpwd(e)}
               className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
@@ -193,15 +200,16 @@ return (
 
         {/* Rank*/}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Designation</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Rank</Text></View>
           <View className="w-4/6 items-center ">
           <View className=" m-1  z-50">
               <SelectDropdown
                 data= {ranks}
+                
                 onSelect={(selectedItem, index) => {
                   setOfcrrank(selectedItem);
                 }}
-                defaultButtonText='Select Rank'
+                defaultButtonText="Select Rank"
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -221,6 +229,7 @@ return (
               placeholderTextColor={'grey'}
               placeholder='Belt No'
               maxLength={10}
+              value={officerbelt}
               onChangeText={e=>setOfcrbelt(e)}
               className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
@@ -234,6 +243,7 @@ return (
           <View className=" m-1  z-50">
               <SelectDropdown
                 data= {Zone}
+                value={officerzone}
                 onSelect={(selectedItem, index) => {
                   setOfcrzone(selectedItem);
                 }}
@@ -257,7 +267,7 @@ return (
             <TextInput
               placeholderTextColor={'grey'}
               placeholder='Sector'
-              
+              value={officersector}
               maxLength={11}
               onChangeText={e=>setOfcrsector(e)}
               className=' border-black text-black rounded-md  text-lg' />
@@ -271,7 +281,7 @@ return (
             <TextInput
               placeholderTextColor={'grey'}
               placeholder='(Beat-09)'
-              
+              value={officerbeat}
               maxLength={15}
               onChangeText={e=>setOfcrbeat(e)}
               className=' border-black text-black rounded-md  text-lg' />
@@ -282,10 +292,11 @@ return (
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Role</Text></View>
           <View className="w-4/6 items-center">
-         
+          
           <View className=" m-1  z-50">
               <SelectDropdown
                 data= {user_status}
+                value={officerrole}
                 onSelect={(selectedItem, index) => {
                   setOfcrrole(selectedItem);
                 }}
