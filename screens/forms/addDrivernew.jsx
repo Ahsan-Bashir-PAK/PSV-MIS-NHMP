@@ -15,6 +15,7 @@ const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
 const AddDrivernew = () => {
 
+  const today = new Date()
 // expiry Date
   const [expirydate, setexpiryDate] = useState(new Date())
   const [expiryopen, setexpiryOpen] = useState(false)
@@ -24,38 +25,76 @@ const [issuedate, setissueDate] = useState(new Date())
 const [issueopen, setissueOpen] = useState(false)
 
 // DOB
-const [dobdate, setdobDate] = useState(new Date())
 const [dobopen, setdobOpen] = useState(false)
+const [dobdate, setdobDate] = useState(new Date())
+//------------new states
+  const [cnic,setcnic] =useState("")
+  const [driverName,setDriverName] =useState("")
+  const [fatherName,setFatherName] =useState("")
+  const [address,setAddress] =useState("")
+  const [disability,setDisability] =useState("")
+  const [companyId,setCompanyId] =useState("")
+  const [cellNo,setCellNo] =useState()
+  const [licenseType,setLicenseType] =useState("")
+  const [licenseNo,setLicenseNo] =useState("")
+  const [licenseAuthority,setLicenseAuthority] =useState("")
+  const [addedBy,setAddedBy] =useState()
+  const [addedDate,setAddedDate] =useState(today.toLocaleDateString())
+  const [addedTime,setAddedTime] =useState(today.toLocaleTimeString)
+  const [addedPoint,setAddedPoint] =useState("")
+  const [beatId,setBeatId] =useState("")
 
-  const [provinceOpen, setProvinceOpen] = useState(false);
-  const [currentLiceince, setCurrentLiceince,] = useState(null);
-
-  const [tracker, setTracker] = useState(false);
-  const [emergencyExit, setEmergencyExit] = useState(false);
-  const [ac, setAc] = useState(false);
-
-  //------------------------------------select vehicle type 
-  //-------------------------------------------------------
-
-  //----------------------------------------
-  const [searchreg, setReg] = useState(null);
-  const [setyear, setYear] = useState(null);
-
-  const [acstate, setState] = useState(true);
-
-  const [LcOpen, setLcOpen] = useState(false);
-  const [currentProvince, setCurrentProvince] = useState(null)
-
-     // Fire Ext Date
-     const [fireextdate, setDate] = useState(new Date())
-     const [fireextopen, setOpen] = useState(false)
 
   function clearall() {
 
-    setReg('')
-    setYear('')
 
   }
+//------------------backend integration
+//---------------------------------------------------saving data to offices
+
+const driver = {
+  cnic:cnic,
+  driverName:  driverName,
+  fatherName:  fatherName,
+  dob:  dobdate,
+  address:  address,
+  disability:  disability,
+  companyId:  companyId,
+  cellNo :   cellNo, 
+  licenseType:  licenseType,
+  licenseNo:  licenseNo,
+  licenseAuthority:  licenseAuthority,
+  issueDate:  issuedate,
+  addedBy:  addedBy,
+  addedDate:  addedDate,
+  addedTime:  addedTime,
+  licenseExpiry:  expirydate,
+  addedPoint:  addedPoint,
+  beatId:  beatId,
+};
+const saveData = async () => {
+  await fetch(`${global.api}/dvr/addDriver`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(driver),
+  })
+    .then(response => {
+      if (response.ok) {
+        Alert.alert('Data inserted successfully');
+      
+      } else {
+        console.log('Failed to insert data');
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    
+    clearAll();
+
+};
 
 
 
