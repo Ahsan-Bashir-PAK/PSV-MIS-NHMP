@@ -16,9 +16,6 @@ import AddDrivernew from '../screens/forms/addDrivernew';
 import TestPage from '../screens/forms/testPage';
 
 
-
-
-
 const Tab =  createBottomTabNavigator();
 
 const MyTabs = () => {
