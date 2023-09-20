@@ -46,7 +46,7 @@ function App(): JSX.Element {
   
   return (
     
-//    <MyStack />
+  <MyStack />
     //<Main />
    //<MyTabs />
 //  <AddVehicle/>
@@ -55,7 +55,7 @@ function App(): JSX.Element {
     //<AddOtherInfo/>
    // <TripReport/>
     //<TestPage/>
-   <SignUp/>
+  // <SignUp/>
     
   );
 }

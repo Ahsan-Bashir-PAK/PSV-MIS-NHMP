@@ -20,20 +20,35 @@ function Login() {
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
-
-    global.currentUser ={
+    const api = "http://192.168.10.35:5000"
+    const currentUser ={
         userName : "Ahsan",
         role:"user",
         location:location+userbound
     }
 
     const signIn =async()=>{
-        axios.get(`${global.api}/users/getUser/${user}`)
-          .then(function (response) {
-            Alert.alert(response);
-          })
-        //   navigation.navigate('Home')
-    } 
+        if(user && userpwd && location && userbound){
+        const response = await fetch(
+            `${api}/users/getUser/${user}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+               
+              },
+            }
+          );
+          const result = await response.json();
+          if(userpwd == result[0].userPwd){
+            console.log(result)
+            navigation.navigate("Home")
+          }
+          else {
+            Alert.alert("Wrong Password")
+          }}else {Alert.alert("Please enter All fields")}
+     } 
+
     
     
     
@@ -73,8 +88,8 @@ function Login() {
 <View className="   w-4/6 flex flex-row  ">
                 <TextInput  
                     placeholder='Location'
-                    value={userpwd}
-                    onChangeText={e => setPwd(e)}
+                    value={location}
+                    onChangeText={e => setlocation(e)}
                     placeholderTextColor='grey'
                     keyboardType='numeric'
                     maxLength={4}

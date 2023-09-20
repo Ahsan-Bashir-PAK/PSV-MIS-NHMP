@@ -15,7 +15,7 @@ const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N
 
 
 
-global.api = "http://192.168.10.16:5000"
+const api = "http://192.168.10.63:5000"
 
 
 const SignUp = () => {
