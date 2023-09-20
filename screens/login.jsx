@@ -13,19 +13,18 @@ import {
     Image,
     Alert,
 } from 'react-native';
-import axios from 'axios'
-
+import '../config'
+import EncryptedStorage from 'react-native-encrypted-storage';
+console.log(global.BASE_URL)
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
     const api = "http://192.168.10.35:5000"
-    const currentUser ={
-        userName : "Ahsan",
-        role:"user",
-        location:location+userbound
-    }
+
+   
+  
 
     const signIn =async()=>{
         if(user && userpwd && location && userbound){
@@ -41,13 +40,36 @@ function Login() {
           );
           const result = await response.json();
           if(userpwd == result[0].userPwd){
-            console.log(result)
+           
+            storeUserSession(user,result[0].role)
             navigation.navigate("Home")
           }
           else {
             Alert.alert("Wrong Password")
           }}else {Alert.alert("Please enter All fields")}
      } 
+
+
+
+     //---------------------------------------
+    
+
+     async function storeUserSession(user,role) {
+         try {
+             await EncryptedStorage.setItem(
+                 "user_session",
+                 JSON.stringify({
+                     userName : user,
+                     role:role,
+                     location:location+userbound
+                 })
+             );
+     
+             // Congrats! You've just stored your first value!
+         } catch (error) {
+             // There was an error on the native side
+         }
+     }
 
     
     
