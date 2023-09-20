@@ -10,6 +10,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 
 
+
 const countries = ["Punjab", "KPK", "Sindh", "Balochistan", "NHMP", "Islamabad", "AJK", "GB"]
 const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
