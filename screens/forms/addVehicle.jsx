@@ -74,8 +74,8 @@ const AddVehicle = () => {
       addedPoint:"78nb"
 
       })
-      .then(function (response) {
-        console.log(response);
+      .then( (response)=> {
+        Alert.alert(response);
       })
     }
 
