@@ -12,6 +12,7 @@ import {
     View,
     Image,
     Alert,
+    KeyboardAvoidingView
 } from 'react-native';
 import axios from 'axios'
 
@@ -56,7 +57,9 @@ function Login() {
 
 
     return (
+        <KeyboardAvoidingView >
         <View className='px-2 flex justify-center items-center h-screen  bg-gray-900 pt-2 '>
+            
             {/* Logo VIEW */}
             <View className="w-full p-0 h-2/4 bg-blue-900 flex justify-center items-center ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
@@ -112,8 +115,9 @@ function Login() {
                 <Text className="text-white">Copyright reserved by</Text>
                 <Text className="text-white">NHMP Training  College, IT Wing</Text>
             </View>
+            
         </View>
-
+        </KeyboardAvoidingView>
     );
 }
 
