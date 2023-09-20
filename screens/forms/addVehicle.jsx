@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import axios from 'axios'
 
 
 
@@ -46,7 +47,37 @@ const AddVehicle = () => {
 
   }
 
-  //---------------------------------by ati
+  //---------------------------------BACK END
+
+  const today = new Date()
+//----------------add form one 
+    const addPsvFormOne = async()=>{
+      axios.post(`${global.api}/psv/addPsv`, {
+       
+      vehicleType:"coaster",
+      prefixRegNo:"fkd",
+      vehicleModel:2015,
+      regNo:7889,
+      chasisNo:"dasd45646456465",
+      engineNo:"asdas5646465465",
+      vehicleMake:2011,
+      vehicleColor:"red",
+      acStatus:1,
+      seatingCap:45,
+      trackerStatus:0,
+      exitGate:1,
+      manufactureYear:2015,
+      companyName:"Faisal Mover",
+      formOneStatus:1,
+      addedDate:today.toLocaleDateString(),
+      addedBy:"Ahsan Bashir Po",
+      addedPoint:"78nb"
+
+      })
+      .then( (response)=> {
+        Alert.alert(response);
+      })
+    }
 
 
 
