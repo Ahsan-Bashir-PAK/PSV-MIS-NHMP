@@ -13,20 +13,33 @@ import {
     Image,
     Alert,
 } from 'react-native';
+import axios from 'axios'
 
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
-    
+    const [location,setlocation] = useState("")
 
+    global.currentUser ={
+        userName : "Ahsan",
+        role:"user",
+        location:location+userbound
+    }
+
+    const signIn =async()=>{
+        axios.get(`${global.api}/users/getUser/${user}`)
+          .then(function (response) {
+            Alert.alert(response);
+          })
+        //   navigation.navigate('Home')
+    } 
+    
+    
+    
     const navigation = useNavigation();
 
-// function userLogin () {
-//     if (user=="admin" && userpwd == "a") {
-//         navigation.navigate('Home');
-//     } else { console.log( user, userpwd , 'Please enter valid username & password');}
-// }
+
     return (
         <View className='px-2 flex justify-center items-center h-screen  bg-gray-900 pt-2 '>
             {/* Logo VIEW */}
@@ -74,7 +87,7 @@ function Login() {
 
 </View>
 </View>
-                <TouchableOpacity onPress={()=>navigation.navigate('Home')} 
+                <TouchableOpacity onPress={()=>signIn()} 
                     className='p-3 bg-slate-200 text-center rounded-md w-6/12 mt-10' >
                     <Text className='text-blue-500 text-center font-bold text-lg'>Login</Text>
 
