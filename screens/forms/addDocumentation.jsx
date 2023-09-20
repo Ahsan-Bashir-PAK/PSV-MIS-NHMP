@@ -10,45 +10,47 @@ import SelectDropdown from 'react-native-select-dropdown';
 
 
 
-const provices = [
-  { label: 'Temporary', value: 'Temporary' },
-  { label: 'Permanent', value: 'Permanent' }
-];
 
-const route_type = ["Temporary", "Permanent"]
+
 
 
 const AddDocumentation = () => {
 
-  
+// vehicle documentation States
+const [route, setRoute] = useState("");
+const [issue_Authority, setRouteAuthority] = useState("");
+// Route Expiry Date
+const [routedate, setRouteDate] = useState(new Date())
+const [routeopen, setRouteOpen] = useState(false)
 
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  //------------------------------------select vehicle type 
-  //-------------------------------------------------------
-  const [provinceOpen, setProvinceOpen] = useState(false);
-  const [currentLiceince, setCurrentLiceince,] = useState(null);
-  //----------------------------------------
-  const [LcOpen, setLcOpen] = useState(false);
-  const [currentProvince, setCurrentProvince] = useState(null);
-  
-  const [searchreg, setReg] = useState(null);
-  const [setyear, setYear] = useState(null);
+// Route Type
+const select_route_type = ["Temporary", "Permanent"]
+const [route_type, setRouteType] = useState("");
 
-  const [acstate, setState] = useState(true);
+const [route_from, setRouteFrom] = useState("");
+const [route_to, setRouteTo] = useState("");
+const [route_via, setRouteVia] = useState("");
+const [fitnessno, setFitness] = useState("");
+//  fitness expriry
 
-   //---------------------------------
+const [fitnessdate, setFDate] = useState(new Date())
+const [fitnessopen, setFOpen] = useState(false)
 
-   // Fire Ext Date
-   const [fireextdate, setDate] = useState(new Date())
-   const [fireextopen, setOpen] = useState(false)
-  
+//const [fitness_auth, setFitAuthority] = useState("");
+const [fitness_auth, setFitAuthority] = useState("");
 
-  function clearall() {
 
-    setReg('')
-    setYear('')
-
+  function clearAll() {
+      setRoute("");
+      setRouteAuthority ("");
+      //setexpir ("");
+      setRouteType("");
+      setRouteFrom("");
+      setRouteTo("");
+      setRouteVia("");
+      setFitness("");
+      //fitness expiry
+      setFitAuthority("");
   }
 
 
@@ -77,7 +79,8 @@ const AddDocumentation = () => {
                   placeholderTextColor={'grey'}
                   placeholder='Route Permit No.'
                   maxLength={50}
-
+                  onChangeText={e => setRoute(e)}
+                  value={route}
                   className=' border-black text-black rounded-md  text-lg' />
 
               </View>
@@ -91,6 +94,8 @@ const AddDocumentation = () => {
                   placeholderTextColor={'grey'}
                   placeholder='Authority'
                   maxLength={100}
+                  onChangeText={e => setRouteAuthority(e)}
+                  value={issue_Authority}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
@@ -104,21 +109,21 @@ const AddDocumentation = () => {
             <DatePicker
               modal
               mode="date"
-              open={fireextopen}
-              date={fireextdate}
+              open={routeopen}
+              date={routedate}
               onConfirm={value => {
-                setOpen(false);
-                setDate(value);
+                setRouteOpen(false);
+                setRouteDate(value);
               }}
               onCancel={() => {
-                setOpen(false);
+                setRouteOpen(false);
               }}
             />
 
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
-              {fireextdate.toLocaleDateString()}
+              {routedate.toLocaleDateString()}
             </Text>
-            <TouchableOpacity onPress={() => settyreOpen(true)}>
+            <TouchableOpacity onPress={() => setRouteOpen(true)}>
               <Calendar stroke="black" fill="white" size={30}></Calendar>
             </TouchableOpacity>
           </View>
@@ -136,7 +141,7 @@ const AddDocumentation = () => {
                 
               <SelectDropdown
                 className="bg-white border"
-                data= {route_type}
+                data= {select_route_type}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
                 }}
@@ -157,6 +162,8 @@ const AddDocumentation = () => {
                   placeholderTextColor={'grey'}
                   placeholder='from [Lahore]'
                   maxLength={100}
+                  onChangeText={e => setRouteFrom(e)}
+                  value={route_from}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
@@ -169,6 +176,8 @@ const AddDocumentation = () => {
                   placeholderTextColor={'grey'}
                   placeholder='To [Sargodha]'
                   maxLength={100}
+                  onChangeText={e => setRouteTo(e)}
+                  value={route_to}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
@@ -182,7 +191,8 @@ const AddDocumentation = () => {
                   placeholderTextColor={'grey'}
                   placeholder='Route via [M-2]'
                   maxLength={70}
-
+                  onChangeText={e => setRouteVia(e)}
+                  value={route_via}
                   className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
               </View>
@@ -190,12 +200,12 @@ const AddDocumentation = () => {
             </View>
 
             {/* Upload Route Permit */}
-            <View className={styles.outerview}>
+            {/* <View className={styles.outerview}>
               <View className={styles.labelstyle}><Text className="text-black font-bold">Upload Route Permit</Text></View>
               <View className="w-4/6 items-center">
                
               </View>
-            </View>
+            </View> */}
 
             {/* *******************FITNESS CERTIFICATE************************* */}
 
@@ -214,6 +224,8 @@ const AddDocumentation = () => {
                     placeholderTextColor={'grey'}
                     placeholder='Fitness No.'
                     maxLength={30}
+                    onChangeText={e => setFitness(e)}
+                    value={fitnessno}
                     className=' border-black text-black rounded-md  text-lg' />
                 </View>
               </View>
@@ -227,21 +239,21 @@ const AddDocumentation = () => {
             <DatePicker
               modal
               mode="date"
-              open={fireextopen}
-              date={fireextdate}
+              open={fitnessopen}
+              date={fitnessdate}
               onConfirm={value => {
-                setOpen(false);
-                setDate(value);
+                setFOpen(false);
+                setFDate(value);
               }}
               onCancel={() => {
-                setOpen(false);
+                setFOpen(false);
               }}
             />
 
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
-              {fireextdate.toLocaleDateString()}
+              {fitnessdate.toLocaleDateString()}
             </Text>
-            <TouchableOpacity onPress={() => settyreOpen(true)}>
+            <TouchableOpacity onPress={() => setFOpen(true)}>
               <Calendar stroke="black" fill="white" size={30}></Calendar>
             </TouchableOpacity>
           </View>
@@ -256,6 +268,9 @@ const AddDocumentation = () => {
                     placeholderTextColor={'grey'}
                     placeholder='Authority'
                     maxLength={20}
+                    onChangeText={e => setFitAuthority(e)}
+                    value={fitness_auth}
+
                     className=' border-black text-black rounded-md  text-lg' />
                 </View>
               </View>
@@ -269,11 +284,7 @@ const AddDocumentation = () => {
                   </TouchableOpacity>
                 </View>
 
-                <View className="">
-                  <TouchableOpacity className="bg-[#a54932] px-8 py-2 rounded-md m-2">
-                    <Text className="text-white text-lg">Clear</Text>
-                  </TouchableOpacity>
-                </View>
+              
 
                 <View className="">
                   <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
@@ -281,6 +292,11 @@ const AddDocumentation = () => {
                   </TouchableOpacity>
                 </View>
 
+                <View className="" >
+                  <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">
+                    <Text className="text-white text-lg">Clear</Text>
+                  </TouchableOpacity>
+                </View>
 
               </View>
             </View>

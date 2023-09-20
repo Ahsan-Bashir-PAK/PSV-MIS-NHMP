@@ -15,6 +15,8 @@ import {
     Alert,
     KeyboardAvoidingView
 } from 'react-native';
+
+import axios from 'axios';
 import '../config'
 function Login() {
     const [user, setUser] = useState("")
@@ -25,29 +27,47 @@ function Login() {
    
   
 
-    const signIn =async()=>{
-        if(user && userpwd && location && userbound){
-        const response = await fetch(
-            `${global.BASE_URL}/users/getUser/${user}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
+    // const signIn =async()=>{       
+    //     if(user && userpwd && location && userbound){
+    //     const response = await fetch(
+    //         `${global.BASE_URL}/users/getUser/${user}`,
+    //         {
+    //           method: "GET",
+    //           headers: {
+    //             "Content-Type": "application/json",
                
-              },
-            }
-          );
-          const result = await response.json();
-          if(userpwd == result[0].userPwd){
-           
-            storeUserSession(user,result[0].role)
-            navigation.navigate("Home")
-          }
-          else {
-            Alert.alert("Wrong Password")
-          }}else {Alert.alert("Please enter All fields")}
-     } 
+    //           },
+    //         }
+    //       );
+          
 
+    //       const result = await response.json();
+          
+    //       if(userpwd == result[0].userPwd){
+           
+    //         storeUserSession(user,result[0].role)
+    //         navigation.navigate("Home")
+    //       }
+    //       else {
+    //         Alert.alert("Wrong Password")
+    //       }
+    //     }
+    //     else {Alert.alert("Please enter All fields")}
+    
+        
+    //  } 
+
+
+        const signIn =async()=>{       
+        if(user && userpwd && location && userbound){
+        const response = await axios.get(
+            `${global.BASE_URL}/users/getUser/${user}`,
+           
+          );
+
+          const result = await response.json()
+          console.log(result)
+        }}
 
 
      //---------------------------------------
@@ -77,10 +97,10 @@ function Login() {
 
     return (
         <KeyboardAvoidingView >
-        <View className='px-2 flex justify-center items-center h-screen  bg-gray-900 pt-2 '>
+        <View className='px-2 flex justify-center items-center h-screen  bg-gray-900  '>
             
             {/* Logo VIEW */}
-            <View className="w-full p-0 h-2/4 bg-blue-900 flex justify-center items-center ">
+            <View className="w-full border border-yellow-100 h-2/4 bg-blue-900 flex justify-center items-center ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>

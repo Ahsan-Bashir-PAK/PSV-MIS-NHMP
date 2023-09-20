@@ -18,32 +18,51 @@ const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];
 
 const AddVehicle = () => {
 
-  const [provinceOpen, setProvinceOpen] = useState(false);
-  const [currentLiceince, setCurrentLiceince,] = useState(null);
+  // Vehicle Add states
 
-  const [tracker, setTracker] = useState(false);
-  const [emergencyExit, setEmergencyExit] = useState(false);
-  const [ac, setAc] = useState(false);
+  const [Vehicle_type, setType] = useState(""); // LES
+  const [Vehicle_regno, setRegNo] = useState(""); // LES
+  const [Vehicle_year, setYear] = useState("");  //2019
+  const [Vehicle_number, setNumber] = useState(""); //5351
+  const [vehicle_chasis , setChasis] = useState(""); // chasis
+  const [vehcile_engine, setEngine] = useState(""); // engine
+  const [vehcile_make, setMake] = useState(""); // make company
+  const [vehcile_color, setColor] = useState(""); // color
+  
+ 
+  const [vehcile_ac, setAc] = useState(""); // AC Status
 
-  //------------------------------------select vehicle type 
-  //-------------------------------------------------------
+  const [vehicle_seats, setSeats] = useState(""); // seating Capacity
 
-  //----------------------------------------
-  const [searchreg, setReg] = useState(null);
-  const [setyear, setYear] = useState(null);
+  const [vehcile_tracker, setTracker] = useState(""); // tracker
 
-  const [acstate, setState] = useState(true);
+  const [vehcile_emergencyExit, setEmergencyExit] = useState(""); //Emergency Exit
 
-  const [LcOpen, setLcOpen] = useState(false);
-  const [currentProvince, setCurrentProvince] = useState(null);
+  const [vehcile_manf_year, setManfYear] = useState(""); // Manufacturing Year
+  const [vehcile_company, setCompany] = useState(""); // Vehcile Company
 
+
+// Model States
   const [showModal, setShowModal] = useState(false);
 
 
-  function clearall() {
+  function clearAllData(){
 
-    setReg('')
-    setYear('')
+    //console.log("ssssssss");
+    setType("");
+    setRegNo("");
+   setYear("");
+   setNumber("");
+   setChasis("");
+   setEngine("");
+   setMake("");
+   setColor("");
+   setAc("");
+   setSeats("");
+   setTracker("");
+   setEmergencyExit("");
+   setManfYear("");
+   setCompany("");
 
   }
 
@@ -103,9 +122,9 @@ const AddVehicle = () => {
               <SelectDropdown
                 data= {Vehicletype}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setType(selectedItem)            
                 }}
-                defaultButtonText='Select Vehicle'
+                defaultButtonText={Vehicle_type}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -123,19 +142,20 @@ const AddVehicle = () => {
             <View className=" w-4/12 items-center border-r ">
               <TextInput
                 style={{ backgroundColor: 'white' }}
-                value={searchreg}
-                onChange={(e) => setReg(e.target.value)}
+                value={Vehicle_regno}
+                onChange={(e) => setRegNo(e.target.value)}
                 placeholderTextColor={'grey'}
                 autoCapitalize={'characters'}
                 placeholder='CAG'
                 maxLength={3}
+                
                 className='   bg-white border-black  text-lg text-black' />
             </View>
 
             {/* YEAR */}
             <View className="w-4/12 items-center border-r ">
               <TextInput
-                Value={setyear}
+                Value={Vehicle_year}
                 onChange={(e) => setYear(e.target.value)}
                 placeholderTextColor={'grey'}
                 placeholder='Year[2019]'
@@ -150,6 +170,7 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='[0000]'
                 maxLength={4}
+                value={Vehicle_number}
                 className=' bg-white border-black text-black   text-lg' />
             </View>
           </View>
@@ -188,7 +209,8 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='Chassis Number'
                 maxLength={50}
-
+                value={vehicle_chasis}
+                onChangeText={e => setChasis(e)}
                 className=' border-black text-black rounded-md  text-lg' />
 
             </View>
@@ -202,6 +224,8 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='Engine Number'
                 maxLength={70}
+                value={vehcile_engine}
+                onChangeText={e => setEngine(e)}
                 className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -215,7 +239,8 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='HIGER-YUTONG-DAEWOO'
                 maxLength={100}
-
+                value={vehcile_make}
+                onChangeText={e => setMake(e)}
                 className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -229,7 +254,8 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='Vehicle Color'
                 maxLength={70}
-
+                value={vehcile_color}
+                onChangeText={e => setColor(e)}
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -239,11 +265,11 @@ const AddVehicle = () => {
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">AC or Non AC</Text></View>
             <View className="w-4/6 items-center">
-            <TouchableOpacity onPress={()=>ac==""?setAc('AC'):setAc("")}
+            <TouchableOpacity onPress={()=>vehcile_ac==""?setAc("1"):setAc("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
-                <Square stroke="black" className={`${ac == ""? "block":"hidden"}`} />
-                <CheckSquare stroke="black" className={`${ac == ""? "hidden":"block"}`}></CheckSquare>
-                <Text className="text-black font-bold">{ac=="" ?"AC":" AC (Yes)"}</Text></TouchableOpacity>
+                <Square stroke="black" className={`${vehcile_ac == ""? "block":"hidden"}`} />
+                <CheckSquare stroke="black" className={`${vehcile_ac == ""? "hidden":"block"}`}></CheckSquare>
+                <Text className="text-black font-bold">{vehcile_ac=="" ?"AC":" AC (Yes)"}</Text></TouchableOpacity>
 
             </View>
           </View>
@@ -257,6 +283,8 @@ const AddVehicle = () => {
                 placeholder='Seating Capacity'
                 keyboardType='numeric'
                 maxLength={2}
+                value={vehicle_seats}
+                onChangeText={e => setSeats(e)}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
@@ -265,11 +293,11 @@ const AddVehicle = () => {
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Tracker Installed</Text></View>
             <View className="w-4/6 items-center">
-            <TouchableOpacity onPress={()=>tracker==""?setTracker('FirstAid'):setTracker("")}
+            <TouchableOpacity onPress={()=>vehcile_tracker==""?setTracker("1"):setTracker()}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
-                <Square stroke="black" className={`${tracker == ""? "block":"hidden"}`} />
-                <CheckSquare stroke="black" className={`${tracker == ""? "hidden":"block"}`}></CheckSquare>
-                <Text className="text-black font-bold">{tracker=="" ?"Installed":" Tracker Installed"}</Text></TouchableOpacity>
+                <Square stroke="black" className={`${vehcile_tracker == ""? "block":"hidden"}`} />
+                <CheckSquare stroke="black" className={`${vehcile_tracker == ""? "hidden":"block"}`}></CheckSquare>
+                <Text className="text-black font-bold">{vehcile_tracker=="" ?"Installed":" Tracker Installed"}</Text></TouchableOpacity>
             </View>
           </View>
 
@@ -277,11 +305,11 @@ const AddVehicle = () => {
            <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Emergency Exit Gate</Text></View>
             <View className="w-4/6 items-center">
-              <TouchableOpacity onPress={()=>emergencyExit==""?setEmergencyExit('FirstAid'):setEmergencyExit("")}
+              <TouchableOpacity onPress={()=>vehcile_emergencyExit==""?setEmergencyExit('1'):setEmergencyExit("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
-                <Square stroke="black" className={`${emergencyExit == ""? "block":"hidden"}`} />
-                <CheckSquare stroke="black" className={`${emergencyExit == ""? "hidden":"block"}`}></CheckSquare>
-                <Text className="text-black font-bold">{emergencyExit=="" ?"Installed":"Exit Gate Installed"}</Text></TouchableOpacity>
+                <Square stroke="black" className={`${vehcile_emergencyExit == ""? "block":"hidden"}`} />
+                <CheckSquare stroke="black" className={`${vehcile_emergencyExit == ""? "hidden":"block"}`}></CheckSquare>
+                <Text className="text-black font-bold">{vehcile_emergencyExit=="" ?"Installed":"Exit Gate Installed"}</Text></TouchableOpacity>
             </View>
           </View>
 
@@ -295,6 +323,8 @@ const AddVehicle = () => {
                 maxLength={4}
                 minLength={2}
                 keyboardType='numeric'
+                value={vehcile_manf_year}
+                onChangeText={e => setManfYear(e)}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
@@ -307,6 +337,8 @@ const AddVehicle = () => {
                 placeholderTextColor={'grey'}
                 placeholder='[Faisal Mover, Daewoo, Kohistan]'
                 maxLength={30}
+                value={vehcile_company}
+                onChangeText={e => setCompany(e)}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
@@ -325,8 +357,9 @@ const AddVehicle = () => {
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
                 </View>
-                <View className="">
-                  <TouchableOpacity className="bg-[#a54932] px-8 py-2 rounded-md m-2">
+                <View className="" >
+                  <TouchableOpacity onPress={()=>clearAllData()} 
+                  className="bg-[#a54932] px-8 py-2 rounded-md m-2">
                     <Text className="text-white text-lg">Clear</Text>
                   </TouchableOpacity>
                 </View>
