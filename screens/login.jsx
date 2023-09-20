@@ -15,13 +15,13 @@ import {
 } from 'react-native';
 import '../config'
 import EncryptedStorage from 'react-native-encrypted-storage';
-console.log(global.BASE_URL)
+
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
-    const api = "http://192.168.10.35:5000"
+    
 
    
   
@@ -29,7 +29,7 @@ function Login() {
     const signIn =async()=>{
         if(user && userpwd && location && userbound){
         const response = await fetch(
-            `${api}/users/getUser/${user}`,
+            `${global.BASE_URL}/users/getUser/${user}`,
             {
               method: "GET",
               headers: {
@@ -64,7 +64,6 @@ function Login() {
                      location:location+userbound
                  })
              );
-     
              // Congrats! You've just stored your first value!
          } catch (error) {
              // There was an error on the native side

@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 //import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown'
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 
@@ -15,6 +16,24 @@ const countries = ["Punjab", "KPK", "Sindh", "Balochistan", "NHMP", "Islamabad",
 const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
 const AddDrivernew = () => {
+
+  const [currentUser,setCurrentUser] = useState({})
+
+//getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+  
+      if (session !== undefined) {
+        //  setCurrentUser(session)
+         console.log(session)
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+
+retrieveUserSession()
 
   const today = new Date()
 // expiry Date
