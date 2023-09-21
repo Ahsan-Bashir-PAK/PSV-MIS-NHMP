@@ -13,7 +13,7 @@ import {
     View,
     Image,
     Alert,
-    
+    Platform,
     KeyboardAvoidingView
     
 } from 'react-native';
@@ -95,7 +95,7 @@ function clearAll(){
 
     return (
      
-            <KeyboardAvoidingView behavior="padding" className="flex-1">
+            <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : undefined} style={{flex:1}} className="flex-1">
         <View className='px-2 flex justify-center items-center h-screen  bg-gray-900  '>
           
             {/* Logo VIEW */}
