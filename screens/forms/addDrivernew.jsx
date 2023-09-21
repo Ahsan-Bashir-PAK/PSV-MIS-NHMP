@@ -118,7 +118,7 @@ editedPoint:"38 NB"
 
 
 const saveData = async () => {
-await axios.post(`${global.BASE_URL}/dvr/addDriver`, updateDriver)
+await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
   Alert.alert('Data inserted successfully');
 })
@@ -132,9 +132,9 @@ clearAll()
 //--------------------------------------update driver
 
 const updateDriver =async ()=>{
-axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, driver
+axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updateDriver
 )
-  .then(response => Alert("Driver Data Updated"))
+  .then(response => Alert.alert("Driver Data Updated"))
   .catch(error => console.error(error));
 }
 
