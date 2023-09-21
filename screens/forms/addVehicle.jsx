@@ -86,7 +86,7 @@ const AddVehicle = () => {
       manufactureYear:2015,
       companyName:"Faisal Mover",
       formOneStatus:1,
-      addedDate:
+      addedDate:"2015-05-01",
       addedBy:"Ahsan Bashir Po",
       addedPoint:"78nb"
 
