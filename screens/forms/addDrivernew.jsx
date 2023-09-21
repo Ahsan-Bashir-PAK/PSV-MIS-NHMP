@@ -7,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown'
 import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
+import '../../config'
 
 
 
@@ -59,14 +61,15 @@ const [dobdate, setdobDate] = useState(new Date())
   const [licenseNo,setLicenseNo] =useState("")
   const [licenseAuthority,setLicenseAuthority] =useState("")
   const [addedBy,setAddedBy] =useState()
-  const [addedDate,setAddedDate] =useState(today.toLocaleDateString())
-  const [addedTime,setAddedTime] =useState(today.toLocaleTimeString)
+  const [addedDate,setAddedDate] =useState()
+  const [addedTime,setAddedTime] =useState()
   const [addedPoint,setAddedPoint] =useState("")
   const [beatId,setBeatId] =useState("")
 
 
-  function clearall() {
-
+  function clearAll() {
+    console.log("cleared");
+    
 
   }
 //------------------backend integration
@@ -80,39 +83,36 @@ const driver = {
   address:  address,
   disability:  disability,
   companyId:  companyId,
-  cellNo :   cellNo, 
+  cellNo :   "03024578456", 
   licenseType:  licenseType,
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-  addedBy:  "ahan",
-  addedDate:  addedDate,
-  addedTime:  addedTime,
+  addedBy:  'ahsan',
+  addedDate:  '2015-01-01',
+  addedTime:  '20:00:15',
   licenseExpiry:  expirydate,
-  addedPoint:  addedPoint,
+  addedPoint:  '78nb',
   beatId:  beatId,
 };
 
+
+
 const saveData = async () => {
-axios.post(`${global.api}/dvr/addDriver`, driver)
+await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver
+
+
+)
 .then( (response)=> {
- 
-    Alert.alert('Data inserted successfully');
-  
-} else {
-  console.log('Failed to insert data');
-}
+
+  Alert.alert('Data inserted successfully');
+
 })
 .catch((error) => {
   console.log(error);
 });
-clearall()
+clearAll()
 }
-
-
-//===============update driver 
-
-update 
 
 
 
@@ -157,7 +157,8 @@ update
                 placeholderTextColor={'grey'}
                 placeholder='Driver Name'
                 maxLength={50}
-
+                onChangeText={e=>setDriverName(e)}
+                value={driverName}
                 className=' border-black text-black rounded-md  text-lg' />
 
             </View>
@@ -391,7 +392,7 @@ update
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>saveData()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
@@ -403,7 +404,7 @@ update
                   </TouchableOpacity>
                 </View>
                 <View className="">
-                  <TouchableOpacity className="bg-[#a54932] px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">
                     <Text className="text-white text-lg">Clear</Text>
                   </TouchableOpacity>
                 </View>
