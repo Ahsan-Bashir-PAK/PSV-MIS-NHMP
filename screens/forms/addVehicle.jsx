@@ -70,9 +70,7 @@ const AddVehicle = () => {
 
   const today = new Date()
 //----------------add form one 
-    const addPsvFormOne = async()=>{
-      axios.post(`${global.api}/psv/addPsv`, {
-       
+   const psv ={  
       vehicleType:"coaster",
       prefixRegNo:"fkd",
       vehicleModel:2015,
@@ -92,12 +90,28 @@ const AddVehicle = () => {
       addedBy:"Ahsan Bashir Po",
       addedPoint:"78nb"
 
-      })
-      .then( (response)=> {
-        Alert.alert(response);
-      })
-    }
+   }
 
+    //-----------------------------------save vehicle 
+    const addPsvFormOne = async()=>{
+      axios.post(`${global.api}/psv/addPsv`, psv )
+      .then( (response)=> {
+        Alert.alert('Vehicle intial info. saved');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      clearAll()
+      }
+   //---------------------------------------------------update psv
+   
+// const updatePsv =async ()=>{
+//   axios.patch(`${global.BASE_URL}/psv/update/${cnic}`, updateDriver
+//   )
+//     .then(response => Alert.alert("Driver Data Updated"))
+//     .catch(error => console.error(error));
+//   }
+     
 
 
   return (
