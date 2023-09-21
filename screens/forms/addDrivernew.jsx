@@ -93,29 +93,22 @@ const driver = {
   addedPoint:  addedPoint,
   beatId:  beatId,
 };
-const saveData = async () => {
-  await fetch(`${global.api}/dvr/addDriver`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(driver),
-  })
-    .then(response => {
-      if (response.ok) {
-        Alert.alert('Data inserted successfully');
-      
-      } else {
-        console.log('Failed to insert data');
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    
-    clearAll();
 
-};
+const saveData = async () => {
+axios.post(`${global.api}/dvr/addDriver`, driver)
+.then( (response)=> {
+  if(response.ok){
+    Alert.alert('Data inserted successfully');
+  
+} else {
+  console.log('Failed to insert data');
+}
+})
+.catch((error) => {
+  console.log(error);
+});
+clearall()
+}
 
 
 
