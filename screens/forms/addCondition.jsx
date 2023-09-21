@@ -6,49 +6,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
-
-
-
-
-
-const Vehicletype = [
-  { label: 'Select Vehicle Type', value: '-' },
-  { label: 'BUS', value: 'NHMP' },
-  { label: 'VAN', value: 'VAN' },
-  { label: 'HIACE', value: 'HIACE' },
-  { label: 'HIROOF', value: 'HIROOF' },
-  { label: 'COASTER', value: 'COASTER' },
-  { label: 'APV', value: 'APV' },
-  { label: 'OTHER', value: 'OTHER' },
-];
-
-const company_name = [
-  { label: 'HTV', value: 'HTV' },
-  { label: 'LTV', value: 'LTV' },
-  { label: 'PSV', value: 'PSV' },
-  { label: 'HTV / PSV', value: 'HTV /PSV' },
-  { label: 'LTV / PSV', value: 'LTV /PSV' },
-  { label: 'Other', value: 'Others' },
-
-];
-
-
 const AddCondition = () => {
 
-
+  const [tyrecomp, setTyreCom] =useState();
   // Tyre Manufacturing Date
   const [date, setDate] = useState(new Date())
   const [open, setOpen] = useState(false)
-
+ 
   // Tyre expiry Date
   const [tyredate, settyreDate] = useState(new Date())
   const [tyreopen, settyreOpen] = useState(false)
-''
-
+  const [tread, setTread] = useState("");
   const [tyrecondition, SettyreCondition] = useState("");
   const [conditionstate, setConditionState] = useState("");
-
-
+  const [remarks, setRemarks]= useState("");
   //----------------LIGHTS----------------------
   const [headlight, SetheadLight] =useState("");
   const [backlight, SetbackLight] =useState("");
@@ -56,29 +27,18 @@ const AddCondition = () => {
   const [foglight, SetfogLight] =useState("");
   const [emergencylight, SetemergencyLight] =useState("");
 
-  //---------------------------------
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  //------------------------------------select vehicle type 
-//-------------------------------------------dob
+  
+  function clearAll() {
 
-
-
-  //-------------------------------------------------------
-  const [provinceOpen, setProvinceOpen] = useState(false);
-  const [currentLiceince, setCurrentLiceince,] = useState(null);
-  //----------------------------------------
-  const [searchreg, setReg] = useState(null);
-  const [setyear, setYear] = useState(null);
-
-  const [acstate, setState] = useState(true);
-
-
-
-  function clearall() {
-
-    setReg('')
-    setYear('')
+    setTyreCom('')
+    setTread('')
+    SettyreCondition('')
+    SetheadLight('')
+    SetbackLight('')
+    SetfogLight('')
+    SethazardLight('')
+    setRemarks('')
+    SetemergencyLight('')
 
   }
 
@@ -108,7 +68,8 @@ const AddCondition = () => {
                   placeholderTextColor={'grey'}
                   placeholder='Enter Company'
                   maxLength={50}
-
+                  onChangeText={e=>setTyreCom()}
+                  value={tyrecomp}
                   className=' border-black text-black rounded-md  text-lg' />
 
               </View>
@@ -186,14 +147,16 @@ const AddCondition = () => {
               <TextInput
                   placeholderTextColor={'grey'}
                   placeholder='3.5 - 2.0'
-                  maxLength={20}
+                  maxLength={4}
+                  onChangeText={e=>setTread()}
+                  value={tread}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
 
            
 
- {/* Excellent */}
+ {/* Select Tyre Condition */}
  <View className={` justify-around flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md  shadow-md  shadow-blue-900 ${tyrecondition=="Excellent"?"bg-green-700":tyrecondition=="Good"?"bg-blue-500":tyrecondition=='Average'?"bg-yellow-500":tyrecondition=="Poor"?"bg-red-400":"bg-white"}`}> 
              <View className=" " >
              <Text className={`text-black `}>{tyrecondition ===""?"Select Tyre Condition":tyrecondition}</Text>
@@ -217,7 +180,9 @@ const AddCondition = () => {
                 <TextInput
                   placeholderTextColor={'grey'}
                   placeholder='Remarks if any'
-                  maxLength={30}
+                  maxLength={100}
+                  onChangeText={e=>setRemarks()}
+                  value={remarks}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
@@ -298,7 +263,7 @@ const AddCondition = () => {
                 </View>
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#60a532] px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>clearAll()} className="bg-[#60a532] px-8 py-2 rounded-md m-2">
                     <Text className="text-white text-lg">Clear</Text>
                   </TouchableOpacity>
                 </View>
