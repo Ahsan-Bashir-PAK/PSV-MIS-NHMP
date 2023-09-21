@@ -49,8 +49,8 @@ function App(): JSX.Element {
   <MyStack />
     //<Main />
    //<MyTabs />
-//  <AddVehicle/>
-   // <AddDocumentation/>
+//<AddVehicle/>
+   //<AddDocumentation/>
    //<AddCondition/>
     //<AddOtherInfo/>
    // <TripReport/>

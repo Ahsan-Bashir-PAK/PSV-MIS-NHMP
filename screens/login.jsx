@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import {
     SafeAreaView,
     ScrollView,
@@ -12,56 +13,50 @@ import {
     View,
     Image,
     Alert,
+    KeyboardAvoidingView
 } from 'react-native';
-import '../config'
-import EncryptedStorage from 'react-native-encrypted-storage';
+
 import axios from 'axios';
+import '../config'
 
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
-    
 
-   //experimental
-const signIn =async()=>{
-axios.get(`${global.BASE_URL}/users/getUser/${user}`)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
- 
-}
 
-   //------------------------------
-  
 
-    // const signIn =async()=>{
-    //     if(user && userpwd && location && userbound){
-    //     const response = await fetch(
-    //         `${global.BASE_URL}/users/getUser/${user}`,
-    //         {
-    //           method: "GET",
-    //           headers: {
-    //             "Content-Type": "application/json",
-               
-    //           },
-    //         }
-    //       )
-    //       const result = await response.json();
-    //       if(userpwd == result[0].userPwd){
+        const signIn =async()=>{       
+        if(user && userpwd && location && userbound){
+         await axios.get(
+            `${global.BASE_URL}/users/getUser/${user}`
            
-    //         storeUserSession(user,result[0].role)
-    //         navigation.navigate("Home")
-    //       }
-    //       else {
-    //         Alert.alert("Wrong Password")
-    //       }}else {Alert.alert("Please enter All fields")}
-    //  } 
-
+          ).then(
+            function (response){
+                const result = response.data[0]
+          if(result){
+           
+         
+          if(userpwd == result.userPwd){
+            storeUserSession(user,result.role)
+            navigation.navigate("Home")
+          }
+          else {
+            Alert.alert("Wrong Password")
+          }
+        }
+        else{
+           Alert.alert("User Not Registered")
+    }
+    }
+            
+          ).catch(
+            function(error){
+                console.log(error)
+            }
+          )
+        }}
 
 
      //---------------------------------------
@@ -90,9 +85,11 @@ axios.get(`${global.BASE_URL}/users/getUser/${user}`)
 
 
     return (
-        <View className='px-2 flex justify-center items-center h-screen  bg-gray-900 pt-2 '>
+        <KeyboardAvoidingView >
+        <View className='px-2 flex justify-center items-center h-screen  bg-gray-900  '>
+            
             {/* Logo VIEW */}
-            <View className="w-full p-0 h-2/4 bg-blue-900 flex justify-center items-center ">
+            <View className="w-full border border-yellow-100 h-2/4 bg-blue-900 flex justify-center items-center ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
@@ -146,8 +143,9 @@ axios.get(`${global.BASE_URL}/users/getUser/${user}`)
                 <Text className="text-white">Copyright reserved by</Text>
                 <Text className="text-white">NHMP Training  College, IT Wing</Text>
             </View>
+            
         </View>
-
+        </KeyboardAvoidingView>
     );
 }
 

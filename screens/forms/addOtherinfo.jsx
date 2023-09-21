@@ -14,6 +14,11 @@ const AddOtherInfo = () => {
   const [sidemirror, setsideMirror] = useState(false)
   const [frontwipers, setfrontWipers] = useState(false)
   const [fireext, setfireExt] = useState(false)
+  
+  // Fire Ext Date Calendar
+  const [fireextdate, setDate] = useState(new Date())
+  const [fireextopen, setOpen] = useState(false)
+  
   const [firstaid, setfirstAid] = useState(false)
   const [zeroseat, setzeroSeat] = useState(false)
   const [cones, setCones] = useState(false)
@@ -21,14 +26,17 @@ const AddOtherInfo = () => {
   
   //---------------------------------
 
-   // Fire Ext Date
-   const [fireextdate, setDate] = useState(new Date())
-   const [fireextopen, setOpen] = useState(false)
+   
   
-  function clearall() {
+  function clearAll() {
 
-    setReg('')
-    setYear('')
+    setnumberPlate('')
+    setsideMirror('')
+    setfrontWipers('')
+    setfireExt('')
+    setfirstAid('')
+    setzeroSeat('')
+    setCones('')
 
   }
 
@@ -183,7 +191,7 @@ const AddOtherInfo = () => {
                 </View>
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#60a532] px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>clearAll()} className="bg-[#60a532] px-8 py-2 rounded-md m-2">
                     <Text className="text-white text-lg">Clear</Text>
                   </TouchableOpacity>
                 </View>
