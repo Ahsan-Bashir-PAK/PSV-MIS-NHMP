@@ -21,7 +21,7 @@ const AddVehicle = () => {
   // Vehicle Add states
 
   const [Vehicle_type, setType] = useState(""); // LES
-  const [Vehicle_regno, setRegNo] = useState(""); // LES
+  const [Vehicle_letter, setLetter] = useState(""); // LES
   const [Vehicle_year, setYear] = useState("");  //2019
   const [Vehicle_number, setNumber] = useState(""); //5351
   const [vehicle_chasis , setChasis] = useState(""); // chasis
@@ -70,9 +70,7 @@ const AddVehicle = () => {
 
   const today = new Date()
 //----------------add form one 
-    const addPsvFormOne = async()=>{
-      axios.post(`${global.api}/psv/addPsv`, {
-       
+   const psv ={  
       vehicleType:"coaster",
       prefixRegNo:"fkd",
       vehicleModel:2015,
@@ -88,16 +86,32 @@ const AddVehicle = () => {
       manufactureYear:2015,
       companyName:"Faisal Mover",
       formOneStatus:1,
-      addedDate:today.toLocaleDateString(),
+      addedDate:"2015-05-01",
       addedBy:"Ahsan Bashir Po",
       addedPoint:"78nb"
 
-      })
-      .then( (response)=> {
-        Alert.alert(response);
-      })
-    }
+   }
 
+    //-----------------------------------save vehicle 
+    const addPsvFormOne = async()=>{
+      axios.post(`${global.api}/psv/addPsv`, psv )
+      .then( (response)=> {
+        Alert.alert('Vehicle intial info. saved');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      clearAll()
+      }
+   //---------------------------------------------------update psv
+   
+const updatePsv =async ()=>{
+  axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
+  )
+    .then(response => Alert.alert("Driver Data Updated"))
+    .catch(error => console.error(error));
+  }
+     
 
 
   return (
@@ -142,8 +156,8 @@ const AddVehicle = () => {
             <View className=" w-4/12 items-center border-r ">
               <TextInput
                 style={{ backgroundColor: 'white' }}
-                value={Vehicle_regno}
-                onChange={(e) => setRegNo(e.target.value)}
+                value={Vehicle_letter}
+                onChangText={(e) => setLetter(e)}
                 placeholderTextColor={'grey'}
                 autoCapitalize={'characters'}
                 placeholder='CAG'

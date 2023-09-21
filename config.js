@@ -1,3 +1,5 @@
+
+
 import EncryptedStorage from "react-native-encrypted-storage";
 
 global.BASE_URL="http://192.168.10.29:5000"
@@ -19,3 +21,4 @@ async function retrieveUserSession() {
   }
 
 export default retrieveUserSession;
+
