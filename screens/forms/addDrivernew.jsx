@@ -114,30 +114,52 @@ const driver = {
 
 };
 
+const updatedDeriver ={
+driverName:"javaid",
+fatherName:"Aslam", 
+dob:"2023-08-08",
+address:"Gujranwala",
+disability:"nill",
+companyId:"Faisal Mover",
+cellNo : "12345678",
+licenseType: "HTV",
+licenseNo:"456",
+licenseAuthority:"Punjab",
+issueDate:"2022-10-10",
+editedBy:" Bashir ahmad",
+editedDate:"2022-05-06",
+editedTime:"12:00:05",
+licenseExpiry:"2024-06-09",
+editedPoint:"38 NB"
+}
+
 
 
 const saveData = async () => {
-await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver
-
-
-)
+await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
-
   Alert.alert('Data inserted successfully');
-
 })
 .catch((error) => {
   console.log(error);
-});
+
+})
+
 // // clearAll()
 
 }
 
 
+//--------------------------------------update driver
 
+const updateDriver =async ()=>{
+axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updateDriver
+)
+  .then(response => Alert.alert("Driver Data Updated"))
+  .catch(error => console.error(error));
+}
 
-
-
+//------------------------return 
   return (
      <ScrollView className=" ">
       <View className=" flex flex-col   ">
@@ -428,7 +450,7 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver
 
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updateDriver()}className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
                 </View>
