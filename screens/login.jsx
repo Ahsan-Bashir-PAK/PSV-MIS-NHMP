@@ -24,7 +24,7 @@ function Login() {
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
 
-
+//-----------sinin & get userr 
         const signIn =async()=>{       
         if(user && userpwd && location && userbound){
          await axios.get(
@@ -59,7 +59,7 @@ function Login() {
         }}
 
 
-     //---------------------------------------
+     //---------------------------------------store session
     
 
      async function storeUserSession(user,role) {

@@ -70,9 +70,12 @@ const [dobdate, setdobDate] = useState(new Date())
   const [addedDate,setAddedDate] =useState()
   const [addedTime,setAddedTime] =useState()
   const [addedPoint,setAddedPoint] =useState("")
-  const [beatId,setBeatId] =useState("")
 
+  //--------state for search driver //backe end 
+  const [searchCnic,setSearchCnic] =useState("")
+  const [data,setData] =useState("")
 
+//-------------------------------- clear All 
   function clearAll() {
     
     setcnic("");
@@ -90,7 +93,7 @@ const [dobdate, setdobDate] = useState(new Date())
     setexpiryDate(new Date());
 
   }
-//------------------backend integration
+//===========================------------------backend integration==============================
 //---------------------------------------------------saving data to offices
 
 const driver = {
@@ -113,7 +116,7 @@ const driver = {
   addedPoint:  currentUser.location,
 
 };
-
+//-----------------object to update drive r
 const updatedDeriver ={
   driverName:  driverName,
   fatherName:  fatherName,
@@ -133,8 +136,24 @@ licenseExpiry: expirydate,
 editedPoint:currentUser.location
 }
 
+//======================get driver based one cnic 
+const getDriver = async()=>{
 
+  await axios.get(`${global.BASE_URL}/dvr/getDriver/${searchCnic}`)
+  .then(
+    (response) =>{
+      const result = response.data[0]
+      if(result){
+        console.log(result)
+    setData(result)
+      }
+      else {
+        Alert.alert("Driver not in Record.")
+      }
+  })
+}
 
+//----------sasve driver data
 const saveData = async () => {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
@@ -183,14 +202,16 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
                 placeholder='Enter Driver CNIC'
                 maxLength={13}
                 keyboardType='numeric'
+                value = {searchCnic}
+                onChangeText={e=>setSeachCnic(e)}
 
                 className=' text-black rounded-md  text-lg' />
                 
             </View>
+            <TouchableOpacity onPress={()=>getDriver()}>
             <View className="flex flex-row-reverse  bg-orange-2200  justify-center items-center w-2/6"><Text className="text-black text-lg  font-bold">Search</Text>
-            
-            {/* <Search stroke='black' /> */}
             </View>
+            </TouchableOpacity>
           </View>
           
           {/*  Driver Name */}
@@ -482,3 +503,4 @@ const styles = {
   outerview:
     'flex flex-row  mx-2 border border-gray-300  rounded-md bg-white shadow-md  shadow-blue-900'
 };
+
