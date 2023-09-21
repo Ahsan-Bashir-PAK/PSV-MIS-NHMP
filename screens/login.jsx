@@ -18,13 +18,11 @@ import {
 
 import axios from 'axios';
 import '../config'
-
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
-
 
 
         const signIn =async()=>{       
@@ -39,6 +37,7 @@ function Login() {
            
          
           if(userpwd == result.userPwd){
+           
             storeUserSession(user,result.role)
             navigation.navigate("Home")
           }
@@ -49,6 +48,7 @@ function Login() {
         else{
            Alert.alert("User Not Registered")
     }
+
     }
             
           ).catch(

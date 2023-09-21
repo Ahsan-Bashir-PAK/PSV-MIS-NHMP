@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User, Square, CheckSquare, Search, Calendar } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,13 +14,15 @@ import '../../config'
 
 
 
-const countries = ["Punjab", "KPK", "Sindh", "Balochistan", "NHMP", "Islamabad", "AJK", "GB"]
+const provinces = ["Punjab", "KPK", "Sindh", "Balochistan", "NHMP", "Islamabad", "AJK", "Gilgit-Baltistan"]
 const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
 const AddDrivernew = () => {
 
   const [currentUser,setCurrentUser] = useState({})
-
+useEffect(()=>{
+  retrieveUserSession()
+},[])
 //getting user seesion data 
 async function retrieveUserSession() {
   try {   
@@ -28,16 +30,20 @@ async function retrieveUserSession() {
   
       if (session !== undefined) {
         //  setCurrentUser(session)
-         console.log(session)
+        setCurrentUser(JSON.parse(session))
+        
       }
   } catch (error) {
       // There was an error on the native side
   }
 }
 
-retrieveUserSession()
 
-  const today = new Date()
+
+
+const today = new Date()
+const time = new Date().toLocaleTimeString()
+  
 // expiry Date
   const [expirydate, setexpiryDate] = useState(new Date())
   const [expiryopen, setexpiryOpen] = useState(false)
@@ -68,8 +74,20 @@ const [dobdate, setdobDate] = useState(new Date())
 
 
   function clearAll() {
-    console.log("cleared");
     
+    setcnic("");
+    setdobDate(new Date())
+    setDriverName("");
+    setFatherName("");
+    setAddress("");
+    setDisability("");
+    setCompanyId("");
+    setCellNo("");
+    setLicenseNo("");
+    setLicenseType("");
+    setLicenseAuthority("");
+    setissueDate(new Date());
+    setexpiryDate(new Date());
 
   }
 //------------------backend integration
@@ -83,17 +101,17 @@ const driver = {
   address:  address,
   disability:  disability,
   companyId:  companyId,
-  cellNo :   "03024578456", 
+  cellNo :   cellNo, 
   licenseType:  licenseType,
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-  addedBy:  'ahsan',
-  addedDate:  '2015-01-01',
-  addedTime:  '20:00:15',
+  addedBy:  currentUser.userName,
+  addedDate: today,
+  addedTime: time,
   licenseExpiry:  expirydate,
-  addedPoint:  '78nb',
-  beatId:  beatId,
+  addedPoint:  currentUser.location,
+
 };
 
 
@@ -111,7 +129,8 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver
 .catch((error) => {
   console.log(error);
 });
-clearAll()
+// // clearAll()
+
 }
 
 
@@ -173,9 +192,10 @@ clearAll()
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
-                placeholder='
-                Father Name'
+                placeholder='Father Name'
                 maxLength={70}
+                onChangeText={e=>setFatherName(e)}
+                value={fatherName}
                 className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -219,7 +239,8 @@ clearAll()
                 placeholderTextColor={'grey'}
                 placeholder='Address'
                 maxLength={70}
-
+                onChangeText={e=>setAddress(e)}
+                value={address}
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -233,7 +254,8 @@ clearAll()
                 placeholderTextColor={'grey'}
                 placeholder='CNIC #'
                 maxLength={13}
-
+                onChangeText={e=>setcnic(e)}
+                value={cnic}
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
 
@@ -249,6 +271,8 @@ clearAll()
                 placeholder='Cell Number'
                 keyboardType='numeric'
                 maxLength={11}
+                onChangeText={e=>setCellNo(e)}
+                value={cellNo}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
@@ -261,7 +285,8 @@ clearAll()
                 placeholderTextColor={'grey'}
                 placeholder='Enter Disiability'
                 maxLength={70}
-
+                onChangeText={e=>setDisability(e)}
+                value={disability}
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
 
             </View>
@@ -275,22 +300,23 @@ clearAll()
                 placeholderTextColor={'grey'}
                 placeholder='Company Name'
                 maxLength={70}
-
+                onChangeText={e=>setCompanyId(e)}
+                value={companyId}
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg tex text-center' />
 
             </View>
           </View>
 
-           {/* Manufacturing Year */}
+           {/* License Number */}
            <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">License Number</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
                 placeholder='LES-15-1234'
-                maxLength={4}
-                minLength={2}
-                keyboardType='numeric'
+                maxLength={30}
+                onChangeText={e=>setLicenseNo(e)}
+                value={licenseNo}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
@@ -302,7 +328,7 @@ clearAll()
             <SelectDropdown
                 data= {License_type}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setLicenseType(selectedItem);
                 }}
                 defaultButtonText='Select License type'
                 buttonStyle={{
@@ -317,9 +343,9 @@ clearAll()
             <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority</Text></View>
             <View className="w-4/6 items-center">
               <SelectDropdown
-                data= {countries}
+                data= {provinces}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setLicenseAuthority(selectedItem);
                 }
                 
                 } 
@@ -354,7 +380,7 @@ clearAll()
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
               {issuedate.toLocaleDateString()}
             </Text>
-            <TouchableOpacity onPress={() => setexpiryOpen(true)}>
+            <TouchableOpacity onPress={() => setissueOpen(true)}>
               <Calendar stroke="black" fill="white" size={30}></Calendar>
             </TouchableOpacity>
           </View>
