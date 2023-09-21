@@ -9,6 +9,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import '../../config'
+import retrieveUserSession from '../../config';
 
 
 
@@ -19,24 +20,25 @@ const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
 const AddDrivernew = () => {
 
-  const [currentUser,setCurrentUser] = useState({})
+const [currentUser,setCurrentUser] = useState({})
+
 useEffect(()=>{
   retrieveUserSession()
 },[])
 //getting user seesion data 
-async function retrieveUserSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
+// async function retrieveUserSession() {
+//   try {   
+//       const session = await EncryptedStorage.getItem("user_session");
   
-      if (session !== undefined) {
-        //  setCurrentUser(session)
-        setCurrentUser(JSON.parse(session))
+//       if (session !== undefined) {
+//         //  setCurrentUser(session)
+//         setCurrentUser(JSON.parse(session))
         
-      }
-  } catch (error) {
-      // There was an error on the native side
-  }
-}
+//       }
+//   } catch (error) {
+//       // There was an error on the native side
+//   }
+// }
 
 
 
@@ -106,11 +108,11 @@ const driver = {
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-  addedBy:  currentUser.userName,
+  addedBy:  global.currentUser.userName,
   addedDate: today,
   addedTime: time,
   licenseExpiry:  expirydate,
-  addedPoint:  currentUser.location,
+  addedPoint:  global.currentUser.location,
 
 };
 
@@ -126,11 +128,11 @@ const updatedDeriver ={
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-editedBy: currentUser.userName,
+editedBy: global.currentUser.userName,
 editedDate: today,
 editedTime: time,
 licenseExpiry: expirydate,
-editedPoint:currentUser.location
+editedPoint:global.currentUser.location
 }
 
 
@@ -145,7 +147,7 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 
 })
 
-// // clearAll()
+clearAll()
 
 }
 

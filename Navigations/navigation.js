@@ -5,6 +5,7 @@ import Login from '../screens/login';
 import Home from '../screens/home';
 import MyTabs from './tabnavigation';
 import TestPage from '../screens/forms/testPage';
+import SignUp from '../screens/forms/signUp';
 
 
 
@@ -24,6 +25,7 @@ const MyStack = () => {
          options={{ headerShown: false }}
         />
          <Stack.Screen name="TestPage" component={TestPage} /> 
+         <Stack.Screen name="SignUp" component={SignUp} /> 
         <Stack.Screen name="AddVehicle" component={MyTabs} 
         options={{
           headerShown:false

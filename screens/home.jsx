@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon  } from 'lucide-react-native';
-
+import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
+import retrieveUserSession from '../config';
 
 
 import {
@@ -19,6 +19,8 @@ import {
   ImageBackground,
 } from 'react-native';
 import { LinearGradient } from 'react-native-svg';
+import SignUp from './forms/signUp';
+
 
 const search_psv = [
 {
@@ -33,8 +35,10 @@ const search_psv = [
 
 
 function Home() {
+  retrieveUserSession();
+//console.log("dd", global.currentUser.role);
 
-  const [reg, setReg] = useState(null);
+const [reg, setReg] = useState(null);
 const [year, setYear] = useState(null);
 const [number, setNumber] = useState(null);
   const navigation = useNavigation();
@@ -186,7 +190,7 @@ const [number, setNumber] = useState(null);
         </TouchableOpacity>
       </View> */}
 
-      {/* Update Profile */}
+      {/* Update  User Profile
 
       <View className='mt-2 ' >
         <TouchableOpacity className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
@@ -195,8 +199,19 @@ const [number, setNumber] = useState(null);
             <Text className=' font-bold font-white  text-lg text-white'>Edit Profile</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
+       {/* Add New User */}
+
+       <View className={`${global.currentUser.role == "Admin"? "block":"hidden"} mt-2`} >
+        <TouchableOpacity onPress={()=>navigation.navigate('SignUp')} className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
+          <View className="justify-center flex flex-row items-center  w-full gap-2">
+            <Plus stroke="white" size={25} />
+            <Text className=' font-bold font-white  text-lg text-white'>Add New User</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+   
       {/* Update Logout */}
 
       <View className='mt-2 ' >

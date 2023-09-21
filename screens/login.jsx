@@ -13,7 +13,9 @@ import {
     View,
     Image,
     Alert,
+    
     KeyboardAvoidingView
+    
 } from 'react-native';
 
 import axios from 'axios';
@@ -40,6 +42,7 @@ function Login() {
            
             storeUserSession(user,result.role)
             navigation.navigate("Home")
+            clearAll()
           }
           else {
             Alert.alert("Wrong Password")
@@ -58,7 +61,13 @@ function Login() {
           )
         }}
 
-
+//
+function clearAll(){
+        setUser("")
+        setPwd("")
+        setlocation("")
+        setBound("")
+}
      //---------------------------------------
     
 
@@ -85,16 +94,18 @@ function Login() {
 
 
     return (
-        <KeyboardAvoidingView >
+     
+            <KeyboardAvoidingView behavior="padding" className="flex-1">
         <View className='px-2 flex justify-center items-center h-screen  bg-gray-900  '>
-            
+          
             {/* Logo VIEW */}
             <View className="w-full border border-yellow-100 h-2/4 bg-blue-900 flex justify-center items-center ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
             </View>
-            
+           
+                        
             <View className='w-full border border-gray-200 flex justify-center items-center h-fit bg-slate-600 py-10 '>
                
                 <TextInput
@@ -116,6 +127,7 @@ function Login() {
                 
 {/* Location Row   */}
 <View className="  w-10/12  flex flex-row  bg-slate-100 rounded-md ">
+
 <View className="   w-4/6 flex flex-row  ">
                 <TextInput  
                     placeholder='Location'
@@ -144,8 +156,11 @@ function Login() {
                 <Text className="text-white">NHMP Training  College, IT Wing</Text>
             </View>
             
+        
+        
         </View>
         </KeyboardAvoidingView>
+        
     );
 }
 
