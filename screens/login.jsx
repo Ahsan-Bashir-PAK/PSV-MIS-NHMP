@@ -24,49 +24,38 @@ function Login() {
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
 
-   
-  
-
-    // const signIn =async()=>{       
-    //     if(user && userpwd && location && userbound){
-    //     const response = await fetch(
-    //         `${global.BASE_URL}/users/getUser/${user}`,
-    //         {
-    //           method: "GET",
-    //           headers: {
-    //             "Content-Type": "application/json",
-               
-    //           },
-    //         }
-    //       );
-          
-
-    //       const result = await response.json();
-          
-    //       if(userpwd == result[0].userPwd){
-           
-    //         storeUserSession(user,result[0].role)
-    //         navigation.navigate("Home")
-    //       }
-    //       else {
-    //         Alert.alert("Wrong Password")
-    //       }
-    //     }
-    //     else {Alert.alert("Please enter All fields")}
-    
-        
-    //  } 
-
 
         const signIn =async()=>{       
         if(user && userpwd && location && userbound){
-        const response = await axios.get(
-            `${global.BASE_URL}/users/getUser/${user}`,
+         await axios.get(
+            `${global.BASE_URL}/users/getUser/${user}`
            
-          );
+          ).then(
+            function (response){
+                const result = response.data[0]
+          if(result){
+           
+         
+          if(userpwd == result.userPwd){
+           
+            storeUserSession(user,result.role)
+            navigation.navigate("Home")
+          }
+          else {
+            Alert.alert("Wrong Password")
+          }
+        }
+        else{
+           Alert.alert("User Not Registered")
+    }
 
-          const result = await response.json()
-          console.log(result)
+    }
+            
+          ).catch(
+            function(error){
+                console.log(error)
+            }
+          )
         }}
 
 
