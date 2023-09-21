@@ -115,22 +115,22 @@ const driver = {
 };
 
 const updatedDeriver ={
-driverName:"javaid",
-fatherName:"Aslam", 
-dob:"2023-08-08",
-address:"Gujranwala",
-disability:"nill",
-companyId:"Faisal Mover",
-cellNo : "12345678",
-licenseType: "HTV",
-licenseNo:"456",
-licenseAuthority:"Punjab",
-issueDate:"2022-10-10",
-editedBy:" Bashir ahmad",
-editedDate:"2022-05-06",
-editedTime:"12:00:05",
-licenseExpiry:"2024-06-09",
-editedPoint:"38 NB"
+  driverName:  driverName,
+  fatherName:  fatherName,
+  dob:  dobdate,
+  address:  address,
+  disability:  disability,
+  companyId:  companyId,
+  cellNo :   cellNo, 
+  licenseType:  licenseType,
+  licenseNo:  licenseNo,
+  licenseAuthority:  licenseAuthority,
+  issueDate:  issuedate,
+editedBy: currentUser.userName,
+editedDate: today,
+editedTime: time,
+licenseExpiry: expirydate,
+editedPoint:currentUser.location
 }
 
 
@@ -153,7 +153,7 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 //--------------------------------------update driver
 
 const updateDriver =async ()=>{
-axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updateDriver
+axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
 )
   .then(response => Alert.alert("Driver Data Updated"))
   .catch(error => console.error(error));
