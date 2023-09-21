@@ -85,7 +85,7 @@ const driver = {
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-  addedBy:  addedBy,
+  addedBy:  "ahan",
   addedDate:  addedDate,
   addedTime:  addedTime,
   licenseExpiry:  expirydate,
@@ -96,7 +96,7 @@ const driver = {
 const saveData = async () => {
 axios.post(`${global.api}/dvr/addDriver`, driver)
 .then( (response)=> {
-  if(response.ok){
+ 
     Alert.alert('Data inserted successfully');
   
 } else {
@@ -108,6 +108,11 @@ axios.post(`${global.api}/dvr/addDriver`, driver)
 });
 clearall()
 }
+
+
+//===============update driver 
+
+update 
 
 
 
