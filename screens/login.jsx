@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import '../config'
 import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
 
 function Login() {
     const [user, setUser] = useState("")
@@ -23,31 +24,43 @@ function Login() {
     const [location,setlocation] = useState("")
     
 
-   
+   //experimental
+const signIn =async()=>{
+axios.get(`${global.BASE_URL}/users/getUser/${user}`)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+ 
+}
+
+   //------------------------------
   
 
-    const signIn =async()=>{
-        if(user && userpwd && location && userbound){
-        const response = await fetch(
-            `${global.BASE_URL}/users/getUser/${user}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
+    // const signIn =async()=>{
+    //     if(user && userpwd && location && userbound){
+    //     const response = await fetch(
+    //         `${global.BASE_URL}/users/getUser/${user}`,
+    //         {
+    //           method: "GET",
+    //           headers: {
+    //             "Content-Type": "application/json",
                
-              },
-            }
-          );
-          const result = await response.json();
-          if(userpwd == result[0].userPwd){
+    //           },
+    //         }
+    //       )
+    //       const result = await response.json();
+    //       if(userpwd == result[0].userPwd){
            
-            storeUserSession(user,result[0].role)
-            navigation.navigate("Home")
-          }
-          else {
-            Alert.alert("Wrong Password")
-          }}else {Alert.alert("Please enter All fields")}
-     } 
+    //         storeUserSession(user,result[0].role)
+    //         navigation.navigate("Home")
+    //       }
+    //       else {
+    //         Alert.alert("Wrong Password")
+    //       }}else {Alert.alert("Please enter All fields")}
+    //  } 
 
 
 
