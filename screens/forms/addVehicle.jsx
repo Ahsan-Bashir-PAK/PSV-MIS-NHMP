@@ -71,22 +71,22 @@ const AddVehicle = () => {
   const today = new Date()
 //----------------add form one 
    const psv ={  
-      vehicleType:"coaster",
-      prefixRegNo:"fkd",
-      vehicleModel:2015,
-      regNo:7889,
-      chasisNo:"dasd45646456465",
-      engineNo:"asdas5646465465",
-      vehicleMake:2011,
-      vehicleColor:"red",
-      acStatus:1,
-      seatingCap:45,
-      trackerStatus:0,
-      exitGate:1,
-      manufactureYear:2015,
-      companyName:"Faisal Mover",
+      vehicleType: Vehicle_type,
+      prefixRegNo:Vehicle_letter,
+      vehicleModel:Vehicle_year,
+      regNo:Vehicle_number,
+      chasisNo:vehicle_chasis,
+      engineNo:vehcile_engine,
+      vehicleMake:vehcile_make,
+      vehicleColor:vehcile_color,
+      acStatus:vehcile_ac,
+      seatingCap:vehicle_seats,
+      trackerStatus:vehcile_tracker,
+      exitGate: vehcile_emergencyExit,
+      manufactureYear:vehcile_manf_year,
+      companyName:vehcile_company,
       formOneStatus:1,
-      addedDate:"2015-05-01",
+      addedDate: today,
       addedBy:"Ahsan Bashir Po",
       addedPoint:"78nb"
 
@@ -360,7 +360,7 @@ const updatePsv =async ()=>{
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity  onPress ={()=>setShowModal(!showModal)} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity  onPress ={()=>addPsvFormOne()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
@@ -400,3 +400,8 @@ const styles = {
   outerview:
     'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900'
 };
+
+
+
+
+// onPress ={()=>setShowModal(!showModal)}
