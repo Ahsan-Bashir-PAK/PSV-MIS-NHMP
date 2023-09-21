@@ -138,6 +138,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updateDriver
   .catch(error => console.error(error));
 }
 
+//------------------------return 
   return (
      <ScrollView className=" ">
       <View className=" flex flex-col   ">
