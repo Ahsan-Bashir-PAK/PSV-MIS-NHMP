@@ -65,8 +65,9 @@ const [dobdate, setdobDate] = useState(new Date())
   const [beatId,setBeatId] =useState("")
 
 
-  function clearall() {
+  function clearAll() {
 
+    
 
   }
 //------------------backend integration
