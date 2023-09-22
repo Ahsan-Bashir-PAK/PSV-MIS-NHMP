@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User, FileText, Navigation,ArrowUpRightSquare, Calendar  } from 'lucide-react-native';
@@ -40,6 +40,40 @@ const [fitnessopen, setFOpen] = useState(false)
 const [fitness_auth, setFitAuthority] = useState("");
 
 
+const [currentPsv,setCurrentPsv] = useState({})
+const [currentUser,setCurrentUser] = useState({})
+
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  retrieveVehicleSession()
+},[])
+//getting user seesion data 
+async function retrieveVehicleSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("psv_session");
+      if (session !== undefined) {
+        setCurrentPsv(JSON.parse(session))
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+//===============================================================getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        //  setCurrentUser(session)
+        setCurrentUser(JSON.parse(session)) 
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+
+
+//=============================================== clear 
   function clearAll() {
       setRoute("");
       setRouteAuthority ("");
@@ -53,7 +87,35 @@ const [fitness_auth, setFitAuthority] = useState("");
       setFitAuthority("");
   }
 
-
+  //========================================================save and update psv document
+   
+  const PsvDocuments = {
+    routePermitNo: route,
+    issueAuthority: issue_Authority,
+    routeExpiryDate: routedate,
+    routeType: route_type,
+    routeFrom: route_from,
+    routeTo: route_to,
+    routeVia: route_via,
+    fitnessNo: fitnessno,
+    fitnessExpiryDate: fitnessdate,
+    fitnessAuthority:fitness_auth,
+    formTwoStatus: 1,
+    editedOn: today,
+    editedTime: time,
+    editedBy: currentUser.userName,
+    editedPoint: currentUser.location,
+  };
+  
+  
+  const updatePsvDocs =async ()=>{
+    axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
+    )
+      .then(response => Alert.alert(" PSV's Document Data Updated "))
+      .catch(error => console.error(error));
+    }
+  
+//-============================================ returnin UI
   return (
      <ScrollView>
       <View className="bg-slate-100  flex flex-col  ">
@@ -65,6 +127,13 @@ const [fitness_auth, setFitAuthority] = useState("");
               <Text className="text-black text-lg rounded-md font-bold ">Route- Permit </Text>
               {/* <Navigation stroke="black" size={40}></Navigation> */}
               <ArrowUpRightSquare   stroke="black" size={30}></ArrowUpRightSquare  >
+            </View>
+
+            <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-sm rounded-md font-bold ">
+                {currentPsv.psvLetter+ "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+                </Text>
+              
             </View>
 
 
@@ -278,7 +347,7 @@ const [fitness_auth, setFitAuthority] = useState("");
               {/* Buttons Save - Clear -Update */}
               <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updatePsvDocs()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
@@ -286,7 +355,7 @@ const [fitness_auth, setFitAuthority] = useState("");
               
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updatePsvDocs()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
                 </View>

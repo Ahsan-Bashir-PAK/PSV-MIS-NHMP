@@ -4,6 +4,7 @@ import DatePicker from 'react-native-date-picker';
 import { Calendar, CheckSquare, Disc2, Square, SunDim  } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 const AddCondition = () => {
@@ -26,6 +27,8 @@ const AddCondition = () => {
   const [hazardlight, SethazardLight] =useState("");
   const [foglight, SetfogLight] =useState("");
   const [emergencylight, SetemergencyLight] =useState("");
+  const [currentPsv,setCurrentPsv] = useState({})
+  const [currentUser,setCurrentUser] = useState({})
 
   
   function clearAll() {
@@ -43,7 +46,64 @@ const AddCondition = () => {
   }
 
 
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  retrieveVehicleSession()
+},[])
+//getting user seesion data 
+async function retrieveVehicleSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("psv_session");
+      if (session !== undefined) {
+        setCurrentPsv(JSON.parse(session))
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+//===============================================================getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        //  setCurrentUser(session)
+        setCurrentUser(JSON.parse(session)) 
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
 
+  //========================================================save and update psv document
+   
+  const PsvDocuments = {
+    tyreCompany: tyrecomp,
+    tyreManDate: date,
+    tyreExpiry: tyredate,
+    tyreCondition: tyrecondition,
+    tyreTread: tread,
+    tyreRemarks: remarks,
+    headLights: headlight,
+    backLigths: backlight,
+    hazardLights: hazardlight,
+    fogLights: foglight,
+    emergencyLights: emergencylight,
+    formThreeStatus: 1,
+    editedOn: today,
+    editedTime: time,
+    editedBy: currentUser.userName,
+    editedPoint: currentUser.location,
+  };
+  
+  
+  const updatePsvCondition =async ()=>{
+    axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
+    )
+      .then(response => Alert.alert(" PSV's  Data Updated "))
+      .catch(error => console.error(error));
+    }
+  //==================================================
   return (
     <ScrollView className=" ">
       <View className="bg-slate-100  flex flex-col   p-2 ">
@@ -57,6 +117,12 @@ const AddCondition = () => {
               <Disc2   stroke="#facc15" size={32} fill="black"></Disc2>
             </View>
 
+            <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-sm rounded-md font-bold ">
+                {currentPsv.psvLetter+ "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+                </Text>
+              
+            </View>
 
 
 
@@ -257,7 +323,7 @@ const AddCondition = () => {
               {/* Buttons Save - Clear -Update */}
               <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updatePsvCondition()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
@@ -269,7 +335,7 @@ const AddCondition = () => {
                 </View>
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updatePsvCondition()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
                 </View>
