@@ -22,7 +22,7 @@ const AddVehicle = () => {
 
   // Vehicle Add states
 
-  const [Vehicle_type, setType] = useState(""); // LES
+  const [Vehicle_type, setType] = useState(""); // BUS / HIACE
   const [Vehicle_letter, setLetter] = useState(""); // LES
   const [Vehicle_year, setYear] = useState("");  //2019
   const [Vehicle_number, setNumber] = useState(""); //5351
@@ -72,9 +72,10 @@ async function retrieveUserSession() {
 
   function clearAllData(){
 
-    //console.log("ssssssss");
+    
     setType("");
-    setRegNo("");
+
+   setLetter("");
    setYear("");
    setNumber("");
    setChasis("");
@@ -114,7 +115,7 @@ const getPsv = async()=>{
 }
 
 
-//----------------add form one 
+//----------------Insert form 1
    const psv ={  
       vehicleType: Vehicle_type,
       prefixRegNo:Vehicle_letter,
@@ -147,7 +148,7 @@ const getPsv = async()=>{
       .catch((error) => {
         console.log(error);
       })
-      clearAll()
+      //clearAllData()
       }
    //---------------------------------------------------update psv
    
@@ -219,28 +220,29 @@ const updatePsv =async ()=>{
           {/* Enter Bus Reg Number [ABC] [2019] [1234] */}
           <View className={styles.outerview} >
 
-            {/* REG NO */}
+            {/* REG LETTER NO */}
             <View className=" w-4/12 items-center border-r ">
               <TextInput
                 style={{ backgroundColor: 'white' }}
-                value={Vehicle_letter}
-                onChangText={(e) => setLetter(e)}
                 placeholderTextColor={'grey'}
                 autoCapitalize={'characters'}
                 placeholder='CAG'
                 maxLength={3}
-                
+                onChangeText={e => setLetter(e)}
+                value={Vehicle_letter}
                 className='   bg-white border-black  text-lg text-black' />
             </View>
 
             {/* YEAR */}
             <View className="w-4/12 items-center border-r ">
               <TextInput
-                Value={Vehicle_year}
-                onChange={(e) => setYear(e.target.value)}
+                
                 placeholderTextColor={'grey'}
                 placeholder='Year[2019]'
                 maxLength={4}
+                keyboardType='phone-pad'
+                onChangeText={e => setYear(e)}
+                Value={Vehicle_year}
                 className='   bg-white border-black text-black    text-lg' />
             </View>
 
@@ -252,6 +254,8 @@ const updatePsv =async ()=>{
                 placeholder='[0000]'
                 maxLength={4}
                 value={Vehicle_number}
+                onChangeText={e=>setNumber(e)}
+                keyboardType='phone-pad'
                 className=' bg-white border-black text-black   text-lg' />
             </View>
           </View>

@@ -74,7 +74,7 @@ const [dobdate, setdobDate] = useState(new Date())
   const [addedTime,setAddedTime] =useState()
   const [addedPoint,setAddedPoint] =useState("")
 
-  //--------state for search driver //backe end 
+  //--------state for search driver //back end 
   const [searchCnic,setSearchCnic] =useState("")
   const [data,setData] =useState()
 
@@ -113,11 +113,11 @@ const driver = {
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-  addedBy:  global.currentUser.userName,
+  addedBy:  currentUser.userName,
   addedDate: today,
   addedTime: time,
   licenseExpiry:  expirydate,
-  addedPoint:  global.currentUser.location,
+  addedPoint: currentUser.location,
 
 };
 //-----------------object to update drive r
@@ -133,11 +133,11 @@ const updatedDeriver ={
   licenseNo:  licenseNo,
   licenseAuthority:  licenseAuthority,
   issueDate:  issuedate,
-editedBy: global.currentUser.userName,
+editedBy: currentUser.userName,
 editedDate: today,
 editedTime: time,
 licenseExpiry: expirydate,
-editedPoint:global.currentUser.location
+editedPoint:currentUser.location
 }
 
 //======================get driver based one cnic 
@@ -160,9 +160,9 @@ const getDriver = async()=>{
 
 // Get Driver Values and Saved in form
 async function setDriverValue (result){
-  console.log("yesss", result.driverName);
+  //console.log("yesss", result.driverName);
   setcnic(result.cnic);
- setdobDate(result.dob);
+ //setdobDate(result.dob);
   setDriverName(result.driverName);
   setFatherName(result.fatherName);
   setAddress(result.address);
