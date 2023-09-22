@@ -54,7 +54,6 @@ const [fitness_auth, setFitAuthority] = useState("");
   }
 
 
-
   return (
      <ScrollView>
       <View className="bg-slate-100  flex flex-col  ">
