@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,15 +6,23 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Switch,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {Calendar, CheckSquare, Disc2, Square, Info} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const AddOtherInfo = () => {
+
+  const navigation = useNavigation();
+
+  
+  const today = new Date()
+  const time = new Date().toLocaleTimeString()
   // Tyre Manufacturing Date
   const [numberplate, setnumberPlate] = useState(false);
   const [sidemirror, setsideMirror] = useState(false);
@@ -84,7 +92,7 @@ const AddOtherInfo = () => {
     fireExpiry: fireextdate,
     firstAidBox: firstaid,
     zeroSeat: zeroseat,
-    // cones: 1,
+     cones: cones,
     formFourStatus: 1,
     editedOn: today,
     editedTime: time,
@@ -100,7 +108,11 @@ const AddOtherInfo = () => {
         }`,
         PsvOthers,
       )
-      .then(response => Alert.alert(" PSV's  Data Updated "))
+      .then(response =>{ Alert.alert(" PSV's Data has been completed. ")
+          navigation.navigate('Home')
+    })
+
+    
       .catch(error => console.error(error));
   };
   //==================================================
@@ -136,7 +148,7 @@ const AddOtherInfo = () => {
                   <TouchableOpacity
                     onPress={() =>
                       numberplate == ''
-                        ? setnumberPlate('Numberplate')
+                        ? setnumberPlate('1')
                         : setnumberPlate('')
                     }
                     className={`p-2 flex-row gap-1 text-center items-center`}>
@@ -159,7 +171,7 @@ const AddOtherInfo = () => {
                   <TouchableOpacity
                     onPress={() =>
                       sidemirror == ''
-                        ? setsideMirror('HeadLights')
+                        ? setsideMirror('1')
                         : setsideMirror('')
                     }
                     className={`p-2 flex-row gap-1 text-center items-center`}>
@@ -182,7 +194,7 @@ const AddOtherInfo = () => {
                   <TouchableOpacity
                     onPress={() =>
                       frontwipers == ''
-                        ? setfrontWipers('BackLights')
+                        ? setfrontWipers('1')
                         : setfrontWipers('')
                     }
                     className={`p-2 flex-row gap-1 text-center items-center`}>
@@ -204,7 +216,7 @@ const AddOtherInfo = () => {
                 <View className={styles.outerview}>
                   <TouchableOpacity
                     onPress={() =>
-                      fireext == '' ? setfireExt('FogLights') : setfireExt('')
+                      fireext == '' ? setfireExt('1') : setfireExt('')
                     }
                     className={`p-2 flex-row gap-1 text-center items-center`}>
                     <Square
@@ -261,7 +273,7 @@ const AddOtherInfo = () => {
               <View className={styles.outerview}>
                 <TouchableOpacity
                   onPress={() =>
-                    firstaid == '' ? setfirstAid('FirstAid') : setfirstAid('')
+                    firstaid == '' ? setfirstAid('1') : setfirstAid('')
                   }
                   className={`p-2 flex-row gap-1 text-center items-center`}>
                   <Square
@@ -281,7 +293,7 @@ const AddOtherInfo = () => {
               <View className={styles.outerview}>
                 <TouchableOpacity
                   onPress={() =>
-                    zeroseat == '' ? setzeroSeat('zeroseat') : setzeroSeat('')
+                    zeroseat == '' ? setzeroSeat('1') : setzeroSeat('')
                   }
                   className={`p-2 flex-row gap-1 text-center items-center`}>
                   <Square
@@ -301,7 +313,7 @@ const AddOtherInfo = () => {
               <View className={styles.outerview}>
                 <TouchableOpacity
                   onPress={() =>
-                    cones == '' ? setCones('cones') : setCones('')
+                    cones == '' ? setCones('1') : setCones('')
                   }
                   className={`p-2 flex-row gap-1 text-center items-center`}>
                   <Square

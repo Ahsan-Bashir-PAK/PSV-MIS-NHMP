@@ -29,9 +29,10 @@ function Login() {
 
 //-----------Signin & get User 
         const signIn =async()=>{       
+            
         if(user && userpwd && location && userbound){
-         await axios.get(
-            `${global.BASE_URL}/users/getUser/${user}`
+         await axios.get(`${global.BASE_URL}/users/getUser/${user}`
+           // console.log(`${global.BASE_URL}/users/getUser/${user}`)
            
           ).then(
             function (response){

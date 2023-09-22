@@ -2,7 +2,7 @@
 
 import EncryptedStorage from "react-native-encrypted-storage";
 
-global.BASE_URL="http://192.168.10.20:5000"
+global.BASE_URL="http://192.168.10.12:5000"
 
 global.currentUser
 

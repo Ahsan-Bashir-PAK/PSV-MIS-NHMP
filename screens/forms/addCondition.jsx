@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { Calendar, CheckSquare, Disc2, Square, SunDim  } from 'lucide-react-native';
+import { Calendar, CheckSquare, Disc2, Navigation, Square, SunDim  } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
-
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const AddCondition = () => {
+
+  const navigation = useNavigation();
+  
+  const today = new Date()
+const time = new Date().toLocaleTimeString()
 
   const [tyrecomp, setTyreCom] =useState();
   // Tyre Manufacturing Date
@@ -81,8 +87,9 @@ async function retrieveUserSession() {
     tyreCompany: tyrecomp,
     tyreManDate: date,
     tyreExpiry: tyredate,
+    tyreChkDate:today,
     tyreCondition: tyrecondition,
-    tyreTread: tread,
+    tyreTread:  tread,
     tyreRemarks: remarks,
     headLights: headlight,
     backLigths: backlight,
@@ -98,9 +105,13 @@ async function retrieveUserSession() {
   
   
   const updatePsvCondition =async ()=>{
-    axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
+    // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
+   await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => Alert.alert(" PSV's  Data Updated "))
+      .then(response => {Alert.alert(" PSV's  Data Updated ")
+            navigation.navigate("Other Info");
+    })
+
       .catch(error => console.error(error));
     }
   //==================================================
@@ -214,7 +225,7 @@ async function retrieveUserSession() {
                   placeholderTextColor={'grey'}
                   placeholder='3.5 - 2.0'
                   maxLength={4}
-                  onChangeText={e=>setTread()}
+                  onChangeText={e=>setTread(e)}
                   value={tread}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
@@ -247,7 +258,7 @@ async function retrieveUserSession() {
                   placeholderTextColor={'grey'}
                   placeholder='Remarks if any'
                   maxLength={100}
-                  onChangeText={e=>setRemarks()}
+                  onChangeText={e=>setRemarks(e)}
                   value={remarks}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
@@ -266,7 +277,7 @@ async function retrieveUserSession() {
               {/* Head - Back- Fog Lights*/}
               <View className=" flex flex-row justify-around  p-1">
               <View className=' flex flex-row border border-gray-300  rounded-md bg-white shadow-md  shadow-blue-900'>
-                <TouchableOpacity onPress={()=>headlight==""?SetheadLight('HeadLights'):SetheadLight("")}
+                <TouchableOpacity onPress={()=>headlight==""?SetheadLight("1"):SetheadLight("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${headlight == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${headlight == ""? "hidden":"block"}`}></CheckSquare>
@@ -275,7 +286,7 @@ async function retrieveUserSession() {
                 </View>
 
               <View className='justify-around flex flex-row  border border-gray-300  rounded-md bg-white shadow-md  shadow-blue-900'>
-              <TouchableOpacity onPress={()=>backlight==""?SetbackLight('BackLights'):SetbackLight("")}
+              <TouchableOpacity onPress={()=>backlight==""?SetbackLight("1"):SetbackLight("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${backlight == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${backlight == ""? "hidden":"block"}`}></CheckSquare>
@@ -284,7 +295,7 @@ async function retrieveUserSession() {
               </View>
 
               <View className='justify-around flex flex-row  border border-gray-300  rounded-md bg-white shadow-md  shadow-blue-900'>
-              <TouchableOpacity onPress={()=>foglight==""?SetfogLight('FogLights'):SetfogLight("")}
+              <TouchableOpacity onPress={()=>foglight==""?SetfogLight("1"):SetfogLight("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${foglight == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${foglight == ""? "hidden":"block"}`}></CheckSquare>
@@ -298,7 +309,7 @@ async function retrieveUserSession() {
               {/* Hazard & Emergency Lights */}
               <View className=" flex flex-row justify-around">
               <View className=' flex flex-row w-[170] border border-gray-300  rounded-md bg-white shadow-md  shadow-blue-900'>
-              <TouchableOpacity onPress={()=>hazardlight==""?SethazardLight('HazardLights'):SethazardLight("")}
+              <TouchableOpacity onPress={()=>hazardlight==""?SethazardLight("1"):SethazardLight("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${hazardlight == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${hazardlight == ""? "hidden":"block"}`}></CheckSquare>
@@ -307,7 +318,7 @@ async function retrieveUserSession() {
               </View>
 
               <View className='justify-around flex flex-row w-[170] border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900'>
-              <TouchableOpacity onPress={()=>emergencylight==""?SetemergencyLight('EmergencyLights'):SetemergencyLight("")}
+              <TouchableOpacity onPress={()=>emergencylight==""?SetemergencyLight("1"):SetemergencyLight("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${emergencylight == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${emergencylight == ""? "hidden":"block"}`}></CheckSquare>

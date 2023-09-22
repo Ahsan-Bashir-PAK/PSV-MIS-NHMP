@@ -1,11 +1,14 @@
 import React, { useState ,useEffect} from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User, FileText, Navigation,ArrowUpRightSquare, Calendar  } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 
@@ -13,11 +16,16 @@ import SelectDropdown from 'react-native-select-dropdown';
 
 
 
+const AddDocumentation = ({route}) => {
 
-const AddDocumentation = () => {
+  const navigation = useNavigation();
+
+  const bus = route.params["params"]
+  const today = new Date()
+  const time = new Date().toLocaleTimeString()
 
 // vehicle documentation States
-const [route, setRoute] = useState("");
+const [vroute, setRoute] = useState("");
 const [issue_Authority, setRouteAuthority] = useState("");
 // Route Expiry Date
 const [routedate, setRouteDate] = useState(new Date())
@@ -43,11 +51,7 @@ const [fitness_auth, setFitAuthority] = useState("");
 const [currentPsv,setCurrentPsv] = useState({})
 const [currentUser,setCurrentUser] = useState({})
 
-//============================================retriveing vehicle info
-useEffect(()=>{
-  retrieveUserSession()
-  retrieveVehicleSession()
-},[])
+
 //getting user seesion data 
 async function retrieveVehicleSession() {
   try {   
@@ -71,7 +75,12 @@ async function retrieveUserSession() {
       // There was an error on the native side
   }
 }
-
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  retrieveVehicleSession()
+  
+},[])
 
 //=============================================== clear 
   function clearAll() {
@@ -90,7 +99,7 @@ async function retrieveUserSession() {
   //========================================================save and update psv document
    
   const PsvDocuments = {
-    routePermitNo: route,
+    routePermitNo: vroute,
     issueAuthority: issue_Authority,
     routeExpiryDate: routedate,
     routeType: route_type,
@@ -109,9 +118,10 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
-    axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
+    axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${bus.letter+bus.year+bus.no}`, PsvDocuments
     )
       .then(response => Alert.alert(" PSV's Document Data Updated "))
+      navigation.navigate("Add Condition", {params:{letter:bus.letter, year:bus.year,no:bus.no}})
       .catch(error => console.error(error));
     }
   
@@ -129,9 +139,9 @@ async function retrieveUserSession() {
               <ArrowUpRightSquare   stroke="black" size={30}></ArrowUpRightSquare  >
             </View>
 
-            <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
-              <Text className="text-black text-sm rounded-md font-bold ">
-                {currentPsv.psvLetter+ "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+            <View className=" bg-zinc-200  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-lg rounded-md font-bold  ">
+                     {bus.letter+ "-" + bus.year +"-" + bus.no} 
                 </Text>
               
             </View>
@@ -148,7 +158,7 @@ async function retrieveUserSession() {
                   placeholder='Route Permit No.'
                   maxLength={50}
                   onChangeText={e => setRoute(e)}
-                  value={route}
+                  value={vroute}
                   className=' border-black text-black rounded-md  text-lg' />
 
               </View>
@@ -211,7 +221,7 @@ async function retrieveUserSession() {
                 className="bg-white border"
                 data= {select_route_type}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                  setRouteType(selectedItem)
                 }}
                 defaultButtonText='Select Route Type'
                 buttonStyle={{
