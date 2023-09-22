@@ -19,14 +19,15 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-import '../config'
+import '../config';
+
 function Login() {
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
     const [userbound, setBound] = useState("")
     const [location,setlocation] = useState("")
 
-//-----------sinin & get userr 
+//-----------Signin & get User 
         const signIn =async()=>{       
         if(user && userpwd && location && userbound){
          await axios.get(
@@ -35,12 +36,11 @@ function Login() {
           ).then(
             function (response){
                 const result = response.data[0]
-          if(result){
-           
-         
+          if(result) {
           if(userpwd == result.userPwd){
            
             storeUserSession(user,result.role)
+            
             navigation.navigate("Home")
             clearAll()
           }
@@ -85,6 +85,7 @@ function clearAll(){
                      location:location+userbound
                  })
              );
+             //console.log("home-----", user,role, location)
              // Congrats! You've just stored your first value!
          } catch (error) {
              // There was an error on the native side
@@ -117,7 +118,7 @@ function clearAll(){
                     value={user}
                     onChangeText={text=>setUser(text)}
                     placeholderTextColor='grey'
-                    keyboardType='numeric'
+                    keyboardType='number-pad'
                     className=' h-[50] p-2 text-lg border bg-slate-100 border-white text-black m-3 rounded-md w-10/12' />
 
                 <TextInput
@@ -138,7 +139,7 @@ function clearAll(){
                     value={location}
                     onChangeText={e => setlocation(e)}
                     placeholderTextColor='grey'
-                    keyboardType='numeric'
+                    keyboardType='number-pad'
                     maxLength={4}
                     className='h-[50] p-2 ml-1e text-black   text-lg' />
                 <Text className=" text-black mt-3 font-bold text-lg" > {userbound} </Text>

@@ -25,20 +25,21 @@ const [currentUser,setCurrentUser] = useState({})
 useEffect(()=>{
   retrieveUserSession()
 },[])
+
 //getting user seesion data 
-// async function retrieveUserSession() {
-//   try {   
-//       const session = await EncryptedStorage.getItem("user_session");
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
   
-//       if (session !== undefined) {
-//         //  setCurrentUser(session)
-//         setCurrentUser(JSON.parse(session))
+      if (session !== undefined) {
+        //  setCurrentUser(session)
+        setCurrentUser(JSON.parse(session))
         
-//       }
-//   } catch (error) {
-//       // There was an error on the native side
-//   }
-// }
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
 
 
 
@@ -75,7 +76,7 @@ const [dobdate, setdobDate] = useState(new Date())
 
   //--------state for search driver //backe end 
   const [searchCnic,setSearchCnic] =useState("")
-  const [data,setData] =useState("")
+  const [data,setData] =useState()
 
 //-------------------------------- clear All 
   function clearAll() {
@@ -93,6 +94,7 @@ const [dobdate, setdobDate] = useState(new Date())
     setLicenseAuthority("");
     setissueDate(new Date());
     setexpiryDate(new Date());
+    setSearchCnic("");
 
   }
 //===========================------------------backend integration==============================
@@ -143,11 +145,12 @@ const getDriver = async()=>{
 
   await axios.get(`${global.BASE_URL}/dvr/getDriver/${searchCnic}`)
   .then(
-    (response) =>{
-      const result = response.data[0]
+    async (response) =>{
+     const result = response.data[0]
       if(result){
         console.log(result)
-    setData(result)
+        // setData(result)
+    await setDriverValue(result)
       }
       else {
         Alert.alert("Driver not in Record.")
@@ -155,7 +158,24 @@ const getDriver = async()=>{
   })
 }
 
-//----------sasve driver data
+// Get Driver Values and Saved in form
+async function setDriverValue (result){
+  console.log("yesss", result.driverName);
+  setcnic(result.cnic);
+ setdobDate(result.dob);
+  setDriverName(result.driverName);
+  setFatherName(result.fatherName);
+  setAddress(result.address);
+  setDisability(result.disability);
+  setCompanyId(result.companyId);
+  setCellNo(result.cellNo);
+  setLicenseNo(result.licenseNo);
+  setLicenseType(result.licenseType);
+  setLicenseAuthority(result.licenseAuthority);
+  //setissueDate(data.issueDate);
+  //setexpiryDate(data.setexpiryDate);
+}
+//----------save driver data
 const saveData = async () => {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
@@ -205,13 +225,13 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
                 maxLength={13}
                 keyboardType='numeric'
                 value = {searchCnic}
-                onChangeText={e=>setSeachCnic(e)}
+                onChangeText={e=>setSearchCnic(e)}
 
                 className=' text-black rounded-md  text-lg' />
                 
             </View>
-            <TouchableOpacity onPress={()=>getDriver()}>
-            <View className="flex flex-row-reverse  bg-orange-2200  justify-center items-center w-2/6"><Text className="text-black text-lg  font-bold">Search</Text>
+            <TouchableOpacity onPress={()=>getDriver()}  className="flex flex-row-reverse  bg-green-600  justify-center items-center w-2/6">
+            <View><Text className="text-black text-lg  font-bold">Search</Text>
             </View>
             </TouchableOpacity>
           </View>
@@ -328,7 +348,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
             <View className="w-4/6 items-center">
             <TextInput
                 placeholderTextColor={'grey'}
-                placeholder='Enter Disiability'
+                placeholder='Enter Disability'
                 maxLength={70}
                 onChangeText={e=>setDisability(e)}
                 value={disability}
