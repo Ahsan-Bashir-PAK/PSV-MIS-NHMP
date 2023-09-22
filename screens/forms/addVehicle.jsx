@@ -7,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import axios from 'axios'
+import EncryptedStorage from 'react-native-encrypted-storage';
+import retrieveUserSession from '../../config';
 
 
 
@@ -45,6 +47,28 @@ const AddVehicle = () => {
 // Model States
   const [showModal, setShowModal] = useState(false);
 
+  //=========================setting user session 
+  const [currentUser,setCurrentUser] = useState("")
+  //---------------------------detting data 
+  const [psvData,setPsvData] = useState({})
+
+  //==================getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        setCurrentUser(JSON.parse(session))
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+
+  
+
+
+
+
 
   function clearAllData(){
 
@@ -69,6 +93,27 @@ const AddVehicle = () => {
   //---------------------------------BACK END
 
   const today = new Date()
+  const time = new Date().toLocaleTimeString()
+
+
+//-----------------------------------------------------------search psv
+const getPsv = async()=>{
+
+  await axios.get(`${global.BASE_URL}/psv/getPsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`)
+  .then(
+    (response) =>{
+      const result = response.data[0]
+      if(result){
+        console.log(result)
+    setPsvData(result)  //    Use this to set data in fileds   
+      }
+      else {
+        Alert.alert("PSV vehicle not in Record.")
+      }
+  })
+}
+
+
 //----------------add form one 
    const psv ={  
       vehicleType: Vehicle_type,
@@ -87,8 +132,9 @@ const AddVehicle = () => {
       companyName:vehcile_company,
       formOneStatus:1,
       addedDate: today,
-      addedBy:"Ahsan Bashir Po",
-      addedPoint:"78nb"
+      addedTime: time,
+      addedBy:currentUser.userName,
+      addedPoint:currentUser.location
 
    }
 
@@ -105,15 +151,36 @@ const AddVehicle = () => {
       }
    //---------------------------------------------------update psv
    
+const upedtedPsv ={
+  vehicleType: Vehicle_type,
+  chasisNo:vehicle_chasis,
+  engineNo:vehcile_engine,
+  vehicleMake:vehcile_make,
+  vehicleColor:vehcile_color,
+  acStatus:vehcile_ac,
+  seatingCap:vehicle_seats,
+  trackerStatus:vehcile_tracker,
+  exitGate: vehcile_emergencyExit,
+  manufactureYear:vehcile_manf_year,
+  companyName:vehcile_company,
+  formOneStatus:1,
+  editedOn: today,
+  editedTime :time,
+  editedBy:currentUser.userName,
+  editedPoint:currentUser.location
+
+}
+
+
 const updatePsv =async ()=>{
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
     .then(response => Alert.alert("Driver Data Updated"))
     .catch(error => console.error(error));
   }
-     
 
 
+ //------------------------------returning UI    
   return (
      <ScrollView className=" ">
       <View className=" flex flex-col ">
@@ -367,7 +434,7 @@ const updatePsv =async ()=>{
 
 
                 <View className="">
-                  <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>updatePsv()}  className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
                 </View>
