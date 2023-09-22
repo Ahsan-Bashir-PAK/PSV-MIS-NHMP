@@ -94,7 +94,25 @@ async function retrieveUserSession() {
   //---------------------------------BACK END
 
   const today = new Date()
-  const time = new Date().toLocaleTimeString()
+  const time = new Date().toLocaleTimeString() 
+
+  //===========================================================vehicle sesion saving 
+ async function storeVehicleSession(letter,modal,number) {
+        try {
+            await EncryptedStorage.setItem(
+                "psv_session",
+                JSON.stringify({
+                    psvLetter :letter ,
+                    psvModal:modal ,
+                    psvNumber:number 
+                })
+            );
+           
+        } catch (error) {
+            // There was an error on the native side
+        }
+    }
+
 
 
 //-----------------------------------------------------------search psv
@@ -143,7 +161,9 @@ const getPsv = async()=>{
     const addPsvFormOne = async()=>{
       axios.post(`${global.api}/psv/addPsv`, psv )
       .then( (response)=> {
+
         Alert.alert('Vehicle intial info. saved');
+        storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
       })
       .catch((error) => {
         console.log(error);
