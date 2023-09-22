@@ -1,269 +1,318 @@
-import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Switch,
+} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { BusFront, Scroll, User } from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {BusFront, Scroll, User} from 'lucide-react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Bus } from 'lucide-react-native';
-
-
-
+import {Bus} from 'lucide-react-native';
 
 const TripReport = () => {
+  const [currentUser, setCurrentUser] = useState({});
 
-      const [currentUser,setCurrentUser] = useState({})
+  //=========================states
+const [v_psvNo, setpsvNo] =useState()
+const [v_routeStatus, setrouteStatus] =useState()
+const [v_companyName, setcompanyName] =useState()
+const [v_routePath, setroutePath] =useState()
+const [v_fitnessStatus, setfitnessStatus] =useState()
+const [v_tyreStatus, settyreStatus] =useState()
+const [v_trackerStaus, settrackerStaus] =useState()
+const [v_exitGate, setexitGate] =useState()
+const [v_fireExt, setfireExt] =useState()
+const [v_regPlate, setregPlate] =useState()
+const [v_tripCount, settripCount] =useState()
+const [v_seats, setseats] =useState()
+const [v_onBoardpassenger, setonBoardpassenger] =useState()
+const [d_dvrLicenseNo, setdvrLicenseNo] =useState()
+const [d_licenseType, setlicenseType] =useState()
+const [d_licenseStatus, setlicenseStatus] =useState()
+const [actionTaken, setactionTaken] =useState()
+const [remarks, setremarks] =useState() 
 
-useEffect(()=>{
-  retrieveUserSession()
-},[])
-//getting user seesion data 
-async function retrieveUserSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
+  useEffect(() => {
+    retrieveUserSession();
+  }, []);
+  //getting user seesion data
+  async function retrieveUserSession() {
+    try {
+      const session = await EncryptedStorage.getItem('user_session');
       if (session !== undefined) {
-        setCurrentUser(JSON.parse(session)) 
+        setCurrentUser(JSON.parse(session));
       }
-  } catch (error) {
-     console.log(error)
+    } catch (error) {
+      console.log(error);
+    }
   }
-}
 
-//===============================save report 
+  //===============================save report
 
-const reportData = {
+  const today = new Date()
+const time = new Date().toLocaleTimeString()
 
-}
+  const reportData = {
+    psvNo:v_psvNo,
+    companyName:v_companyName,
+    routeStatus:v_routeStatus,
+    routePath:v_routePath,
+    fitnessStatus:v_fitnessStatus,
+    tyreStatus:v_tyreStatus,
+    trackerStaus:v_trackerStaus,
+    exitGate:v_exitGate ,
+    fireExt:v_fireExt ,
+    regPlate:v_regPlate ,
+    tripCount:v_tripCount ,
+    seats:v_seats,
+    onBoardpassenger:v_onBoardpassenger ,
+    dvrLicenseNo:d_dvrLicenseNo,
+    licenseType: d_licenseType,
+    licenseStatus:d_licenseStatus,
+    actionTaken:actionTaken,
+    remarks: remarks,
+    addedBy: currentUser.userName,
+    addedDate: today,
+    chkPoint:currentUser.location,
+  };
 
-const saveReport = async () => {
-      await axios.post(`${global.BASE_URL}/rpt/addinspection`, reportData)
-      .then( (response)=> {
+  const saveReport = async () => {
+    await axios
+      .post(`${global.BASE_URL}/rpt/addinspection`, reportData)
+      .then(response => {
         Alert.alert('Data inserted successfully');
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
-      
-      })
-      
-      clearAll()
-      
-      }
-      
- 
-//const [] = useState("");
+      });
 
+    clearAll();
+  };
+
+  //const [] = useState("");
 
   return (
-  <ScrollView className=" border">
-    <View className="bg-slate-100  flex flex-col h-screen border p-2 justify-center">
-      <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
-        {/* Vehicle Information Design Tab */}
-        <View className=" mt-1 w-full  ">
-          
-         <View className=" bg-yellow-400  rounded-md p-1  w-fit items-center justify-center flex-row-reverse ">
-            <Text className="text-black text-lg rounded-md font-bold ">Vehicle Trip Report </Text>
-            <BusFront stroke="black" size={40}></BusFront>
-        </View>
-{/* Vehicle Number */}
-        <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
-            <Text className="text-black text-lg rounded-md font-bold ">Report of BUS No: LES-19-1111 </Text>
-            
-        </View> 
+    <ScrollView className=" border">
+      <View className="bg-slate-100  flex flex-col h-screen border p-2 justify-center">
+        <KeyboardAvoidingView style={{backgroundColor: 'white'}}>
+          {/* Vehicle Information Design Tab */}
+          <View className=" mt-1 w-full  ">
+            <View className=" bg-yellow-400  rounded-md p-1  w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-lg rounded-md font-bold ">
+                Vehicle Trip Report
+              </Text>
+              <BusFront stroke="black" size={40}></BusFront>
+            </View>
+            {/* Vehicle Number */}
+            <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-lg rounded-md font-bold ">
+                Report of BUS No: {v_psvNo}
+              </Text>
+            </View>
 
             {/*  Company NAme */}
-                  <View className={styles.outerview} >
-                    <View className={styles.labelstyle}><Text className="text-black  font-bold">Company Name</Text></View>
-                    <View className=" w-4/6  items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Company Name'
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg text-center' />
-
-                        
-                    </View>
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Company Name</Text>
               </View>
+              <View className=" w-4/6  items-center">
+                <Text 
+                  className=" border-black text-black rounded-md  text-lg text-center dis"
+                >{}</Text>
+              </View>
+            </View>
 
             {/*  Route Permit Date */}
-            <View className={styles.outerview} >
-                    <View className={styles.labelstyle}><Text className="text-black  font-bold">Route Permit</Text></View>
-                    <View className=" w-4/6  items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Route Permit'
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg text-center' />
-
-                        
-                    </View>
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Route Permit</Text>
               </View>
-
-              
-              {/*  Fitness */}
-              <View className={styles.outerview} >
-                    <View className={styles.labelstyle}><Text className="text-black  font-bold">Fitness</Text></View>
-                    <View className=" w-4/6  items-center">
-                        <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Fitness'
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg' />
-                        
-                    </View>
+              <View className=" w-4/6  items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Route Permit"
+                  maxLength={50}
+                  className=" border-black text-black rounded-md  text-lg text-center"
+                />
               </View>
-              {/* Tyre Condition */}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Tyre Condition</Text></View>
-                    <View className="w-4/6 items-center">
-                        <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Tyre Condition'
-                          maxLength={50}
-                          className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
-                        
-                    </View>
-              </View>
-              {/* Tracker Installed */}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Tracker Installed</Text></View>
-                    <View className="w-4/6 items-center">
-                        <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Tracker Installed'
-                          maxLength={50}
-                          
-                          className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
-                        
-                    </View>
-              </View>
-              {/* Emergecny Exit */}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Emergency Exit</Text></View>
-                    <View className="w-4/6 items-center">
-                        <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Emergency Exit (Y/N)'
-                          maxLength={70}
-                          
-                          className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
-                        
-                    </View>
-              </View>
-              {/* Fire Extinguisher*/}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Fire Extinguihser</Text></View>
-                    <View className="w-4/6 items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Yes / No'
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg' />
+            </View>
 
-                 
-                    </View>
+            {/*  Fitness */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Fitness</Text>
               </View>
-
-              {/* Number Plate Status */}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Number Plate Status</Text></View>
-                    <View className="w-4/6 items-center">
-                    <TextInput
-                              placeholderTextColor={'grey'}
-                              placeholder=' Yes / No'
-                              maxLength={3}
-                              className=' border-black text-black rounded-md  text-lg' />
-                    </View>
+              <View className=" w-4/6  items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Fitness"
+                  maxLength={50}
+                  className=" border-black text-black rounded-md  text-lg"
+                />
               </View>
-
-               {/* Vehicle Trip Count */}
-               <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Trip Count(24 Hrs)</Text></View>
-                    <View className="w-4/6 items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Count (24 Hrs) '
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg' />
-
-                    </View>
+            </View>
+            {/* Tyre Condition */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Tyre Condition</Text>
               </View>
-
-              {/* Seating Capacity */}
-              <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Seating Capacity</Text></View>
-                    <View className="w-4/6 items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Seaating Capacity'
-                          maxLength={50}
-                    
-                          className=' border-black text-black rounded-md  text-lg' />
-
-                    </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Tyre Condition"
+                  maxLength={50}
+                  className="   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
+                />
               </View>
-
-                {/* Remarks */}
-                <View className={styles.outerview}>
-                    <View className={styles.labelstyle}><Text className="text-black font-bold">Remarks</Text></View>
-                    <View className="w-4/6 items-center">
-                    <TextInput
-                          placeholderTextColor={'grey'}
-                          placeholder='Remarks'
-                          maxLength={70}
-                          
-                          className='  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
-                    </View>
+            </View>
+            {/* Tracker Installed */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Tracker Installed"
+                  maxLength={50}
+                  className="   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
+                />
+              </View>
+            </View>
+            {/* Emergecny Exit */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Emergency Exit</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Emergency Exit (Y/N)"
+                  maxLength={70}
+                  className="  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
+                />
+              </View>
+            </View>
+            {/* Fire Extinguisher*/}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Fire Extinguihser</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Yes / No"
+                  maxLength={50}
+                  className=" border-black text-black rounded-md  text-lg"
+                />
+              </View>
+            </View>
 
-              {/* Road Worthy */}
-            <View className="  p-2 flex flex-row  bg-slate-100">             
+            {/* Number Plate Status */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Number Plate Status
+                </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder=" Yes / No"
+                  maxLength={3}
+                  className=" border-black text-black rounded-md  text-lg"
+                />
+              </View>
+            </View>
+
+            {/* Vehicle Trip Count */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Vehicle Trip Count(24 Hrs)
+                </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Count (24 Hrs) "
+                  maxLength={50}
+                  className=" border-black text-black rounded-md  text-lg"
+                />
+              </View>
+            </View>
+
+            {/* Seating Capacity */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Seating Capacity</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Seaating Capacity"
+                  maxLength={50}
+                  className=" border-black text-black rounded-md  text-lg"
+                />
+              </View>
+            </View>
+
+            {/* Remarks */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Remarks</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  placeholder="Remarks"
+                  maxLength={70}
+                  className="  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
+                />
+              </View>
+            </View>
+
+            {/* Road Worthy */}
+            <View className="  p-2 flex flex-row  bg-slate-100">
               <View className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
-                    <Text className="text-black font-bold">Road Worthy</Text>
-                    
+                <Text className="text-black font-bold">Road Worthy</Text>
               </View>
               {/* warning */}
               <View className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
-                        <Text className="text-black font-bold">Warning</Text>
-                    
-                </View>
-                </View>
-                <View className="  p-2 flex flex-row bg-slate-100">   
-                {/* Returned*/}
+                <Text className="text-black font-bold">Warning</Text>
+              </View>
+            </View>
+            <View className="  p-2 flex flex-row bg-slate-100">
+              {/* Returned*/}
               <View className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
-                        <Text className="text-black font-bold">Returned</Text>
-                    
-                </View>
-                {/* Enforced */}
+                <Text className="text-black font-bold">Returned</Text>
+              </View>
+              {/* Enforced */}
               <View className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
-                        <Text className="text-black font-bold">Enforced</Text>
-                    
-                </View>
-                </View>
-               
+                <Text className="text-black font-bold">Enforced</Text>
+              </View>
+            </View>
 
             {/* Buttons Save - Clear -Update */}
             <View className="flex-row items-center justify-center  w-fit">
-                    <View className="  justify center items-center w-full  ">
-                      <TouchableOpacity onPress={()=>saveReport()} className="bg-[#227935] items-center  w-full rounded-md m-2 p-1">
-                        <Text className="text-white  text-lg">Save</Text>
-                      </TouchableOpacity>
-                      </View>
-
-                      
-                    
+              <View className="  justify center items-center w-full  ">
+                <TouchableOpacity
+                  onPress={() => saveReport()}
+                  className="bg-[#227935] items-center  w-full rounded-md m-2 p-1">
+                  <Text className="text-white  text-lg">Save</Text>
+                </TouchableOpacity>
               </View>
-        </View>
-       
-          
-
-      </KeyboardAvoidingView>
-    </View>
-  </ScrollView>
-);
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+    </ScrollView>
+  );
 };
 
 export default TripReport;
@@ -273,8 +322,11 @@ const styles = {
     'w-full  border border-1 border-violet-400 rounded-md m-1 font-bold px-3 py-1 text-black',
   inputVioletSmall:
     'w-6/12  border border-1 border-violet-400 rounded-md mx-1 font-bold px-3 py-1 text-black',
-    labelstyle:
+  labelstyle:
     'text-center items-center justify-center w-2/6  border-r  border-slate-400  ',
-     outerview:
-    'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900'
+  outerview:
+    'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900',
 };
+
+
+
