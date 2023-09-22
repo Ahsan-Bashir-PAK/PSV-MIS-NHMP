@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
 import retrieveUserSession from '../config';
@@ -35,8 +35,29 @@ const search_psv = [
 
 
 function Home() {
-  retrieveUserSession();
-//console.log("dd", global.currentUser.role);
+
+  const [currentUser,setCurrentUser] = useState({})
+
+  useEffect(()=>{
+    retrieveUserSession()
+  },[])
+  
+  //getting user seesion data 
+  async function retrieveUserSession() {
+    try {   
+        const session = await EncryptedStorage.getItem("user_session");
+    
+        if (session !== undefined) {
+          //  setCurrentUser(session)
+          setCurrentUser(JSON.parse(session))
+          console.log(currentUser.role);
+        }
+    } catch (error) {
+        // There was an error on the native side
+    }
+  }
+  
+
 
 const [reg, setReg] = useState(null);
 const [year, setYear] = useState(null);
@@ -53,28 +74,6 @@ const [dvrCnic,setDvrCnic] = useState()
         console.log(search_psv);
   } else {}  
 }
-
-//=================================back end
-
-const [inspectionData, setInspectionData] = useState({})
-
-//-----------------------------------------------------------search psv
-const getInspectionreport = async()=>{
-
-      await axios.get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}`)
-      .then(
-        (response) =>{
-          const result = response.data[0]
-          if(result){
-            console.log(result)
-        setInspectionData(result)  //    Use this to set data in fileds   
-          }
-          else {
-            Alert.alert("PSV vehicle not in Record.")
-          }
-      })
-    }
-    
 
   return (
     // <SafeAreaView>
@@ -103,7 +102,7 @@ const getInspectionreport = async()=>{
           <TextInput
             placeholderTextColor={'grey'}
             placeholder='Year (2023)'
-            keyboardType='Numeric'
+            keyboardType='number-pad'
             maxLength={4}
             minLength={4}
             value = {year}
@@ -113,8 +112,7 @@ const getInspectionreport = async()=>{
             placeholderTextColor={'grey'}
             placeholder='[0000]'
             maxLength={4}
-            keyboardType='Numeric'
-            value = {number}
+            keyboardType='number-pad'
             onChangeText={text=>setNumber(text)}
             className='  border border-r-0 border-l-0 bg-white border-black text-black rounded-md w-4/12 text-lg' />
         </View>
@@ -135,7 +133,7 @@ const getInspectionreport = async()=>{
             autoCapitalize={'characters'}
             placeholder='0000000000000 {CNIC without dashes}'
             maxLength={13}
-            keyboardType='Numeric'
+            keyboardType='number-pad'
             value ={dvrCnic}
             onChangeText={e=>setDvrCnic(e)}
             className='border justify-center pl-4 bg-white border-black m-1 rounded-md w-full  text-lg text-black' />
@@ -167,8 +165,8 @@ const getInspectionreport = async()=>{
             </View>
           </TouchableOpacity>
 
-          {/*Edit PSV Button  */}
-          <TouchableOpacity className='w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white'>
+          {/*Add driver  */}
+          <TouchableOpacity  onPress = {()=>navigation.navigate('AddDrivernew')} className='w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white'>
             <View className="  items-center  gap-1 justify-center mt-2 p-1 ">
               <UserPlus stroke="green" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
@@ -231,7 +229,7 @@ const getInspectionreport = async()=>{
 
        {/* Add New User */}
 
-       <View className={`${global.currentUser.role == "Admin"? "block":"hidden"} mt-2`} >
+       <View className={`${currentUser.role == "Admin"? "block":"hidden"} mt-2`} >
         <TouchableOpacity onPress={()=>navigation.navigate('SignUp')} className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
           <View className="justify-center flex flex-row items-center  w-full gap-2">
             <Plus stroke="white" size={25} />
@@ -243,7 +241,7 @@ const getInspectionreport = async()=>{
       {/* Update Logout */}
 
       <View className='mt-2 ' >
-        <TouchableOpacity onPress={()=>navigation.navigate('Login')} className='w-full   h-10 rounded-lg  justify-center items-center bg-[#a32d37] '>
+        <TouchableOpacity onPress = {()=>navigation.navigate('Login')}  className='w-full   h-10 rounded-lg  justify-center items-center bg-[#a32d37] '>
           <View className="justify-center flex flex-row items-center  w-full gap-2">
             <LogOutIcon stroke="white" size={25} />
             <Text className=' font-bold font-white  text-lg text-white'>Logout</Text>
