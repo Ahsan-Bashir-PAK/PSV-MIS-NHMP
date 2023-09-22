@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
 import retrieveUserSession from '../config';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
 
 
 import {
@@ -50,10 +52,10 @@ function Home() {
         if (session !== undefined) {
           //  setCurrentUser(session)
           setCurrentUser(JSON.parse(session))
-          console.log(currentUser.role);
+          console.log(currentUser);
         }
     } catch (error) {
-        // There was an error on the native side
+        console.log(error)
     }
   }
   

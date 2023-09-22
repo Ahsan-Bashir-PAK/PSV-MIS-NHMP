@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert } from 'react-native';
 
 import { User } from 'lucide-react-native';
+import '../../config'
 
 
 
@@ -15,7 +16,6 @@ const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N
 
 
 
-const api = "http://192.168.10.63:5000"
 
 
 const SignUp = () => {
@@ -76,7 +76,7 @@ const user ={
 //------------------------save user
 const saveUser = async () => {
   if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerzone && officerbeat ) {
-      await fetch(`${api}/users/addUser`, {
+      await fetch(`${global.BASE_URL}/users/addUser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
