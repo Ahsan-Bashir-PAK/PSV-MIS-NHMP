@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User } from 'lucide-react-native';
@@ -10,6 +10,44 @@ import { Bus } from 'lucide-react-native';
 
 
 const TripReport = () => {
+
+      const [currentUser,setCurrentUser] = useState({})
+
+useEffect(()=>{
+  retrieveUserSession()
+},[])
+//getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        setCurrentUser(JSON.parse(session)) 
+      }
+  } catch (error) {
+     console.log(error)
+  }
+}
+
+//===============================save report 
+
+const reportData = {
+
+}
+
+const saveReport = async () => {
+      await axios.post(`${global.BASE_URL}/rpt/addinspection`, reportData)
+      .then( (response)=> {
+        Alert.alert('Data inserted successfully');
+      })
+      .catch((error) => {
+        console.log(error);
+      
+      })
+      
+      clearAll()
+      
+      }
+      
  
 
 
@@ -210,7 +248,7 @@ const TripReport = () => {
             {/* Buttons Save - Clear -Update */}
             <View className="flex-row items-center justify-center  w-fit">
                     <View className="  justify center items-center w-full  ">
-                      <TouchableOpacity className="bg-[#227935] items-center  w-full rounded-md m-2 p-1">
+                      <TouchableOpacity onPress={()=>saveReport()} className="bg-[#227935] items-center  w-full rounded-md m-2 p-1">
                         <Text className="text-white  text-lg">Save</Text>
                       </TouchableOpacity>
                       </View>

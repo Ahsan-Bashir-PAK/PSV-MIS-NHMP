@@ -41,6 +41,7 @@ function Home() {
 const [reg, setReg] = useState(null);
 const [year, setYear] = useState(null);
 const [number, setNumber] = useState(null);
+const [dvrCnic,setDvrCnic] = useState()
   const navigation = useNavigation();
   
   function searchPSV (){
@@ -52,6 +53,28 @@ const [number, setNumber] = useState(null);
         console.log(search_psv);
   } else {}  
 }
+
+//=================================back end
+
+const [inspectionData, setInspectionData] = useState({})
+
+//-----------------------------------------------------------search psv
+const getInspectionreport = async()=>{
+
+      await axios.get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}`)
+      .then(
+        (response) =>{
+          const result = response.data[0]
+          if(result){
+            console.log(result)
+        setInspectionData(result)  //    Use this to set data in fileds   
+          }
+          else {
+            Alert.alert("PSV vehicle not in Record.")
+          }
+      })
+    }
+    
 
   return (
     // <SafeAreaView>
@@ -73,6 +96,7 @@ const [number, setNumber] = useState(null);
             placeholder='ABC'
             maxLength={3}
             keyboardType='email-address'
+            value = {reg}
             onChangeText={text=>setReg(text)}
             className='border border-r-0 border-l-0 justify-center pl-4 bg-white border-black  rounded-md w-4/12  text-lg text-black' />
 
@@ -82,6 +106,7 @@ const [number, setNumber] = useState(null);
             keyboardType='Numeric'
             maxLength={4}
             minLength={4}
+            value = {year}
             onChangeText={text=>setYear(text)}
             className=' border border-r-0 border-l-0 bg-white border-black text-black  rounded-md w-4/12 text-lg' />
           <TextInput
@@ -89,6 +114,7 @@ const [number, setNumber] = useState(null);
             placeholder='[0000]'
             maxLength={4}
             keyboardType='Numeric'
+            value = {number}
             onChangeText={text=>setNumber(text)}
             className='  border border-r-0 border-l-0 bg-white border-black text-black rounded-md w-4/12 text-lg' />
         </View>
@@ -110,10 +136,12 @@ const [number, setNumber] = useState(null);
             placeholder='0000000000000 {CNIC without dashes}'
             maxLength={13}
             keyboardType='Numeric'
+            value ={dvrCnic}
+            onChangeText={e=>setDvrCnic(e)}
             className='border justify-center pl-4 bg-white border-black m-1 rounded-md w-full  text-lg text-black' />
         </View>
         <View className='flex-row p-1 justify-center  w-full m-2'>
-          <TouchableOpacity className='bg-[#29378a]  justify-center  flex-row w-full rounded-md items-center p-3 '>
+          <TouchableOpacity onPress={()=>getInspectionreport()} className='bg-[#29378a]  justify-center  flex-row w-full rounded-md items-center p-3 '>
             <BookCopy stroke="white" size={25} />
             <Text className=' text-center font-bold font-white  text-lg text-white'>Generate Inspection Report</Text>
           </TouchableOpacity>
