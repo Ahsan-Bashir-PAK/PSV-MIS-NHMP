@@ -275,27 +275,6 @@ function Home() {
 
       {/* Driver Details */}
 
-      {/* Dashboard & Profile TAB */}
-      {/* <View className='mt-4 ' >
-        <TouchableOpacity className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
-            <BookCopy stroke="white" size={25} />
-            <Text className=' font-bold font-white  text-lg text-white'>Generate Report</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
-
-      {/* Update  User Profile
-
-      <View className='mt-2 ' >
-        <TouchableOpacity className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
-            <UserCog2 stroke="white" size={25} />
-            <Text className=' font-bold font-white  text-lg text-white'>Edit Profile</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
-
       {/* Add New User */}
 
       <View
@@ -327,8 +306,6 @@ function Home() {
         </TouchableOpacity>
       </View>
     </View>
-
-    // </SafeAreaView>
   );
 }
 
