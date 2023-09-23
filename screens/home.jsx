@@ -179,7 +179,7 @@ const [dvrCnic,setDvrCnic] = useState()
           </TouchableOpacity>
         </View>
         <View className=' flex-row justify-around mt-4'>
-          <TouchableOpacity onPress={() => navigation.navigate('TestPage')} 
+          <TouchableOpacity onPress={() => navigation.navigate('Trip Report')} 
           className='  w-2/5 flex-row shadow-md shadow-slate-950  rounded-lg  flex justify-around items-center border border-slate-400  bg-white'>
             <View className="  items-center gap-1 justify-center mt-2 ">
               <ArrowDownToLine  stroke="purple" size={40} />

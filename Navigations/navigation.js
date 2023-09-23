@@ -8,6 +8,7 @@ import TestPage from '../screens/forms/testPage';
 import SignUp from '../screens/forms/signUp';
 import AddDrivernew from '../screens/forms/addDrivernew';
 import AddDocumentation from '../screens/forms/addDocumentation';
+import TripReport from '../screens/forms/tripReport';
 
 
 
@@ -27,8 +28,8 @@ const MyStack = () => {
          options={{ headerShown: false }}
         />
          <Stack.Screen name="TestPage" component={TestPage} /> 
-         {/* <Stack.Screen name="AddDrivernew" component={AddDrivernew} /> 
-         <Stack.Screen name="AddDocumentation" component={AddDocumentation} />  */}
+         {/* <Stack.Screen name="AddDrivernew" component={AddDrivernew} />   */}
+         <Stack.Screen name="Trip Report" component={TripReport} />
          <Stack.Screen name="SignUp" component={SignUp} /> 
         <Stack.Screen name="MyTabs" component={MyTabs} 
         options={{
