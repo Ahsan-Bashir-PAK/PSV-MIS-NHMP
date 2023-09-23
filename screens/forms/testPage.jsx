@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView,  } from 'react-native';
 import { Linking } from 'react-native';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 
@@ -20,6 +21,9 @@ const TestPage = () => {
                   
       //       }      
       // }
+
+      
+
 
 
 
