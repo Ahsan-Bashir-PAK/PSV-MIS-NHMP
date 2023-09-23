@@ -148,8 +148,7 @@ const getDriver = async()=>{
     async (response) =>{
      const result = response.data[0]
       if(result){
-        console.log(result)
-        // setData(result)
+        
     await setDriverValue(result)
       }
       else {

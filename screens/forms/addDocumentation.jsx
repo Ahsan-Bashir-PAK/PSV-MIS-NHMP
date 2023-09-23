@@ -118,13 +118,14 @@ useEffect(()=>{
   
   
   const updatePsvDocs =async ()=>{
-    axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${bus.letter+bus.year+bus.no}`, PsvDocuments
+    axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
       .then(response => Alert.alert(" PSV's Document Data Updated "))
-      navigation.navigate("Add Condition", {params:{letter:bus.letter, year:bus.year,no:bus.no}})
+      navigation.navigate("Add Condition")
       .catch(error => console.error(error));
     }
   
+    // {params:{letter:bus.letter, year:bus.year,no:bus.no}}
 //-============================================ returnin UI
   return (
      <ScrollView>
