@@ -7,6 +7,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Switch,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {BusFront, Scroll, User} from 'lucide-react-native';
@@ -37,12 +38,12 @@ const [v_onBoardpassenger, setonBoardpassenger] =useState()
 const [d_dvrLicenseNo, setdvrLicenseNo] =useState()
 const [d_licenseType, setlicenseType] =useState()
 const [d_licenseStatus, setlicenseStatus] =useState()
-const [actionTaken, setactionTaken] =useState()
+const [d_L_expiry, setDLexpiry] =useState()
+
+const [d_name, setDname] = useState();
+const [actionTaken, setActionTaken] =useState()
 const [remarks, setremarks] =useState() 
-const [roadworthy, setroadworthy] = useState()
-const [warning, setwarning] = useState()
-const [returned, setreturned] = useState()
-const [enforced, setenforced] = useState()
+
 
   useEffect(() => {
     retrieveUserSession();
@@ -70,15 +71,39 @@ async function retrieveReportSession() {
       if (session !== undefined) {
       
         console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
-        console.log("vehicledata===========",JSON.parse(session).psvData)          //data of vehicle
-        console.log(" driver data===========",JSON.parse(session).dvrData)         // driver data
-        
+        const tripdata = JSON.parse(session).tripReport;  // data for report
+        // console.log("vehicledata===========",JSON.parse(session).psvData)          //data of vehicle
+        // console.log(" driver data===========",JSON.parse(session).dvrData)         // driver data
+        setTripData(tripdata)
       }
   } catch (error) {
       // There was an error on the native side
   }
 }
 
+// settripdata
+function setTripData(tripdata){
+    setpsvNo(tripdata.psvNo)
+    setcompanyName(tripdata.companyName);
+    setexitGate(tripdata.exitGate);
+    setfireExt(tripdata.fireValidity);
+    setfitnessStatus(tripdata.fitnessExpiryDate);
+    setroutePath(tripdata.routeFrom + " " + " to " + " " +tripdata.routeTo);
+    setrouteStatus(tripdata.routeValidity);
+    settyreStatus(tripdata.tyreValidity);
+    settrackerStaus(tripdata.trackerStatus);
+    setregPlate(tripdata.numPlate);
+    setseats(tripdata.seatingCap);
+    
+    //Driver fields
+    setlicenseType(tripdata.licenseType);
+    setlicenseStatus(tripdata.licenseValidity)
+    setdvrLicenseNo(tripdata.licenseNo)
+    setDname(tripdata.driverName)
+    setDLexpiry(tripdata.licenseExpiry)
+
+
+}
   //===============================save report
 
   const today = new Date()
@@ -95,7 +120,7 @@ const time = new Date().toLocaleTimeString()
     exitGate:v_exitGate ,
     fireExt:v_fireExt ,
     regPlate:v_regPlate ,
-    tripCount:v_tripCount ,
+    tripCount:1 ,
     seats:v_seats,
     onBoardpassenger:v_onBoardpassenger ,
     dvrLicenseNo:d_dvrLicenseNo,
@@ -118,7 +143,7 @@ const time = new Date().toLocaleTimeString()
         console.log(error);
       });
 
-    clearAll();
+   // clearAll();
   };
 
   //const [] = useState("");
@@ -131,11 +156,11 @@ const time = new Date().toLocaleTimeString()
           <View className=" mt-1 w-full  ">
             <View className=" bg-yellow-400  rounded-md p-1  w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
-                Vehicle Trip Report
+                VEHICLE INSPECTION REPORT
               </Text>
               <BusFront stroke="black" size={40}></BusFront>
             </View>
-            {/* Vehicle Number */}
+            {/* Show Vehicle Number */}
             <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Report of BUS No: {v_psvNo}
@@ -173,7 +198,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className=" w-4/6  items-center">
                 <TouchableOpacity>
-                    <Text>{v_routeStatus}</Text>
+                    <Text>{v_routePath}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -270,6 +295,24 @@ const time = new Date().toLocaleTimeString()
               </View>
             </View>
 
+                {/* on Boarded Passenger */}
+                <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">on Boarded Passenger</Text>
+              </View>
+              <View className="w-4/6 items-center">
+              <TextInput
+                  editable
+                  placeholder=" Enter Boarded Passenger"
+                  maxLength={3}
+                  keyboardType="phone-pad"
+                  onChangeText={e => setonBoardpassenger(e)}
+                    value={v_onBoardpassenger}
+                  
+               />
+              </View>
+            </View>
+
             {/* Remarks */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
@@ -279,7 +322,7 @@ const time = new Date().toLocaleTimeString()
               <TextInput
                   editable
                   multiline
-                  numberOfLines={5}
+                  numberOfLines={3}
                   maxLength={200}
                   
                   onChangeText={text => setremarks(text)}
@@ -289,41 +332,66 @@ const time = new Date().toLocaleTimeString()
               </View>
             </View>
 
+                {/* Show Driver Tab and name */}
+            <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+              <Text className="text-black text-lg rounded-md font-bold ">
+                Details of Driver: {d_name}
+              </Text>
+            </View>
+
+            {/* Driver Name - License Type - License Number */}
+                 <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">License Details</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text>{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
+              </View>
+            </View>
+
+          {/* Driver License Expiry */}
+          <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">License Expiry </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text>{d_L_expiry}</Text>
+              </View>
+            </View>
+
              {/* Action Taken by officer */}
              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Action Taken</Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{warning }</Text>
+                <Text>{actionTaken}</Text>
               </View>
             </View>
 
             {/* Road Worthy */}
-            <View className="  p-2 flex flex-row  bg-slate-100">
-              <TouchableOpacity  onPress ={()=>setroadworthy("1")} className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+            <View className="  p-2 justify-around flex flex-row  bg-slate-100 items-center text-center">
+              <TouchableOpacity  onPress ={()=>setActionTaken("Road Worthy")} className=" bg-[#44cf56] border border-gray-300 p-3 w-1/5 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
 
               {/* warning */}
-              <TouchableOpacity onPress ={()=>setwarning("1")} className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity onPress ={()=>setActionTaken("Warned")} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
-            </View>
-            <View className="  p-2 flex flex-row bg-slate-100">
-              
-              {/* Returned*/}
-              <TouchableOpacity onPress ={()=>setreturned("1")}  className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+
+               {/* Returned*/}
+               <TouchableOpacity onPress ={()=>setActionTaken("Returned")}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
               
               {/* Enforced */}
-              <TouchableOpacity onPress ={()=>setenforced("1")} className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
+              <TouchableOpacity onPress ={()=>setActionTaken("Enforced")} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>
+            
             </View>
-
-           
+                       
 
             {/* Buttons Save - Clear -Update */}
             <View className="flex-row items-center justify-center  w-fit">
