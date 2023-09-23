@@ -39,7 +39,10 @@ const [remarks, setremarks] =useState()
 
   useEffect(() => {
     retrieveUserSession();
+    retrieveReportSession()
   }, []);
+
+
   //getting user seesion data
   async function retrieveUserSession() {
     try {
@@ -51,6 +54,23 @@ const [remarks, setremarks] =useState()
       console.log(error);
     }
   }
+  //===============getting report data
+
+async function retrieveReportSession() {
+  try {   
+      const session = await EncryptedStorage.getItem('Report');
+  
+      if (session !== undefined) {
+      
+        console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
+        console.log("vehicledata===========",JSON.parse(session).psvData)          //data of vehicle
+        console.log(" driver data===========",JSON.parse(session).dvrData)         // driver data
+        
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
 
   //===============================save report
 

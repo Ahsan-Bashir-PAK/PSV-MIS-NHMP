@@ -142,14 +142,14 @@ useEffect(()=>{
 
 //-----------------------------------------------------------search psv
 const getPsv = async()=>{
-//Alert.alert(` Please Wait Searching  PSV # ${Vehicle_letter}-${Vehicle_year}-${Vehicle_number}`);
+
 
   await axios.get(`${global.BASE_URL}/psv/getPsv/${Vehicle_letter}/${Vehicle_year}/${Vehicle_number}`)
   .then(
     (response) =>{
       const result = response.data[0]
       if(result){
-        console.log(result)
+       
     setPsvData(result)  //    Use this to set data in fileds   
     setPsvFiels (result)
       }
