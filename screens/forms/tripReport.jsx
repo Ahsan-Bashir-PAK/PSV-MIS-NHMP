@@ -141,7 +141,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className=" w-4/6  items-center">
                 <TouchableOpacity>
-                    {v_routeStatus}
+                    <Text>{v_routeStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -153,7 +153,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className=" w-4/6  items-center">
                 <TouchableOpacity>
-                    {v_routeStatus}
+                    <Text>{v_routeStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -165,7 +165,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className=" w-4/6  items-center">
                 <TouchableOpacity>
-                  {v_fitnessStatus}
+                  <Text>{v_fitnessStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -176,7 +176,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className="w-4/6 items-center">
                 <TouchableOpacity>
-                  {v_tyreStatus}
+                  <Text>{v_tyreStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -187,7 +187,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className="w-4/6 items-center">
                 <TouchableOpacity>
-                  {v_trackerStaus}
+                  <Text>{v_trackerStaus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -198,7 +198,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className="w-4/6 items-center">
                 <TouchableOpacity>
-                  {v_exitGate}
+                  <Text>{v_exitGate}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -209,7 +209,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className="w-4/6 items-center">
               <TouchableOpacity>
-                  {v_fireExt}
+                  <Text>{v_fireExt}</Text>
                 </TouchableOpacity>
                               </View>
             </View>
@@ -223,7 +223,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className="w-4/6 items-center">
               <TouchableOpacity>
-                  {v_regPlate}
+                <Text>{v_regPlate}</Text>  
                 </TouchableOpacity>
               </View>
             </View>
@@ -246,7 +246,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Seating Capacity</Text>
               </View>
               <View className="w-4/6 items-center">
-                {v_seats}
+               <Text> {v_seats} </Text> 
               </View>
             </View>
 
@@ -274,20 +274,33 @@ const time = new Date().toLocaleTimeString()
               <TouchableOpacity className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
+
               {/* warning */}
               <TouchableOpacity className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
             </View>
             <View className="  p-2 flex flex-row bg-slate-100">
+              
               {/* Returned*/}
               <TouchableOpacity className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
+              
               {/* Enforced */}
               <TouchableOpacity className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>
+            </View>
+
+            {/* Action Taken by officer */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Action Taken</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text>{roadworthy} {warning} {returned} {enforced} </Text>
+              </View>
             </View>
 
             {/* Buttons Save - Clear -Update */}
