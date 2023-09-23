@@ -22,7 +22,7 @@ const MyTabs = () => {
   return (
     // <NavigationContainer>
     <Tab.Navigator>
-      <Tab.Screen name="Add Driver" component={AddDrivernew} options={{
+      <Tab.Screen name="AddDrivernew" component={AddDrivernew} options={{
         
         tabBarIcon:()=>(
           <User  stroke="#0332BB" size={35} fill='white'/>

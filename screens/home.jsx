@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
 import retrieveUserSession from '../config';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
 
 
 import {
@@ -50,10 +52,10 @@ function Home() {
         if (session !== undefined) {
           //  setCurrentUser(session)
           setCurrentUser(JSON.parse(session))
-          console.log(currentUser.role);
+          console.log(currentUser);
         }
     } catch (error) {
-        // There was an error on the native side
+        console.log(error)
     }
   }
   
@@ -155,7 +157,7 @@ const [dvrCnic,setDvrCnic] = useState()
         
         {/*ADD PSV Button  */}
         <View className='flex-row justify-around'>
-          <TouchableOpacity  onPress = {()=>navigation.navigate('AddVehicle')} className='shadow-md shadow-slate-950  w-2/5 flex-row  rounded-lg  flex justify-around items-center border border-slate-400  bg-white'>
+          <TouchableOpacity  onPress = {()=>navigation.push("MyTabs", {screen: 'Add Vehicle'})}  className='shadow-md shadow-slate-950  w-2/5 flex-row  rounded-lg  flex justify-around items-center border border-slate-400  bg-white'>
             <View className="  items-center gap-1 justify-center mt-2 p-1 ">
               <BusFront stroke="orange" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
@@ -166,7 +168,7 @@ const [dvrCnic,setDvrCnic] = useState()
           </TouchableOpacity>
 
           {/*Add driver  */}
-          <TouchableOpacity  onPress = {()=>navigation.navigate('AddDrivernew')} className='w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white'>
+          <TouchableOpacity  onPress = {()=>navigation.push("MyTabs", {screen: 'AddDrivernew'})} className='w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white'>
             <View className="  items-center  gap-1 justify-center mt-2 p-1 ">
               <UserPlus stroke="green" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
@@ -177,7 +179,7 @@ const [dvrCnic,setDvrCnic] = useState()
           </TouchableOpacity>
         </View>
         <View className=' flex-row justify-around mt-4'>
-          <TouchableOpacity onPress={() => navigation.navigate('AddVehicle')} 
+          <TouchableOpacity onPress={() => navigation.navigate('TestPage')} 
           className='  w-2/5 flex-row shadow-md shadow-slate-950  rounded-lg  flex justify-around items-center border border-slate-400  bg-white'>
             <View className="  items-center gap-1 justify-center mt-2 ">
               <ArrowDownToLine  stroke="purple" size={40} />

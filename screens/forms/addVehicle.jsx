@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { BusFront, Scroll, User, Square, CheckSquare } from 'lucide-react-native';
+import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { useNavigation } from '@react-navigation/native';
 import { Bus } from 'lucide-react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import axios from 'axios'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import retrieveUserSession from '../../config';
+import { tabactions } from '@react-navigation/native';
 
 
 
@@ -18,13 +19,15 @@ const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];
 
 
 
-const AddVehicle = () => {
+const AddVehicle = ({route}) => {
 
+  //const jumptoaction = tabactions.jumpto("Add Documentation", { params });
+  const navigation = useNavigation();
   // Vehicle Add states
 
   const [Vehicle_type, setType] = useState(""); // BUS / HIACE
   const [Vehicle_letter, setLetter] = useState(""); // LES
-  const [Vehicle_year, setYear] = useState("");  //2019
+  const [Vehicle_year, setVehicleYear] = useState("");  //2019
   const [Vehicle_number, setNumber] = useState(""); //5351
   const [vehicle_chasis , setChasis] = useState(""); // chasis
   const [vehcile_engine, setEngine] = useState(""); // engine
@@ -34,7 +37,7 @@ const AddVehicle = () => {
  
   const [vehcile_ac, setAc] = useState(""); // AC Status
 
-  const [vehicle_seats, setSeats] = useState(""); // seating Capacity
+  const [vehicle_seats, setVehicleSeats] = useState(""); // seating Capacity
 
   const [vehcile_tracker, setTracker] = useState(""); // tracker
 
@@ -64,7 +67,24 @@ async function retrieveUserSession() {
   }
 }
 
-  
+ function setPsvFiels(result) {
+ //Alert.alert(result.seatingCap);
+  setType(result.vehicleType);
+  //  setLetter(result.prefixRegNo);
+  //  setVehicleYear(result.vehicleModel.toString());
+  //  setNumber(result.regNo);
+   setChasis(result.chasisNo);
+   setEngine(result.engineNo);
+   setMake(result.vehicleMake);
+   setColor(result.vehicleColor);
+   setAc(result.acStatus);
+   setVehicleSeats(result.seatingCap.toString());
+   setTracker(result.trackerStatus);
+   setEmergencyExit(result.exitGate);
+   setManfYear(result.manufactureYear.toString());
+   setCompany(result.companyName);
+
+ } 
 
 
 
@@ -73,17 +93,17 @@ async function retrieveUserSession() {
   function clearAllData(){
 
     
-    setType("");
+  setType("");
 
    setLetter("");
-   setYear("");
+   setVehicleYear("22");
    setNumber("");
    setChasis("");
    setEngine("");
    setMake("");
    setColor("");
    setAc("");
-   setSeats("");
+   setVehicleSeats("");
    setTracker("");
    setEmergencyExit("");
    setManfYear("");
@@ -95,7 +115,12 @@ async function retrieveUserSession() {
 
   const today = new Date()
   const time = new Date().toLocaleTimeString() 
-
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  //console.log(route.params)
+ 
+},[])
   //===========================================================vehicle sesion saving 
  async function storeVehicleSession(letter,modal,number) {
         try {
@@ -117,14 +142,16 @@ async function retrieveUserSession() {
 
 //-----------------------------------------------------------search psv
 const getPsv = async()=>{
+//Alert.alert(` Please Wait Searching  PSV # ${Vehicle_letter}-${Vehicle_year}-${Vehicle_number}`);
 
-  await axios.get(`${global.BASE_URL}/psv/getPsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`)
+  await axios.get(`${global.BASE_URL}/psv/getPsv/${Vehicle_letter}/${Vehicle_year}/${Vehicle_number}`)
   .then(
     (response) =>{
       const result = response.data[0]
       if(result){
         console.log(result)
     setPsvData(result)  //    Use this to set data in fileds   
+    setPsvFiels (result)
       }
       else {
         Alert.alert("PSV vehicle not in Record.")
@@ -159,7 +186,7 @@ const getPsv = async()=>{
 
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
-      axios.post(`${global.api}/psv/addPsv`, psv )
+      axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
       .then( (response)=> {
 
         Alert.alert('Vehicle intial info. saved');
@@ -168,8 +195,11 @@ const getPsv = async()=>{
       .catch((error) => {
         console.log(error);
       })
-      //clearAllData()
-      }
+     clearAllData()
+    
+       navigation.navigate("Add Documentation", {params:{letter:Vehicle_letter, year:Vehicle_year,no:Vehicle_number}})
+      
+    }
    //---------------------------------------------------update psv
    
 const upedtedPsv ={
@@ -196,7 +226,10 @@ const upedtedPsv ={
 const updatePsv =async ()=>{
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
-    .then(response => Alert.alert("Driver Data Updated"))
+    .then(response =>{ Alert.alert("Driver Data Updated")
+    storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+}
+    )
     .catch(error => console.error(error));
   }
 
@@ -241,7 +274,7 @@ const updatePsv =async ()=>{
           <View className={styles.outerview} >
 
             {/* REG LETTER NO */}
-            <View className=" w-4/12 items-center border-r ">
+            <View className=" w-3/12 items-center border-r ">
               <TextInput
                 style={{ backgroundColor: 'white' }}
                 placeholderTextColor={'grey'}
@@ -254,30 +287,37 @@ const updatePsv =async ()=>{
             </View>
 
             {/* YEAR */}
-            <View className="w-4/12 items-center border-r ">
+            <View className="w-3/12 items-center border-r ">
               <TextInput
                 
                 placeholderTextColor={'grey'}
                 placeholder='Year[2019]'
                 maxLength={4}
                 keyboardType='phone-pad'
-                onChangeText={e => setYear(e)}
                 Value={Vehicle_year}
+                onChangeText={e => setVehicleYear(e)}
                 className='   bg-white border-black text-black    text-lg' />
             </View>
 
             {/* Number */}
-            <View className="w-4/12 items-center ">
+            <View className="w-3/12 items-center ">
               <TextInput
-                onBlur={()=>setShowModal(!showModal)}
+            
                 placeholderTextColor={'grey'}
                 placeholder='[0000]'
                 maxLength={4}
                 value={Vehicle_number}
                 onChangeText={e=>setNumber(e)}
-                keyboardType='phone-pad'
+                // keyboardType='phone-pad'
                 className=' bg-white border-black text-black   text-lg' />
             </View>
+{/* //Search Button */}
+                
+                    <TouchableOpacity onPress = {()=>getPsv()} className="flex flex-row rounded-md  justify-center items-center w-1/4 bg-orange-400">
+                      
+                      <Text className="text-xl font-bold text-black">Search</Text>
+                    </TouchableOpacity>
+                
           </View>
 
 {/* Modal Code */}
@@ -338,7 +378,7 @@ const updatePsv =async ()=>{
 
           {/* Add Vehicle Make */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -389,7 +429,7 @@ const updatePsv =async ()=>{
                 keyboardType='numeric'
                 maxLength={2}
                 value={vehicle_seats}
-                onChangeText={e => setSeats(e)}
+                onChangeText={e => setVehicleSeats(e)}
                 className=' border-black text-black rounded-md  text-lg' />
             </View>
           </View>
