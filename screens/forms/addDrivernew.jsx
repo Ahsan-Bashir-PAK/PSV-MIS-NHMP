@@ -182,11 +182,8 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 })
 .catch((error) => {
   console.log(error);
-
 })
-
 clearAll()
-
 }
 
 

@@ -66,7 +66,7 @@ function Home() {
 
   //=============================================getting vehicle search data and creating session
 
-  async function getInspectionreport(letter, modal, number) {
+  async function getInspectionreport() {
     try {
       await axios
         .get(
