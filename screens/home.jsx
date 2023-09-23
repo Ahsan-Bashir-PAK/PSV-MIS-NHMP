@@ -243,7 +243,10 @@ function Home() {
             </View>
           </TouchableOpacity>
         </View>
-
+        <View className=" flex-row justify-around mt-4">
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TestPage')}
+            className="  w-2/5 flex-row shadow-md shadow-slate-950  rounded-lg  flex justify-around items-center border border-slate-400  bg-white">
             <View className="  items-center gap-1 justify-center mt-2 ">
               <ArrowDownToLine stroke="purple" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
