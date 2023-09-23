@@ -13,6 +13,9 @@ import {BusFront, Scroll, User} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Bus} from 'lucide-react-native';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const TripReport = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -36,6 +39,10 @@ const [d_licenseType, setlicenseType] =useState()
 const [d_licenseStatus, setlicenseStatus] =useState()
 const [actionTaken, setactionTaken] =useState()
 const [remarks, setremarks] =useState() 
+const [roadworthy, setroadworthy] = useState()
+const [warning, setwarning] = useState()
+const [returned, setreturned] = useState()
+const [enforced, setenforced] = useState()
 
   useEffect(() => {
     retrieveUserSession();
@@ -135,7 +142,7 @@ const time = new Date().toLocaleTimeString()
               </Text>
             </View>
 
-            {/*  Company NAme */}
+            {/*  Company Name */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Company Name</Text>
@@ -143,7 +150,7 @@ const time = new Date().toLocaleTimeString()
               <View className=" w-4/6  items-center">
                 <Text 
                   className=" border-black text-black rounded-md  text-lg text-center dis"
-                >{}</Text>
+                >{v_companyName}</Text>
               </View>
             </View>
 
@@ -153,27 +160,33 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black  font-bold">Route Permit</Text>
               </View>
               <View className=" w-4/6  items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Route Permit"
-                  maxLength={50}
-                  className=" border-black text-black rounded-md  text-lg text-center"
-                />
+                <TouchableOpacity>
+                    <Text>{v_routeStatus}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+          {/*  Route Path */}
+          <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Route From -To</Text>
+              </View>
+              <View className=" w-4/6  items-center">
+                <TouchableOpacity>
+                    <Text>{v_routeStatus}</Text>
+                </TouchableOpacity>
               </View>
             </View>
 
             {/*  Fitness */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black  font-bold">Fitness</Text>
+                <Text className="text-black  font-bold">Fitness </Text>
               </View>
               <View className=" w-4/6  items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Fitness"
-                  maxLength={50}
-                  className=" border-black text-black rounded-md  text-lg"
-                />
+                <TouchableOpacity>
+                  <Text>{v_fitnessStatus}</Text>
+                </TouchableOpacity>
               </View>
             </View>
             {/* Tyre Condition */}
@@ -182,12 +195,9 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Tyre Condition</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Tyre Condition"
-                  maxLength={50}
-                  className="   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
-                />
+                <TouchableOpacity>
+                  <Text>{v_tyreStatus}</Text>
+                </TouchableOpacity>
               </View>
             </View>
             {/* Tracker Installed */}
@@ -196,12 +206,9 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Tracker Installed"
-                  maxLength={50}
-                  className="   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
-                />
+                <TouchableOpacity>
+                  <Text>{v_trackerStaus}</Text>
+                </TouchableOpacity>
               </View>
             </View>
             {/* Emergecny Exit */}
@@ -210,12 +217,9 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Emergency Exit</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Emergency Exit (Y/N)"
-                  maxLength={70}
-                  className="  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
-                />
+                <TouchableOpacity>
+                  <Text>{v_exitGate}</Text>
+                </TouchableOpacity>
               </View>
             </View>
             {/* Fire Extinguisher*/}
@@ -224,13 +228,10 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Fire Extinguihser</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Yes / No"
-                  maxLength={50}
-                  className=" border-black text-black rounded-md  text-lg"
-                />
-              </View>
+              <TouchableOpacity>
+                  <Text>{v_fireExt}</Text>
+                </TouchableOpacity>
+                              </View>
             </View>
 
             {/* Number Plate Status */}
@@ -241,12 +242,9 @@ const time = new Date().toLocaleTimeString()
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder=" Yes / No"
-                  maxLength={3}
-                  className=" border-black text-black rounded-md  text-lg"
-                />
+              <TouchableOpacity>
+                <Text>{v_regPlate}</Text>  
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -258,13 +256,8 @@ const time = new Date().toLocaleTimeString()
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Count (24 Hrs) "
-                  maxLength={50}
-                  className=" border-black text-black rounded-md  text-lg"
-                />
-              </View>
+                <Text>{v_tripCount}</Text> 
+               </View>
             </View>
 
             {/* Seating Capacity */}
@@ -273,12 +266,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Seating Capacity</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Seaating Capacity"
-                  maxLength={50}
-                  className=" border-black text-black rounded-md  text-lg"
-                />
+               <Text> {v_seats} </Text> 
               </View>
             </View>
 
@@ -287,34 +275,51 @@ const time = new Date().toLocaleTimeString()
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Remarks</Text>
               </View>
-              <View className="w-4/6 items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder="Remarks"
-                  maxLength={70}
-                  className="  w-8/12 bg-white border-black text-black rounded-md  text-lg text-center"
-                />
+              <View className="w-4/6 items-left">
+              <TextInput
+                  editable
+                  multiline
+                  numberOfLines={5}
+                  maxLength={200}
+                  
+                  onChangeText={text => setremarks(text)}
+                 value={remarks}
+                  style={{padding: 10}}
+               />
               </View>
             </View>
 
             {/* Road Worthy */}
             <View className="  p-2 flex flex-row  bg-slate-100">
-              <View className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Road Worthy</Text>
-              </View>
+              </TouchableOpacity>
+
               {/* warning */}
-              <View className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Warning</Text>
-              </View>
+              </TouchableOpacity>
             </View>
             <View className="  p-2 flex flex-row bg-slate-100">
+              
               {/* Returned*/}
-              <View className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Returned</Text>
-              </View>
+              </TouchableOpacity>
+              
               {/* Enforced */}
-              <View className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
+              <TouchableOpacity className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Enforced</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Action Taken by officer */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Action Taken</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text>{roadworthy} {warning} {returned} {enforced} </Text>
               </View>
             </View>
 
