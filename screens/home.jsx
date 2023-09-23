@@ -70,20 +70,20 @@ function Home() {
     try {
       await axios
         .get(
-          `${global.BASE_URL}/psv/getPsv/${Vehicle_letter}/${Vehicle_year}/${Vehicle_number}`,
+          `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`,
         )
         .then(async response => {
           const psvDetail = response.data[0];
           if (psvDetail) {
             //------------------------getting driver data
             await axios
-              .get(`${global.BASE_URL}/dvr/getDriver/${searchCnic}`)
+              .get(`${global.BASE_URL}/dvr/getDriver/${dvrCnic}`)
               .then(async response => {
                 const driverDetail = response.data[0];
                 if (driverDetail) {
                   //-------------------------geeting inspection report rpt/inspectPsv/
                   await axios
-                    .get(`${global.BASE_URL}/rpt/inspectPsv/${searchCnic}`)
+                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}`)
                     .then(async response => {
                       const inspection = response.data[0];
                       if (inspection) {
