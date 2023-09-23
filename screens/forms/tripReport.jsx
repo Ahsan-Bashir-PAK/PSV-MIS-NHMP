@@ -289,39 +289,41 @@ const time = new Date().toLocaleTimeString()
               </View>
             </View>
 
+             {/* Action Taken by officer */}
+             <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Action Taken</Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text>{warning }</Text>
+              </View>
+            </View>
+
             {/* Road Worthy */}
             <View className="  p-2 flex flex-row  bg-slate-100">
-              <TouchableOpacity className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity  onPress ={()=>setroadworthy("1")} className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
 
               {/* warning */}
-              <TouchableOpacity className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity onPress ={()=>setwarning("1")} className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
             </View>
             <View className="  p-2 flex flex-row bg-slate-100">
               
               {/* Returned*/}
-              <TouchableOpacity className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity onPress ={()=>setreturned("1")}  className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
               
               {/* Enforced */}
-              <TouchableOpacity className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
+              <TouchableOpacity onPress ={()=>setenforced("1")} className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Action Taken by officer */}
-            <View className={styles.outerview}>
-              <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Action Taken</Text>
-              </View>
-              <View className="w-4/6 items-center">
-                <Text>{roadworthy} {warning} {returned} {enforced} </Text>
-              </View>
-            </View>
+           
 
             {/* Buttons Save - Clear -Update */}
             <View className="flex-row items-center justify-center  w-fit">
