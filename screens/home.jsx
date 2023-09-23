@@ -119,14 +119,7 @@ const [dvrCnic,setDvrCnic] = useState()
             className='  border border-r-0 border-l-0 bg-white border-black text-black rounded-md w-4/12 text-lg' />
         </View>
 
-        {/* View SearchBox Button */}
-        {/* <View onPress={()=>searchPSV()} className=' flex-row p-1 justify-center  w-full '>
-          <TouchableOpacity className='bg-[#29378a]  justify-center  flex-row w-full rounded-md items-center p-3 '>
-            <Search stroke="white" size={25} />
-            <Text className=' text-center font-bold font-white  text-lg text-white'>Search PSV</Text>
-          </TouchableOpacity>
-        </View> */}
-
+     {/* Driver CNIC Box*/}
         <View className=' m-2 flex-row p-1 justify-center  w-full '>
           <TextInput
             style={{ backgroundColor: 'white' }}
@@ -140,6 +133,7 @@ const [dvrCnic,setDvrCnic] = useState()
             onChangeText={e=>setDvrCnic(e)}
             className='border justify-center pl-4 bg-white border-black m-1 rounded-md w-full  text-lg text-black' />
         </View>
+        {/* Generate inspection report */}
         <View className='flex-row p-1 justify-center  w-full m-2'>
           <TouchableOpacity onPress={()=>getInspectionreport()} className='bg-[#29378a]  justify-center  flex-row w-full rounded-md items-center p-3 '>
             <BookCopy stroke="white" size={25} />
@@ -178,6 +172,8 @@ const [dvrCnic,setDvrCnic] = useState()
             </View>
           </TouchableOpacity>
         </View>
+
+        {/*Downloads  */}
         <View className=' flex-row justify-around mt-4'>
           <TouchableOpacity onPress={() => navigation.navigate('TestPage')} 
           className='  w-2/5 flex-row shadow-md shadow-slate-950  rounded-lg  flex justify-around items-center border border-slate-400  bg-white'>
@@ -190,7 +186,7 @@ const [dvrCnic,setDvrCnic] = useState()
             </View>
           </TouchableOpacity>
 
-          {/*Edit PSV Button  */}
+          {/*Online Links  */}
           <TouchableOpacity onPress={() => navigation.navigate('TestPage')}
           className='w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white'>
             <View className="  items-center  gap-1 justify-center mt-2 ">
@@ -204,30 +200,6 @@ const [dvrCnic,setDvrCnic] = useState()
         </View>
       </View>
 
-
-      {/* Driver Details */}
-
-
-      {/* Dashboard & Profile TAB */}
-      {/* <View className='mt-4 ' >
-        <TouchableOpacity className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
-            <BookCopy stroke="white" size={25} />
-            <Text className=' font-bold font-white  text-lg text-white'>Generate Report</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
-
-      {/* Update  User Profile
-
-      <View className='mt-2 ' >
-        <TouchableOpacity className='w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] '>
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
-            <UserCog2 stroke="white" size={25} />
-            <Text className=' font-bold font-white  text-lg text-white'>Edit Profile</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
 
        {/* Add New User */}
 
