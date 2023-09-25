@@ -6,9 +6,12 @@ import Home from '../screens/home';
 import MyTabs from './tabnavigation';
 import TestPage from '../screens/forms/testPage';
 import SignUp from '../screens/forms/signUp';
-import AddDrivernew from '../screens/forms/addDrivernew';
-import AddDocumentation from '../screens/forms/addDocumentation';
 import TripReport from '../screens/forms/tripReport';
+import AddDrivernew from '../screens/forms/addDrivernew';
+import AddVehicle from '../screens/forms/addVehicle';
+import AddDocumentation from '../screens/forms/addDocumentation';
+import AddCondition from '../screens/forms/addCondition'
+import AddOtherInfo from '../screens/forms/addOtherinfo';
 
 
 
@@ -28,7 +31,6 @@ const MyStack = () => {
          options={{ headerShown: false }}
         />
          <Stack.Screen name="TestPage" component={TestPage} /> 
-         {/* <Stack.Screen name="AddDrivernew" component={AddDrivernew} />   */}
          <Stack.Screen name="Trip Report" component={TripReport} />
          <Stack.Screen name="SignUp" component={SignUp} /> 
         <Stack.Screen name="MyTabs" component={MyTabs} 
@@ -36,6 +38,12 @@ const MyStack = () => {
           headerShown:false
         }}
         />
+         <Stack.Screen name="AddDrivernew" component={AddDrivernew} />
+         <Stack.Screen name="Add Vehicle" component={AddVehicle} />
+         <Stack.Screen name="Add Documentation" component={AddDocumentation} />
+         <Stack.Screen name="Add Condition" component={AddCondition} />
+         <Stack.Screen name="Other Info" component={AddOtherInfo} />
+
       </Stack.Navigator>
      </NavigationContainer>
   );
