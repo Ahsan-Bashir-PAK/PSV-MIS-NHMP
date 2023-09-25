@@ -115,10 +115,35 @@ async function retrieveUserSession() {
 
   const today = new Date()
   const time = new Date().toLocaleTimeString() 
+
+//=======================================================get report data 
+
+  //===============getting report data
+
+  async function retrieveReportSession() {
+    try {
+      const session = await EncryptedStorage.getItem('Report');
+
+      if (session !== undefined) {
+        console.log(
+          'trip report data===========',
+          JSON.parse(session).tripReport,
+        ); // data for report
+        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+       
+      }
+    } catch (error) {
+      // There was an error on the native side
+    }
+  }
+
 //============================================retriveing vehicle info
 useEffect(()=>{
   retrieveUserSession()
-  //console.log(route.params)
+ if(route.params == "report"){
+  retrieveReportSession()
+ 
+ }
  
 },[])
   //===========================================================vehicle sesion saving 

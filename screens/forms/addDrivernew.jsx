@@ -18,12 +18,15 @@ import retrieveUserSession from '../../config';
 const provinces = ["Punjab", "KPK", "Sindh", "Balochistan", "NHMP", "Islamabad", "AJK", "Gilgit-Baltistan"]
 const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
-const AddDrivernew = () => {
+const AddDrivernew = ({route}) => {
 
 const [currentUser,setCurrentUser] = useState({})
 
 useEffect(()=>{
   retrieveUserSession()
+  if(route.params='report'){
+    retrieveReportSession()
+  }
 },[])
 
 //getting user seesion data 
@@ -38,6 +41,25 @@ async function retrieveUserSession() {
       }
   } catch (error) {
       // There was an error on the native side
+  }
+}
+
+////===============getting report data
+
+async function retrieveReportSession() {
+  try {
+    const session = await EncryptedStorage.getItem('Report');
+
+    if (session !== undefined) {
+      console.log(
+        'trip report data===========',
+        JSON.parse(session).tripReport,
+      ); // data for report
+      console.log('vehicledata===========', JSON.parse(session).dvrData); //data of vehicle
+     
+    }
+  } catch (error) {
+    // There was an error on the native side
   }
 }
 

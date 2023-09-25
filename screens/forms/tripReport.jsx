@@ -15,40 +15,40 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Bus} from 'lucide-react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const TripReport = () => {
+  const navigation =useNavigation()
   const [currentUser, setCurrentUser] = useState({});
 
   //=========================states
-const [v_psvNo, setpsvNo] =useState()
-const [v_routeStatus, setrouteStatus] =useState()
-const [v_companyName, setcompanyName] =useState()
-const [v_routePath, setroutePath] =useState()
-const [v_fitnessStatus, setfitnessStatus] =useState()
-const [v_tyreStatus, settyreStatus] =useState()
-const [v_trackerStaus, settrackerStaus] =useState()
-const [v_exitGate, setexitGate] =useState()
-const [v_fireExt, setfireExt] =useState()
-const [v_regPlate, setregPlate] =useState()
-const [v_tripCount, settripCount] =useState()
-const [v_seats, setseats] =useState()
-const [v_onBoardpassenger, setonBoardpassenger] =useState()
-const [d_dvrLicenseNo, setdvrLicenseNo] =useState()
-const [d_licenseType, setlicenseType] =useState()
-const [d_licenseStatus, setlicenseStatus] =useState()
-const [actionTaken, setactionTaken] =useState()
-const [remarks, setremarks] =useState() 
-const [roadworthy, setroadworthy] = useState()
-const [warning, setwarning] = useState()
-const [returned, setreturned] = useState()
-const [enforced, setenforced] = useState()
+  const [v_psvNo, setpsvNo] = useState();
+  const [v_routeStatus, setrouteStatus] = useState();
+  const [v_companyName, setcompanyName] = useState();
+  const [v_routePath, setroutePath] = useState();
+  const [v_fitnessStatus, setfitnessStatus] = useState();
+  const [v_tyreStatus, settyreStatus] = useState();
+  const [v_trackerStaus, settrackerStaus] = useState();
+  const [v_exitGate, setexitGate] = useState();
+  const [v_fireExt, setfireExt] = useState();
+  const [v_regPlate, setregPlate] = useState();
+  const [v_tripCount, settripCount] = useState();
+  const [v_seats, setseats] = useState();
+  const [v_onBoardpassenger, setonBoardpassenger] = useState();
+  const [d_dvrLicenseNo, setdvrLicenseNo] = useState();
+  const [d_licenseType, setlicenseType] = useState();
+  const [d_licenseStatus, setlicenseStatus] = useState();
+  const [actionTaken, setactionTaken] = useState();
+  const [remarks, setremarks] = useState();
+  const [roadworthy, setroadworthy] = useState();
+  const [warning, setwarning] = useState();
+  const [returned, setreturned] = useState();
+  const [enforced, setenforced] = useState();
 
   useEffect(() => {
     retrieveUserSession();
-    retrieveReportSession()
+    retrieveReportSession();
   }, []);
-
 
   //getting user seesion data
   async function retrieveUserSession() {
@@ -63,49 +63,50 @@ const [enforced, setenforced] = useState()
   }
   //===============getting report data
 
-async function retrieveReportSession() {
-  try {   
+  async function retrieveReportSession() {
+    try {
       const session = await EncryptedStorage.getItem('Report');
-  
+
       if (session !== undefined) {
-      
-        console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
-        console.log("vehicledata===========",JSON.parse(session).psvData)          //data of vehicle
-        console.log(" driver data===========",JSON.parse(session).dvrData)         // driver data
-        
+        console.log(
+          'trip report data===========',
+          JSON.parse(session).tripReport,
+        ); // data for report
+        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+        console.log(' driver data===========', JSON.parse(session).dvrData); // driver data
       }
-  } catch (error) {
+    } catch (error) {
       // There was an error on the native side
+    }
   }
-}
 
   //===============================save report
 
-  const today = new Date()
-const time = new Date().toLocaleTimeString()
+  const today = new Date();
+  const time = new Date().toLocaleTimeString();
 
   const reportData = {
-    psvNo:v_psvNo,
-    companyName:v_companyName,
-    routeStatus:v_routeStatus,
-    routePath:v_routePath,
-    fitnessStatus:v_fitnessStatus,
-    tyreStatus:v_tyreStatus,
-    trackerStaus:v_trackerStaus,
-    exitGate:v_exitGate ,
-    fireExt:v_fireExt ,
-    regPlate:v_regPlate ,
-    tripCount:v_tripCount ,
-    seats:v_seats,
-    onBoardpassenger:v_onBoardpassenger ,
-    dvrLicenseNo:d_dvrLicenseNo,
+    psvNo: v_psvNo,
+    companyName: v_companyName,
+    routeStatus: v_routeStatus,
+    routePath: v_routePath,
+    fitnessStatus: v_fitnessStatus,
+    tyreStatus: v_tyreStatus,
+    trackerStaus: v_trackerStaus,
+    exitGate: v_exitGate,
+    fireExt: v_fireExt,
+    regPlate: v_regPlate,
+    tripCount: v_tripCount,
+    seats: v_seats,
+    onBoardpassenger: v_onBoardpassenger,
+    dvrLicenseNo: d_dvrLicenseNo,
     licenseType: d_licenseType,
-    licenseStatus:d_licenseStatus,
-    actionTaken:actionTaken,
+    licenseStatus: d_licenseStatus,
+    actionTaken: actionTaken,
     remarks: remarks,
     addedBy: currentUser.userName,
     addedDate: today,
-    chkPoint:currentUser.location,
+    chkPoint: currentUser.location,
   };
 
   const saveReport = async () => {
@@ -120,8 +121,6 @@ const time = new Date().toLocaleTimeString()
 
     clearAll();
   };
-
-  //const [] = useState("");
 
   return (
     <ScrollView className=" border">
@@ -148,9 +147,9 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black  font-bold">Company Name</Text>
               </View>
               <View className=" w-4/6  items-center">
-                <Text 
-                  className=" border-black text-black rounded-md  text-lg text-center dis"
-                >{v_companyName}</Text>
+                <Text className=" border-black text-black rounded-md  text-lg text-center dis">
+                  {v_companyName}
+                </Text>
               </View>
             </View>
 
@@ -160,20 +159,21 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black  font-bold">Route Permit</Text>
               </View>
               <View className=" w-4/6  items-center">
-                <TouchableOpacity>
-                    <Text>{v_routeStatus}</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate("Add Document",{params:"report"})}>
+                  
+                  <Text>{v_routeStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
 
-          {/*  Route Path */}
-          <View className={styles.outerview}>
+            {/*  Route Path */}
+            <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Route From -To</Text>
               </View>
               <View className=" w-4/6  items-center">
                 <TouchableOpacity>
-                    <Text>{v_routeStatus}</Text>
+                  <Text>{v_routeStatus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -184,7 +184,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black  font-bold">Fitness </Text>
               </View>
               <View className=" w-4/6  items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Add Document",{params:"report"})}>
                   <Text>{v_fitnessStatus}</Text>
                 </TouchableOpacity>
               </View>
@@ -195,7 +195,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Tyre Condition</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Add Condition",{params:"report"})}>
                   <Text>{v_tyreStatus}</Text>
                 </TouchableOpacity>
               </View>
@@ -206,7 +206,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
                   <Text>{v_trackerStaus}</Text>
                 </TouchableOpacity>
               </View>
@@ -217,7 +217,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Emergency Exit</Text>
               </View>
               <View className="w-4/6 items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Add vehicle",{params:"report"})}>
                   <Text>{v_exitGate}</Text>
                 </TouchableOpacity>
               </View>
@@ -228,10 +228,10 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Fire Extinguihser</Text>
               </View>
               <View className="w-4/6 items-center">
-              <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
                   <Text>{v_fireExt}</Text>
                 </TouchableOpacity>
-                              </View>
+              </View>
             </View>
 
             {/* Number Plate Status */}
@@ -242,8 +242,8 @@ const time = new Date().toLocaleTimeString()
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-              <TouchableOpacity>
-                <Text>{v_regPlate}</Text>  
+                <TouchableOpacity onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
+                  <Text>{v_regPlate}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -256,8 +256,8 @@ const time = new Date().toLocaleTimeString()
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{v_tripCount}</Text> 
-               </View>
+                <Text>{v_tripCount}</Text>
+              </View>
             </View>
 
             {/* Seating Capacity */}
@@ -266,7 +266,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Seating Capacity</Text>
               </View>
               <View className="w-4/6 items-center">
-               <Text> {v_seats} </Text> 
+                <Text> {v_seats} </Text>
               </View>
             </View>
 
@@ -276,54 +276,58 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Remarks</Text>
               </View>
               <View className="w-4/6 items-left">
-              <TextInput
+                <TextInput
                   editable
                   multiline
                   numberOfLines={5}
                   maxLength={200}
-                  
                   onChangeText={text => setremarks(text)}
-                 value={remarks}
+                  value={remarks}
                   style={{padding: 10}}
-               />
+                />
               </View>
             </View>
 
-             {/* Action Taken by officer */}
-             <View className={styles.outerview}>
+            {/* Action Taken by officer */}
+            <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Action Taken</Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{warning }</Text>
+                <Text>{warning}</Text>
               </View>
             </View>
 
             {/* Road Worthy */}
             <View className="  p-2 flex flex-row  bg-slate-100">
-              <TouchableOpacity  onPress ={()=>setroadworthy("1")} className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity
+                onPress={() => setroadworthy('1')}
+                className=" bg-[#44cf56] border border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
 
               {/* warning */}
-              <TouchableOpacity onPress ={()=>setwarning("1")} className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity
+                onPress={() => setwarning('1')}
+                className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
             </View>
             <View className="  p-2 flex flex-row bg-slate-100">
-              
               {/* Returned*/}
-              <TouchableOpacity onPress ={()=>setreturned("1")}  className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity
+                onPress={() => setreturned('1')}
+                className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
-              
+
               {/* Enforced */}
-              <TouchableOpacity onPress ={()=>setenforced("1")} className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
+              <TouchableOpacity
+                onPress={() => setenforced('1')}
+                className="border bg-[#db5151] border-gray-300 p-3 w-2/4 rounded-md  shadow-md  shadow-blue-900">
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>
             </View>
-
-           
 
             {/* Buttons Save - Clear -Update */}
             <View className="flex-row items-center justify-center  w-fit">
@@ -354,6 +358,3 @@ const styles = {
   outerview:
     'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900',
 };
-
-
-
