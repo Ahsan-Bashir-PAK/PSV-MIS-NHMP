@@ -19,6 +19,7 @@ import {
   Image,
   Button,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'react-native-svg';
 import SignUp from './forms/signUp';
@@ -39,11 +40,11 @@ const search_psv = [
 function Home() {
   const [currentUser, setCurrentUser] = useState({});
 
-  const [reg, setReg] = useState(null);
-  const [year, setYear] = useState(null);
-  const [number, setNumber] = useState(null);
-  const [dvrCnic, setDvrCnic] = useState();
-  const navigation = useNavigation();
+  const [reg, setReg] = useState("");
+  const [year, setYear] = useState("");
+  const [number, setNumber] = useState("");
+  const [dvrCnic, setDvrCnic] = useState("");
+  const navigation = useNavigation("");
 
   useEffect(() => {
     retrieveUserSession();
@@ -68,9 +69,11 @@ function Home() {
 
   async function getInspectionreport() {
     try {
+
+      console.log(`${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`)
       await axios
         .get(
-          `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`,
+          `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`
         )
         .then(async response => {
           const psvDetail = response.data[0];
@@ -83,7 +86,7 @@ function Home() {
                 if (driverDetail) {
                   //-------------------------geeting inspection report rpt/inspectPsv/
                   await axios
-                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}`)
+                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}/${currentUser.location}`)
                     .then(async response => {
                       const inspection = response.data[0];
                       if (inspection) {
@@ -91,7 +94,7 @@ function Home() {
                           'Report',
                           JSON.stringify({
                             psvData: psvDetail,
-                            dvrDate: driverDetail,
+                            dvrData: driverDetail,
                             tripReport: inspection,
                           }),
                         );
@@ -172,7 +175,8 @@ function Home() {
             placeholder="[0000]"
             maxLength={4}
             keyboardType="number-pad"
-            onChangeText={text => setNumber(text)}
+            onChangeText={e => setNumber(e)}
+            value={number}
             className="  border border-r-0 border-l-0 bg-white border-black text-black rounded-md w-4/12 text-lg"
           />
         </View>

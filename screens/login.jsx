@@ -14,7 +14,9 @@ import {
     Image,
     Alert,
     Platform,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    keyboard,
+    Platform,
     
 } from 'react-native';
 
@@ -101,18 +103,20 @@ function clearAll(){
 
     return (
      
-            <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : undefined} style={{flex:1}} className="flex-1">
+        <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+        style={styles.container}>
         <View className='px-2 flex justify-center items-center h-screen  bg-gray-900  '>
           
             {/* Logo VIEW */}
             <View className="w-full border border-yellow-100 h-2/4 bg-blue-900 flex justify-center items-center ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
-                <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
+                <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police dfndskfldkr</Text>
             </View>
            
                         
-            <View className='w-full border border-gray-200 flex justify-center items-center h-fit bg-slate-600 py-10 '>
+            <View className='w-full border border-gray-200 flex justify-center items-center h-fit bg-slate-100 py-10 '>
                
                 <TextInput
                     placeholder='User CNIC'

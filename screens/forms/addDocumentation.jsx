@@ -16,11 +16,11 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 
-const AddDocumentation = ({route}) => {
+const AddDocumentation = () => {
 
   const navigation = useNavigation();
 
-  const bus = route.params["params"]
+ 
   const today = new Date()
   const time = new Date().toLocaleTimeString()
 
@@ -58,6 +58,7 @@ async function retrieveVehicleSession() {
       const session = await EncryptedStorage.getItem("psv_session");
       if (session !== undefined) {
         setCurrentPsv(JSON.parse(session))
+        console.log(currentPsv)
       }
   } catch (error) {
       // There was an error on the native side
@@ -98,9 +99,13 @@ async function retrieveUserSession() {
 useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
+
   if(route.params == 'report'){
     retrieveReportSession()
   }
+
+  console.log(currentPsv)
+
   
 },[])
 
@@ -164,7 +169,7 @@ useEffect(()=>{
 
             <View className=" bg-zinc-200  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold  ">
-                     {bus.letter+ "-" + bus.year +"-" + bus.no} 
+                     {currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
                 </Text>
               
             </View>
