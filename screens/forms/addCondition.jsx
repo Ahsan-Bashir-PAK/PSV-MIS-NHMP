@@ -8,7 +8,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-const AddCondition = () => {
+const AddCondition = ({route}) => {
 
   const navigation = useNavigation();
   
@@ -51,11 +51,33 @@ const time = new Date().toLocaleTimeString()
 
   }
 
+  //
+  //===============getting report data
+
+  async function retrieveReportSession() {
+    try {
+      const session = await EncryptedStorage.getItem('Report');
+
+      if (session !== undefined) {
+        console.log(
+          'trip report data===========',
+          JSON.parse(session).tripReport,
+        ); // data for report
+        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+       
+      }
+    } catch (error) {
+      // There was an error on the native side
+    }
+  }
 
 //============================================retriveing vehicle info
 useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
+  if(route.params == 'report'){
+    retrieveReportSession()
+  }
 },[])
 //getting user seesion data 
 async function retrieveVehicleSession() {
