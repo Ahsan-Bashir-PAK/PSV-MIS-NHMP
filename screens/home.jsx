@@ -86,7 +86,7 @@ function Home() {
                 if (driverDetail) {
                   //-------------------------geeting inspection report rpt/inspectPsv/
                   await axios
-                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}`)
+                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}/${currentUser.location}`)
                     .then(async response => {
                       const inspection = response.data[0];
                       if (inspection) {

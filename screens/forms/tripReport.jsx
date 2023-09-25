@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {BusFront, Scroll, User} from 'lucide-react-native';
+import {BusFront, Navigation, Scroll, User} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Bus} from 'lucide-react-native';
@@ -19,18 +19,31 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 const TripReport = () => {
+
+  const navigation = useNavigation();
   const [currentUser, setCurrentUser] = useState({});
 
   //=========================states
 const [v_psvNo, setpsvNo] =useState()
 const [v_routeStatus, setrouteStatus] =useState()
+const [v_routedate, setroutedate] =useState()
+
 const [v_companyName, setcompanyName] =useState()
 const [v_routePath, setroutePath] =useState()
+
 const [v_fitnessStatus, setfitnessStatus] =useState()
+const [v_fitnessdate, setfitnessdate] =useState()
+
 const [v_tyreStatus, settyreStatus] =useState()
+const [v_tyredate, settyredate] =useState()
+const [v_tyrecondition, settyrecondition] =useState()
+
 const [v_trackerStaus, settrackerStaus] =useState()
 const [v_exitGate, setexitGate] =useState()
+
 const [v_fireExt, setfireExt] =useState()
+const [v_fireExtdate, setfireExtdate] =useState()
+
 const [v_regPlate, setregPlate] =useState()
 const [v_tripCount, settripCount] =useState()
 const [v_seats, setseats] =useState()
@@ -86,16 +99,25 @@ function setTripData(tripdata){
     setpsvNo(tripdata.psvNo)
     setcompanyName(tripdata.companyName);
     setexitGate(tripdata.exitGate);
+   
     setfireExt(tripdata.fireValidity);
-    setfitnessStatus(tripdata.fitnessExpiryDate);
+    setfireExtdate(tripdata.fireExpiry);
+
+    setfitnessStatus(tripdata.fitnessValidity);
+    setfitnessdate(tripdata.fitnessExpiryDate);
     setroutePath(tripdata.routeFrom + " " + " to " + " " +tripdata.routeTo);
     setrouteStatus(tripdata.routeValidity);
-    settyreStatus(tripdata.tyreValidity);
+    setroutedate(tripdata.routeExpiryDate);
+
+    settyredate(tripdata.tyreExpiry);
+    settyreStatus(tripdata.tyreStatus);
+    settyrecondition(tripdata.tyreCondition);
+
     settrackerStaus(tripdata.trackerStatus);
     setregPlate(tripdata.numPlate);
     setseats(tripdata.seatingCap);
     
-    //Driver fields
+    settripCount(tripdata.tripcount)
     setlicenseType(tripdata.licenseType);
     setlicenseStatus(tripdata.licenseValidity)
     setdvrLicenseNo(tripdata.licenseNo)
@@ -120,7 +142,7 @@ const time = new Date().toLocaleTimeString()
     exitGate:v_exitGate ,
     fireExt:v_fireExt ,
     regPlate:v_regPlate ,
-    tripCount:1 ,
+    tripCount:v_tripCount ,
     seats:v_seats,
     onBoardpassenger:v_onBoardpassenger ,
     dvrLicenseNo:d_dvrLicenseNo,
@@ -137,7 +159,8 @@ const time = new Date().toLocaleTimeString()
     await axios
       .post(`${global.BASE_URL}/rpt/addinspection`, reportData)
       .then(response => {
-        Alert.alert('Data inserted successfully');
+        Alert.alert('Report has been saved.');
+        navigation.navigate('Home')
       })
       .catch(error => {
         console.log(error);
@@ -150,7 +173,7 @@ const time = new Date().toLocaleTimeString()
 
   return (
     <ScrollView className=" border">
-      <View className="bg-slate-100  flex flex-col h-screen border p-2 justify-center">
+      <View className="bg-slate-100  flex flex-col h-screen  p-2 justify-start">
         <KeyboardAvoidingView style={{backgroundColor: 'white'}}>
           {/* Vehicle Information Design Tab */}
           <View className=" mt-1 w-full  ">
@@ -174,7 +197,7 @@ const time = new Date().toLocaleTimeString()
               </View>
               <View className=" w-4/6  items-center">
                 <Text 
-                  className=" border-black text-black rounded-md  text-lg text-center dis"
+                  className=" border-black rounded-md  text-lg text-center "
                 >{v_companyName}</Text>
               </View>
             </View>
@@ -182,11 +205,12 @@ const time = new Date().toLocaleTimeString()
             {/*  Route Permit Date */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black  font-bold">Route Permit</Text>
+                <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
-              <View className=" w-4/6  items-center">
-                <TouchableOpacity>
-                    <Text>{v_routeStatus}</Text>
+              {/* className={`${vehcile_ac == ""? "block":"hidden"}`} */}
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
+                <TouchableOpacity >
+                    <Text className="text-white font-bold">{v_routeStatus} : {v_routedate}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -197,8 +221,8 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black  font-bold">Route From -To</Text>
               </View>
               <View className=" w-4/6  items-center">
-                <TouchableOpacity>
-                    <Text>{v_routePath}</Text>
+                <TouchableOpacity >
+                    <Text className="text-black font-bold">{v_routePath}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -208,53 +232,58 @@ const time = new Date().toLocaleTimeString()
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Fitness </Text>
               </View>
-              <View className=" w-4/6  items-center">
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
                 <TouchableOpacity>
-                  <Text>{v_fitnessStatus}</Text>
+                  <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate}</Text>
                 </TouchableOpacity>
               </View>
             </View>
+
             {/* Tyre Condition */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Tyre Condition</Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className={`${v_tyrecondition == "Poor" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
                 <TouchableOpacity>
-                  <Text>{v_tyreStatus}</Text>
+                  {/* Tyre Expiry yet to be decided */}
+                  <Text className={`${v_tyrecondition == "Poor" ? "text-white font-bold": "text-black font-bold"}`} > {v_tyrecondition}</Text>
                 </TouchableOpacity>
               </View>
             </View>
+
             {/* Tracker Installed */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className={`${v_routeStatus == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
                 <TouchableOpacity>
-                  <Text>{v_trackerStaus}</Text>
+                  <Text className={`${v_trackerStaus == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`} >{v_trackerStaus}</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            {/* Emergecny Exit */}
+
+            {/* Emergency Exit */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Emergency Exit</Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className={`${v_exitGate == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
                 <TouchableOpacity>
-                  <Text>{v_exitGate}</Text>
+                  <Text className={`${v_exitGate == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`}>{v_exitGate}</Text>
                 </TouchableOpacity>
               </View>
             </View>
+
             {/* Fire Extinguisher*/}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Fire Extinguihser</Text>
+                <Text className="text-black font-bold">Fire Extinguisher</Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className={`${v_fireExt == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
               <TouchableOpacity>
-                  <Text>{v_fireExt}</Text>
+                  <Text className={`${v_fireExt == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fireExt} : {v_fireExtdate}</Text>
                 </TouchableOpacity>
                               </View>
             </View>
@@ -266,9 +295,9 @@ const time = new Date().toLocaleTimeString()
                   Number Plate Status
                 </Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className={`${v_regPlate == "Out of pattern" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
               <TouchableOpacity>
-                <Text>{v_regPlate}</Text>  
+                <Text className={`${v_regPlate == "Out of pattern" ? "text-white font-bold": "text-black font-bold"}`}>{v_regPlate}</Text>  
                 </TouchableOpacity>
               </View>
             </View>
@@ -281,7 +310,7 @@ const time = new Date().toLocaleTimeString()
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{v_tripCount}</Text> 
+                <Text className="text-black font-bold">{v_tripCount}</Text> 
                </View>
             </View>
 
@@ -291,7 +320,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Seating Capacity</Text>
               </View>
               <View className="w-4/6 items-center">
-               <Text> {v_seats} </Text> 
+               <Text className="text-black font-bold"> {v_seats} </Text> 
               </View>
             </View>
 
@@ -308,26 +337,7 @@ const time = new Date().toLocaleTimeString()
                   keyboardType="phone-pad"
                   onChangeText={e => setonBoardpassenger(e)}
                     value={v_onBoardpassenger}
-                  
-               />
-              </View>
-            </View>
-
-            {/* Remarks */}
-            <View className={styles.outerview}>
-              <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Remarks</Text>
-              </View>
-              <View className="w-4/6 items-left">
-              <TextInput
-                  editable
-                  multiline
-                  numberOfLines={3}
-                  maxLength={200}
-                  
-                  onChangeText={text => setremarks(text)}
-                 value={remarks}
-                  style={{padding: 10}}
+                    className="text-black "
                />
               </View>
             </View>
@@ -345,7 +355,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">License Details</Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
+                <Text className="text-black font-bold">{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
               </View>
             </View>
 
@@ -355,7 +365,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">License Expiry </Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{d_L_expiry}</Text>
+                <Text className="text-black font-bold">{d_L_expiry}</Text>
               </View>
             </View>
 
@@ -365,7 +375,7 @@ const time = new Date().toLocaleTimeString()
                 <Text className="text-black font-bold">Action Taken</Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text>{actionTaken}</Text>
+                <Text className="text-black font-bold ">{actionTaken}</Text>
               </View>
             </View>
 
@@ -391,6 +401,26 @@ const time = new Date().toLocaleTimeString()
               </TouchableOpacity>
             
             </View>
+
+            {/* Remarks */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Remarks</Text>
+              </View>
+              <View className="w-4/6 items-left">
+              <TextInput
+                  editable
+                  multiline
+                  numberOfLines={3}
+                  maxLength={200}
+                  
+                  onChangeText={text => setremarks(text)}
+                 value={remarks}
+                  style={{padding: 10}}
+                  className="text-black font-bold"
+               />
+              </View>
+            </View>
                        
 
             {/* Buttons Save - Clear -Update */}
@@ -399,7 +429,7 @@ const time = new Date().toLocaleTimeString()
                 <TouchableOpacity
                   onPress={() => saveReport()}
                   className="bg-[#227935] items-center  w-full rounded-md m-2 p-1">
-                  <Text className="text-white  text-lg">Save</Text>
+                  <Text className="text-white  text-lg">Save Report</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -420,7 +450,7 @@ const styles = {
   labelstyle:
     'text-center items-center justify-center w-2/6  border-r  border-slate-400  ',
   outerview:
-    'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900',
+    'flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md bg-white shadow-md  shadow-blue-900 ',
 };
 
 
