@@ -115,6 +115,7 @@ function clearAll(){
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
+                <Text className="text-white font-light font-mono italic">(Version 1.0)</Text>
             </View>
            
                        {/* Login Panel */}
