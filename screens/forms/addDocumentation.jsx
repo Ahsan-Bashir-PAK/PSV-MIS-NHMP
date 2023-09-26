@@ -65,7 +65,7 @@ async function retrieveVehicleSession() {
   }
 }
 //===============================================================getting user seesion data 
-async function retrieveUserSession() {
+async function retrieveUserSession({route}) {
   try {   
       const session = await EncryptedStorage.getItem("user_session");
       if (session !== undefined) {
@@ -84,11 +84,8 @@ async function retrieveUserSession() {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+    
+        console.log(JSON.parse(session).psvData); //data of vehicle
        
       }
     } catch (error) {

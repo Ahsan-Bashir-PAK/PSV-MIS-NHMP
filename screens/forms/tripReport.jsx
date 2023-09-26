@@ -20,7 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const TripReport = () => {
 
-  const navigation =useNavigation()
+
   const [currentUser, setCurrentUser] = useState({});
 
   //=========================states
@@ -49,41 +49,30 @@ const TripReport = () => {
 
 
   const navigation = useNavigation();
-  const [currentUser, setCurrentUser] = useState({});
+
 
   //=========================states
-const [v_psvNo, setpsvNo] =useState()
-const [v_routeStatus, setrouteStatus] =useState()
+
 const [v_routedate, setroutedate] =useState()
 
-const [v_companyName, setcompanyName] =useState()
-const [v_routePath, setroutePath] =useState()
 
-const [v_fitnessStatus, setfitnessStatus] =useState()
+
+
 const [v_fitnessdate, setfitnessdate] =useState()
 
-const [v_tyreStatus, settyreStatus] =useState()
+
 const [v_tyredate, settyredate] =useState()
 const [v_tyrecondition, settyrecondition] =useState()
 
-const [v_trackerStaus, settrackerStaus] =useState()
-const [v_exitGate, setexitGate] =useState()
 
-const [v_fireExt, setfireExt] =useState()
 const [v_fireExtdate, setfireExtdate] =useState()
 
-const [v_regPlate, setregPlate] =useState()
-const [v_tripCount, settripCount] =useState()
-const [v_seats, setseats] =useState()
-const [v_onBoardpassenger, setonBoardpassenger] =useState()
-const [d_dvrLicenseNo, setdvrLicenseNo] =useState()
-const [d_licenseType, setlicenseType] =useState()
-const [d_licenseStatus, setlicenseStatus] =useState()
+
 const [d_L_expiry, setDLexpiry] =useState()
 
 const [d_name, setDname] = useState();
-const [actionTaken, setActionTaken] =useState()
-const [remarks, setremarks] =useState() 
+
+
 
 
 
@@ -448,17 +437,7 @@ function setTripData(tripdata){
 
               {/* warning */}
 
-//               <TouchableOpacity
-//                 onPress={() => setwarning('1')}
-//                 className=" bg-[#e2d741] border border-gray-300 w-2/4 p-3 rounded-md shadow-md  shadow-blue-900">
-//                 <Text className="text-black font-bold">Warning</Text>
-//               </TouchableOpacity>
-//             </View>
-//             <View className="  p-2 flex flex-row bg-slate-100">
-//               {/* Returned*/}
-//               <TouchableOpacity
-//                 onPress={() => setreturned('1')}
-//                 className="border bg-[#eca240] border-gray-300 p-3 w-2/4 rounded-md shadow-md  shadow-blue-900">
+
 
               <TouchableOpacity onPress ={()=>setActionTaken("Warned")} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
                 <Text className="text-black font-bold">Warning</Text>
