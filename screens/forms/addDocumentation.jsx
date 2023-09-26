@@ -16,7 +16,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 
-const AddDocumentation = () => {
+const AddDocumentation = ({route}) => {
 
   const navigation = useNavigation();
 
@@ -51,6 +51,9 @@ const [fitness_auth, setFitAuthority] = useState("");
 const [currentPsv,setCurrentPsv] = useState({})
 const [currentUser,setCurrentUser] = useState({})
 
+//
+const [psvreport , setPsvReportData] = useState("");
+
 
 //getting user seesion data 
 async function retrieveVehicleSession() {
@@ -58,7 +61,7 @@ async function retrieveVehicleSession() {
       const session = await EncryptedStorage.getItem("psv_session");
       if (session !== undefined) {
         setCurrentPsv(JSON.parse(session))
-        console.log(currentPsv)
+      
       }
   } catch (error) {
       // There was an error on the native side
@@ -76,6 +79,22 @@ async function retrieveUserSession() {
       // There was an error on the native side
   }
 }
+// SET DATA INTO FIELDS
+function setData (psvreport) {
+     console.log(psvreport.fitnessExpiryDate)
+      setRoute(psvreport.routePermitNo);
+      setRouteAuthority (psvreport.issueAuthority);
+      //setexpir ("");
+      setRouteType(psvreport.routeType);
+      setRouteFrom(psvreport.routeFrom);
+      setRouteTo(psvreport.routeTo);
+      setRouteVia(psvreport.routeVia);
+      setFitness(psvreport.fitnessNo);
+      //fitness expiry
+      setFDate(psvreport.fitnessExpiryDate)
+      setFitAuthority(psvreport.fitnessAuthority);
+
+}
 
   //===============getting report data
 
@@ -84,12 +103,11 @@ async function retrieveUserSession() {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
        
+        Data1 = JSON.parse(session).psvData; //data of vehicle
+
+        setData(Data1);
+      
       }
     } catch (error) {
       // There was an error on the native side
@@ -100,12 +118,12 @@ useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
 
-  if(route.params == 'report'){
+ if(route.params){
+  if(route.params["params"] =="report"){
     retrieveReportSession()
   }
-
-  console.log(currentPsv)
-
+  
+ }
   
 },[])
 
@@ -251,7 +269,7 @@ useEffect(()=>{
                 onSelect={(selectedItem, index) => {
                   setRouteType(selectedItem)
                 }}
-                defaultButtonText='Select Route Type'
+                defaultButtonText={route_type}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -357,6 +375,7 @@ useEffect(()=>{
             />
 
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
+              {/* {fitnessdate.toLocaleDateString()} */}
               {fitnessdate.toLocaleDateString()}
             </Text>
             <TouchableOpacity onPress={() => setFOpen(true)}>

@@ -76,7 +76,7 @@ const AddOtherInfo = ({route}) => {
   useEffect(() => {
     retrieveUserSession();
     retrieveVehicleSession();
-    if(Router.params =='report'){
+    if(route.params =='report'){
       retrieveReportSession()
     }
   }, []);
