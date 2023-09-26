@@ -81,17 +81,17 @@ async function retrieveUserSession({route}) {
 }
 // SET DATA INTO FIELDS
 function setData (psvreport) {
-     console.log(psvreport.fitnessExpiryDate)
       setRoute(psvreport.routePermitNo);
       setRouteAuthority (psvreport.issueAuthority);
       //setexpir ("");
       setRouteType(psvreport.routeType);
+      setRouteDate(new Date(psvreport.routeExpiryDate));
       setRouteFrom(psvreport.routeFrom);
       setRouteTo(psvreport.routeTo);
       setRouteVia(psvreport.routeVia);
       setFitness(psvreport.fitnessNo);
       //fitness expiry
-      setFDate(psvreport.fitnessExpiryDate)
+      setFDate(new Date (psvreport.fitnessExpiryDate))
       setFitAuthority(psvreport.fitnessAuthority);
 
 }
@@ -231,6 +231,7 @@ useEffect(()=>{
               <View className="flex flex-row gap-1">
             
             <DatePicker
+              
               modal
               mode="date"
               open={routeopen}

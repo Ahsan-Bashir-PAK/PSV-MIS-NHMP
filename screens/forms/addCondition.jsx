@@ -17,7 +17,7 @@ const time = new Date().toLocaleTimeString()
 
   const [tyrecomp, setTyreCom] =useState();
   // Tyre Manufacturing Date
-  const [date, setDate] = useState(new Date())
+  const [t_manDate, setmanDate] = useState(new Date())
   const [open, setOpen] = useState(false)
  
   // Tyre expiry Date
@@ -35,8 +35,8 @@ const time = new Date().toLocaleTimeString()
   const [emergencylight, SetemergencyLight] =useState("");
   const [currentPsv,setCurrentPsv] = useState({})
   const [currentUser,setCurrentUser] = useState({})
-  const [psvReportData,setPsvReportData] =useState({})
-  const [loading, setLoading] = useState(true);
+  // const [psvReportData,setPsvReportData] =useState({})
+  // const [loading, setLoading] = useState(true);
   
   function clearAll() {
 
@@ -56,30 +56,49 @@ const time = new Date().toLocaleTimeString()
   //===============getting report data
 
   async function retrieveReportSession() {
-    setLoading(true);
+    
     try {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-       
-        setPsvReportData(JSON.parse(session).psvData); //data of vehicle
+      
+        const data =JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
        
       }
     } catch (error) {
       // There was an error on the native side
     }
-    setLoading(false);
+    
   }
 
 //============================================retriveing vehicle info
-useEffect(async ()=>{
+useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
-  if(route.params["params"] == 'report'){
-    await retrieveReportSession()
-   await  showReportData()
+  if(route.params){
+    if(route.params["params"] =="report"){
+      retrieveReportSession()
+    }
   }
 },[])
+
+///================================retriving Data
+
+async function showReportData (psvReportData){
+  setTyreCom(psvReportData.tyreCompany);
+  setmanDate(new Date(psvReportData.tyreManDate));
+  settyreDate(new Date(psvReportData.tyreExpiry));
+  setTread(`${psvReportData.tyreTread}`);
+  SettyreCondition(psvReportData.tyreCondition);
+  setRemarks(psvReportData.tyreRemarks);
+  SetheadLight(psvReportData.headLights);
+  SetbackLight(psvReportData.backLigths);
+  SethazardLight(psvReportData.hazardLights);
+  SetfogLight(psvReportData.fogLights);
+  SetemergencyLight(psvReportData.emergencyLights)
+}
+
 //getting user seesion data 
 async function retrieveVehicleSession() {
   try {   
@@ -104,27 +123,12 @@ async function retrieveUserSession() {
   }
 }
 
-///================================retriving Data
-
-async function showReportData (){
-  setTyreCom(psvReportData.tyreCompany);
-  setDate(psvReportData.tyreManDate);
-  settyreDate(psvReportData.tyreExpiry); //tyre expiry
-  setTread(psvReportData.tyreTread);
-  SettyreCondition(psvReportData.tyreCondition);
-  setRemarks(psvReportData.tyreRemarks);
-  SetheadLight(psvReportData.headLights);
-  SetbackLight(psvReportData.backLigths);
-  SethazardLight(psvReportData.hazardLights);
-  SetfogLight(psvReportData.fogLights);
-  SetemergencyLight(psvReportData.emergencyLights)
-}
 
   //========================================================save and update psv document
    
   const PsvDocuments = {
     tyreCompany: tyrecomp,
-    tyreManDate: date,
+    tyreManDate: t_manDate,
     tyreExpiry: tyredate,
     tyreChkDate:today,
     tyreCondition: tyrecondition,
@@ -201,10 +205,10 @@ async function showReportData (){
               modal
               mode="date"
               open={open}
-              date={date}
+              date={t_manDate}
               onConfirm={value => {
                 setOpen(false);
-                setDate(value);
+                setmanDate(value);
               }}
               onCancel={() => {
                 setOpen(false);
@@ -212,7 +216,7 @@ async function showReportData (){
             />
 
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
-              {date.toLocaleDateString()}
+              {t_manDate.toLocaleDateString()}
             </Text>
             <TouchableOpacity onPress={() => setOpen(true)}>
               <Calendar stroke="black" fill="white" size={30}></Calendar>
@@ -265,7 +269,7 @@ async function showReportData (){
                   placeholder='3.5 - 2.0'
                   maxLength={4}
                   onChangeText={e=>setTread(e)}
-                  value={tread}
+                  value ={tread}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>

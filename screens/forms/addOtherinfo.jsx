@@ -23,6 +23,8 @@ const AddOtherInfo = ({route}) => {
   
   const today = new Date()
   const time = new Date().toLocaleTimeString()
+
+
   // Tyre Manufacturing Date
   const [numberplate, setnumberPlate] = useState(false);
   const [sidemirror, setsideMirror] = useState(false);
@@ -40,6 +42,54 @@ const AddOtherInfo = ({route}) => {
   //getting value from sesssons
   const [currentPsv, setCurrentPsv] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+
+  const [psvreport , setPsvReportData] = useState("");
+
+  
+    //===============getting report data
+
+  async function retrieveReportSession() {
+    
+    try {
+      const session = await EncryptedStorage.getItem('Report');
+
+      if (session !== undefined) {
+      
+        const data =JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
+       
+       
+      }
+    } catch (error) {
+      // There was an error on the native side
+    }
+    
+  }
+
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  retrieveVehicleSession()
+  if(route.params){
+    if(route.params["params"] == "report"){
+      retrieveReportSession()
+    }
+  }
+},[])
+
+///================================retriving Data
+
+async function showReportData (psvReportData){
+  setnumberPlate(psvReportData.regPlates);
+  setsideMirror(psvReportData.sideMirror);
+  setfrontWipers(psvReportData.frontWippers);
+  setfireExt(psvReportData.fireExt);
+  setDate(new Date(psvReportData.fireExpiry))
+  setfirstAid(psvReportData.firstAidBox);
+  setzeroSeat(psvReportData.zeroSeat);
+  setCones(psvReportData.cones);
+
+}
 
   //---------------------------------
 
@@ -60,11 +110,9 @@ const AddOtherInfo = ({route}) => {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+      
+        const data = JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
        
       }
     } catch (error) {
@@ -72,14 +120,7 @@ const AddOtherInfo = ({route}) => {
     }
   }
 
-  //============================================retriveing vehicle info
-  useEffect(() => {
-    retrieveUserSession();
-    retrieveVehicleSession();
-    if(route.params =='report'){
-      retrieveReportSession()
-    }
-  }, []);
+
   //getting user seesion data
   async function retrieveVehicleSession() {
     try {
@@ -280,8 +321,8 @@ const AddOtherInfo = ({route}) => {
 
                     <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
                       {fireextdate.toLocaleDateString()}
-                    </Text>
-                    <TouchableOpacity onPress={() => settyreOpen(true)}>
+                    </Text> 
+                    <TouchableOpacity onPress={() => setOpen(true)}>
                       <Calendar
                         stroke="black"
                         fill="white"
