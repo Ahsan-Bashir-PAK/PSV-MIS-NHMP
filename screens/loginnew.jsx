@@ -108,17 +108,17 @@ function clearAll(){
         <KeyboardAvoidingView
         behavior={Platform.OS === 'android' ? 'position' : null}
         style={styles.container} enabled>
-        <View className='  flex justify-center items-center h-screen bg-blue-800  p-4 '>
+        <View className='  flex justify-center items-center h-screen bg-blue-800  '>
           
             {/* Logo VIEW */}
-            <View className="w-full  h-2/5 bg-blue-800 flex justify-center items-center ">
+            <View className="w-full  h-2/5 bg-blue-800 flex justify-center items-center  rounded-tl-full border-l-[50px] border-t-yellow-500 border-l-yellow-500   ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
             </View>
            
                        {/* Login Panel */}
-            <View className='w-full rounded-3xl border-2 m-2 border-yellow-500 shadow-xl shadow-yellow-700 flex justify-center items-center h-fit bg-slate-100 py-10 px-4'>
+            <View className='w-full    border-yellow-500 shadow-xl shadow-yellow-700 flex justify-center items-center h-fit bg-slate-100 py-10 px-4'>
                 
                {/* User name */}
                <View className="w-full ">

@@ -20,34 +20,6 @@ import {useNavigation} from '@react-navigation/native';
 
 const TripReport = () => {
 
-
-  const [currentUser, setCurrentUser] = useState({});
-
-  //=========================states
-  const [v_psvNo, setpsvNo] = useState();
-  const [v_routeStatus, setrouteStatus] = useState();
-  const [v_companyName, setcompanyName] = useState();
-  const [v_routePath, setroutePath] = useState();
-  const [v_fitnessStatus, setfitnessStatus] = useState();
-  const [v_tyreStatus, settyreStatus] = useState();
-  const [v_trackerStaus, settrackerStaus] = useState();
-  const [v_exitGate, setexitGate] = useState();
-  const [v_fireExt, setfireExt] = useState();
-  const [v_regPlate, setregPlate] = useState();
-  const [v_tripCount, settripCount] = useState();
-  const [v_seats, setseats] = useState();
-  const [v_onBoardpassenger, setonBoardpassenger] = useState();
-  const [d_dvrLicenseNo, setdvrLicenseNo] = useState();
-  const [d_licenseType, setlicenseType] = useState();
-  const [d_licenseStatus, setlicenseStatus] = useState();
-  const [actionTaken, setactionTaken] = useState();
-  const [remarks, setremarks] = useState();
-  const [roadworthy, setroadworthy] = useState();
-  const [warning, setwarning] = useState();
-  const [returned, setreturned] = useState();
-  const [enforced, setenforced] = useState();
-
-
   const navigation = useNavigation();
 
 
@@ -203,6 +175,7 @@ function setTripData(tripdata){
               </Text>
               <BusFront stroke="black" size={40}></BusFront>
             </View>
+            
             {/* Show Vehicle Number */}
             <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
@@ -232,7 +205,7 @@ function setTripData(tripdata){
               </View>
 
               <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
-               <TouchableOpacity onPress={()=>navigation.navigate("Add Document",{params:"report"})}>
+               <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                     <Text className="text-white font-bold">{v_routeStatus} : {v_routedate}</Text>
 
                 </TouchableOpacity>
@@ -261,7 +234,7 @@ function setTripData(tripdata){
 
 
               <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
-              <TouchableOpacity onPress={()=>navigation.navigate("Add Document",{params:"report"})}>
+              <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                   <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate}</Text>
                 </TouchableOpacity>
               </View>
@@ -302,7 +275,7 @@ function setTripData(tripdata){
 
 
               <View className={`${v_exitGate == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-                 <TouchableOpacity onPress={()=>navigation.navigate("Add vehicle",{params:"report"})}>
+                 <TouchableOpacity onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
                   <Text className={`${v_exitGate == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`}>{v_exitGate}</Text>
 
                 </TouchableOpacity>
@@ -370,21 +343,21 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">on Boarded Passenger</Text>
               </View>
-
             {/* Action Taken by officer */}
             <View className={styles.outerview}>
 
-              <View className="w-4/6 items-center">
+              <View className="w-4/6  items-center">
               <TextInput
-                  editable
+                  
                   placeholder=" Enter Boarded Passenger"
                   maxLength={3}
                   keyboardType="phone-pad"
                   onChangeText={e => setonBoardpassenger(e)}
-                    value={v_onBoardpassenger}
-                    className="text-black "
-               />
+                  value={v_onBoardpassenger}
+                  className="text-black "
+                  />
               </View>
+                  </View>
             </View>
 
                 {/* Show Driver Tab and name */}
