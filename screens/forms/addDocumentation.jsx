@@ -68,7 +68,7 @@ async function retrieveVehicleSession() {
   }
 }
 //===============================================================getting user seesion data 
-async function retrieveUserSession() {
+async function retrieveUserSession({route}) {
   try {   
       const session = await EncryptedStorage.getItem("user_session");
       if (session !== undefined) {

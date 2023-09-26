@@ -35,7 +35,8 @@ const time = new Date().toLocaleTimeString()
   const [emergencylight, SetemergencyLight] =useState("");
   const [currentPsv,setCurrentPsv] = useState({})
   const [currentUser,setCurrentUser] = useState({})
-
+  const [psvReportData,setPsvReportData] =useState({})
+  const [loading, setLoading] = useState(true);
   
   function clearAll() {
 
@@ -55,28 +56,28 @@ const time = new Date().toLocaleTimeString()
   //===============getting report data
 
   async function retrieveReportSession() {
+    setLoading(true);
     try {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+       
+        setPsvReportData(JSON.parse(session).psvData); //data of vehicle
        
       }
     } catch (error) {
       // There was an error on the native side
     }
+    setLoading(false);
   }
 
 //============================================retriveing vehicle info
-useEffect(()=>{
+useEffect(async ()=>{
   retrieveUserSession()
   retrieveVehicleSession()
-  if(route.params == 'report'){
-    retrieveReportSession()
+  if(route.params["params"] == 'report'){
+    await retrieveReportSession()
+   await  showReportData()
   }
 },[])
 //getting user seesion data 
@@ -101,6 +102,22 @@ async function retrieveUserSession() {
   } catch (error) {
       // There was an error on the native side
   }
+}
+
+///================================retriving Data
+
+async function showReportData (){
+  setTyreCom(psvReportData.tyreCompany);
+  setDate(psvReportData.tyreManDate);
+  settyreDate(psvReportData.tyreExpiry); //tyre expiry
+  setTread(psvReportData.tyreTread);
+  SettyreCondition(psvReportData.tyreCondition);
+  setRemarks(psvReportData.tyreRemarks);
+  SetheadLight(psvReportData.headLights);
+  SetbackLight(psvReportData.backLigths);
+  SethazardLight(psvReportData.hazardLights);
+  SetfogLight(psvReportData.fogLights);
+  SetemergencyLight(psvReportData.emergencyLights)
 }
 
   //========================================================save and update psv document
