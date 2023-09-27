@@ -134,7 +134,7 @@ function clearAll(){
                     onChangeText={text=>setUser(text)}
                     placeholderTextColor='grey'
                     keyboardType='number-pad'
-                    className=' h-[50]   text-lg border bg-white border-blue-400 text-black m-3 rounded-md ' />
+                    className=' h-[50]  pl-5 text-lg border bg-white border-blue-400 text-black m-3 rounded-md ' />
                 </View>
 
                 {/* Password  */}
@@ -146,7 +146,7 @@ function clearAll(){
                     onChangeText={e => setPwd(e)}
                     placeholderTextColor='grey'
                     
-                    className='h-[50]  text-lg  border  bg-white border-blue-400 text-black m-3 rounded-md ' />
+                    className='h-[50]  pl-5 text-lg  border  bg-white border-blue-400 text-black m-3 rounded-md ' />
                 </View>
                 <View className="  w-full flex flex-row">
                         <View className=" mt-3 mb-3 ml-3 w-4/12">
@@ -158,10 +158,10 @@ function clearAll(){
                         keyboardType='number-pad'
                         maxLength={4}
                         
-                        className='h-[50]  text-lg  rounded-md border  bg-white border-blue-400 text-black  ' />
+                        className='h-[50] pl-5 text-lg  rounded-md border  bg-white border-blue-400 text-black  ' />
                         </View>
 
-                        <View className="w-12 border rounded-md mt-3 mb-3  justify-center  bg-white border-blue-400">    
+                        <View className="w-12  rounded-md mt-3 mb-3  justify-center ">    
                                  <Text className="text-center items-center text-black  font-bold text-lg " > {userbound} </Text>
                         </View>
 

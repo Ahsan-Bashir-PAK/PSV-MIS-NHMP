@@ -151,7 +151,7 @@ async function retrieveUserSession() {
     // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => {Alert.alert(" PSV's  Data Updated ")
+      .then(response => {Alert.alert(" Vehicle document updated ")
             navigation.navigate("Other Info");
     })
 

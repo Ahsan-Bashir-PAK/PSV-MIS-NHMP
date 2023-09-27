@@ -177,7 +177,7 @@ async function retrieveUserSession() {
     axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
     clearAll()
-      .then(response => Alert.alert(" PSV's Document Data Updated "))
+      .then(response => Alert.alert(" Vehicle Documents udated "))
       navigation.navigate("Add Condition")
       .catch(error => console.error(error));
     }

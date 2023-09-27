@@ -177,9 +177,9 @@ function setTripData(tripdata){
   };
 
   return (
-    <ScrollView className=" border">
-      <View className="bg-slate-100  flex flex-col h-screen  p-2 justify-start">
-        <KeyboardAvoidingView style={{backgroundColor: 'white'}}>
+    <ScrollView >
+      <View className="bg-slate-100  flex flex-col  p-2 justify-start">
+        
           {/* Vehicle Information Design Tab */}
           <View className=" mt-1 w-full  ">
             <View className=" bg-yellow-400  rounded-md p-1  w-fit items-center justify-center flex-row-reverse ">
@@ -481,7 +481,7 @@ function setTripData(tripdata){
               </View>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        
       </View>
     </ScrollView>
   );

@@ -215,7 +215,7 @@ async function setDriverValue (result){
 const saveData = async () => {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
-  Alert.alert('Data inserted successfully');
+  Alert.alert('Drive added successfully');
 })
 .catch((error) => {
   console.log(error);

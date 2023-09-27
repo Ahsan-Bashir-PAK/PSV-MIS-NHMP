@@ -80,6 +80,22 @@ const AddVehicle = ({route}) => {
       }
     }
 
+    async function retrieveReportSession() {
+      try {
+        const session = await EncryptedStorage.getItem('Report');
+  
+        if (session !== undefined) {
+         
+          Data1 = JSON.parse(session).psvData; //data of vehicle
+  
+          setPsvFiels(Data1);
+        
+        }
+      } catch (error) {
+        // There was an error on the native side
+      }
+    }
+
     useEffect(()=>{
       retrieveUserSession()
       if(route.params){
@@ -251,7 +267,7 @@ const updatePsv =async ()=>{
   // clearVehicleSession()
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
-    .then(response =>{ Alert.alert("Driver Data Updated")
+    .then(response =>{ Alert.alert("Data has been Updated")
     storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
 }
     )
