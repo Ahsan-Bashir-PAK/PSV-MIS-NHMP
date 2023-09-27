@@ -1,4 +1,4 @@
-import React, { useState, Linking } from 'react';
+import React, { useState, Linking,useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {
@@ -24,7 +24,13 @@ import { Facebook, Twitter } from 'lucide-react-native';
 
 function Login() {
 
+useEffect(()=>{
+    function clearStorage(){
 
+        EncryptedStorage.clear()
+    }
+clearStorage()
+},[])
  
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
@@ -90,10 +96,9 @@ function clearAll(){
                      location:location+userbound
                  })
              );
-             //console.log("home-----", user,role, location)
-             // Congrats! You've just stored your first value!
+           
          } catch (error) {
-             // There was an error on the native side
+             console.log(error)
          }
      }
 

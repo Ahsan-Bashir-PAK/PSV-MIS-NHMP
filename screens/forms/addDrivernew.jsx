@@ -22,12 +22,45 @@ const AddDrivernew = ({route}) => {
 
 const [currentUser,setCurrentUser] = useState({})
 
+ //===============getting report data  for backend
+
+ async function retrieveReportSession() {
+    
+  try {
+    const session = await EncryptedStorage.getItem('Report');
+
+    if (session !== undefined) {
+    
+      const data =JSON.parse(session).dvrData; //data of vehicle
+      showReportData(data)
+      
+     
+     
+    }
+  } catch (error) {
+    // There was an error on the native side
+  }
+  
+}
+
+//============================================retriveing vehicle info
 useEffect(()=>{
-  retrieveUserSession()
-  if(route.params='report'){
+retrieveUserSession()
+if(route.params){
+  if(route.params["params"] == "report"){
     retrieveReportSession()
   }
+}
 },[])
+
+///================================retriving Data
+
+async function showReportData (dvrData){
+////code herer plz======
+
+setDriverValue(dvrData);
+
+}
 
 //getting user seesion data 
 async function retrieveUserSession() {
@@ -43,26 +76,6 @@ async function retrieveUserSession() {
       // There was an error on the native side
   }
 }
-
-////===============getting report data
-
-async function retrieveReportSession() {
-  try {
-    const session = await EncryptedStorage.getItem('Report');
-
-    if (session !== undefined) {
-      console.log(
-        'trip report data===========',
-        JSON.parse(session).tripReport,
-      ); // data for report
-      console.log('vehicledata===========', JSON.parse(session).dvrData); //data of vehicle
-     
-    }
-  } catch (error) {
-    // There was an error on the native side
-  }
-}
-
 
 
 
@@ -170,20 +183,21 @@ const getDriver = async()=>{
     async (response) =>{
      const result = response.data[0]
       if(result){
-        
+        console.log(result)      
     await setDriverValue(result)
       }
       else {
         Alert.alert("Driver not in Record.")
       }
   })
+  
 }
 
 // Get Driver Values and Saved in form
 async function setDriverValue (result){
   //console.log("yesss", result.driverName);
   setcnic(result.cnic);
- //setdobDate(result.dob);
+ setdobDate( new Date(result.dob));
   setDriverName(result.driverName);
   setFatherName(result.fatherName);
   setAddress(result.address);
@@ -193,8 +207,9 @@ async function setDriverValue (result){
   setLicenseNo(result.licenseNo);
   setLicenseType(result.licenseType);
   setLicenseAuthority(result.licenseAuthority);
-  //setissueDate(data.issueDate);
-  //setexpiryDate(data.setexpiryDate);
+  setissueDate(new Date(result.issueDate));
+  setexpiryDate(new Date(result.licenseExpiry));
+  console.log(result.issueDate,result.licenseExpiry)
 }
 //----------save driver data
 const saveData = async () => {
@@ -413,7 +428,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
                 onSelect={(selectedItem, index) => {
                   setLicenseType(selectedItem);
                 }}
-                defaultButtonText='Select License type'
+                defaultButtonText={licenseType}
                 buttonStyle={{
                   backgroundColor:'white',
               }}
@@ -432,7 +447,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
                 }
                 
                 } 
-                defaultButtonText='Select Authority'
+                defaultButtonText={licenseAuthority}
                 buttonStyle={{
                     backgroundColor:'white',
                 }}

@@ -91,6 +91,15 @@ async function showReportData (psvReportData){
 
 }
 
+async function clearPsvSession() {
+  try {
+    await EncryptedStorage.removeItem('psv_session');
+    setCurrentPsv("");
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   //---------------------------------
 
   function clearAll() {
@@ -101,6 +110,7 @@ async function showReportData (psvReportData){
     setfirstAid('');
     setzeroSeat('');
     setCones('');
+
   }
 //
   //===============getting report data
@@ -171,8 +181,12 @@ async function showReportData (psvReportData){
         }`,
         PsvOthers,
       )
+
       .then(response =>{ Alert.alert(" PSV's Data has been completed. ")
-          navigation.navigate('Home')
+      
+      clearAll();
+      clearPsvSession();
+      navigation.navigate('Home')
     })
 
     
@@ -196,11 +210,7 @@ async function showReportData (psvReportData){
 
             <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-sm rounded-md font-bold ">
-                {currentPsv.psvLetter +
-                  '-' +
-                  currentPsv.psvModal +
-                  '-' +
-                  currentPsv.psvNumber}
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
               </Text>
             </View>
 

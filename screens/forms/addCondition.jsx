@@ -173,7 +173,7 @@ async function retrieveUserSession() {
 
             <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-sm rounded-md font-bold ">
-                {currentPsv.psvLetter+ "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
                 </Text>
               
             </View>

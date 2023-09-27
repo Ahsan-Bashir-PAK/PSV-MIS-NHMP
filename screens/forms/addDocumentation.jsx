@@ -53,32 +53,11 @@ const [currentUser,setCurrentUser] = useState({})
 
 //
 const [psvreport , setPsvReportData] = useState("");
+const [vehicleNo,setVehicleNo] =useState()
 
 
-//getting user seesion data 
-async function retrieveVehicleSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("psv_session");
-      if (session !== undefined) {
-        setCurrentPsv(JSON.parse(session))
-      
-      }
-  } catch (error) {
-      // There was an error on the native side
-  }
-}
-//===============================================================getting user seesion data 
-async function retrieveUserSession({route}) {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
-      if (session !== undefined) {
-        //  setCurrentUser(session)
-        setCurrentUser(JSON.parse(session)) 
-      }
-  } catch (error) {
-      // There was an error on the native side
-  }
-}
+
+
 // SET DATA INTO FIELDS
 function setData (psvreport) {
       setRoute(psvreport.routePermitNo);
@@ -114,30 +93,62 @@ function setData (psvreport) {
     }
   }
 //============================================retriveing vehicle info
+
+
+
 useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
-
- if(route.params){
-  if(route.params["params"] =="report"){
-    retrieveReportSession()
+  if(route.params){
+    if(route.params["params"] =="report"){
+      retrieveReportSession()
+    }
   }
-  
- }
-  
 },[])
+
+  //===============================================================getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        //console.log(JSON.parse(session))
+        setCurrentUser(JSON.parse(session)) 
+        
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+  //getting user seesion data 
+  async function retrieveVehicleSession() {
+    try {   
+        const session = await EncryptedStorage.getItem("psv_session");
+        //console.log("session=========",session)
+        if (session !== undefined) {
+          const sessiondata = JSON.parse(session)
+          setCurrentPsv(sessiondata)
+        }
+    } catch (error) {
+        // There was an error on the native side
+    }
+  }
+
+  async function vehicleno (){
+    const vehicle = currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber
+    setVehicleNo(vehicle)
+  }
 
 //=============================================== clear 
   function clearAll() {
       setRoute("");
       setRouteAuthority ("");
-      //setexpir ("");
+      setRouteDate(new Date());
       setRouteType("");
       setRouteFrom("");
       setRouteTo("");
       setRouteVia("");
       setFitness("");
-      //fitness expiry
+      setFDate(new Date());
       setFitAuthority("");
   }
 
@@ -165,6 +176,7 @@ useEffect(()=>{
   const updatePsvDocs =async ()=>{
     axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
+    clearAll()
       .then(response => Alert.alert(" PSV's Document Data Updated "))
       navigation.navigate("Add Condition")
       .catch(error => console.error(error));
@@ -187,7 +199,9 @@ useEffect(()=>{
 
             <View className=" bg-zinc-200  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold  ">
-                     {currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+           
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
+            
                 </Text>
               
             </View>
@@ -432,7 +446,15 @@ useEffect(()=>{
         </KeyboardAvoidingView>
       </View>
     </ScrollView>
+
+    
   );
+
+// return(
+//   <View>
+//     <Text>hello</Text>
+//   </View>
+// )
 };
 
 export default AddDocumentation;

@@ -50,15 +50,26 @@ function Home() {
     retrieveUserSession();
   }, []);
 
+  // logout clear all sessions
+
+ async function logoutSesion () {
+    try{  
+  //  await EncryptedStorage.clear();    
+   navigation.navigate('Login');
+  } catch (error) {}
+
+  }  
+  
   //getting user seesion data
   async function retrieveUserSession() {
+   
     try {
       const session = await EncryptedStorage.getItem('user_session');
 
       if (session !== undefined) {
-        //  setCurrentUser(session)
+  
         setCurrentUser(JSON.parse(session));
-        console.log(currentUser);
+       console.log(currentUser);
       }
     } catch (error) {
       console.log(error);
@@ -297,7 +308,7 @@ function Home() {
 
       <View className="mt-2 ">
         <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => logoutSesion()}
           className="w-full   h-10 rounded-lg  justify-center items-center bg-[#a32d37] ">
           <View className="justify-center flex flex-row items-center  w-full gap-2">
             <LogOutIcon stroke="white" size={25} />

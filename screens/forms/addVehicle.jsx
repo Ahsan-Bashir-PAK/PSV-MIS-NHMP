@@ -27,7 +27,7 @@ const AddVehicle = ({route}) => {
 
   const [Vehicle_type, setType] = useState(""); // BUS / HIACE
   const [Vehicle_letter, setLetter] = useState(""); // LES
-  const [Vehicle_year, setVehicleYear] = useState("");  //2019
+  const [Vehicle_year, setYear] = useState("");  //2019
   const [Vehicle_number, setNumber] = useState(""); //5351
   const [vehicle_chasis , setChasis] = useState(""); // chasis
   const [vehcile_engine, setEngine] = useState(""); // engine
@@ -55,24 +55,48 @@ const AddVehicle = ({route}) => {
   //---------------------------detting data 
   const [psvData,setPsvData] = useState({})
 
-  //==================getting user seesion data 
-async function retrieveUserSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
-      if (session !== undefined) {
-        setCurrentUser(JSON.parse(session))
-      }
-  } catch (error) {
-      // There was an error on the native side
+
+  
+  ///================================retriving Data
+  
+  async function showReportData (psvReportData){
+  ////code herer plz===========%%$$%$%$%#$@#$#$@#$@#$#@$=======
+  setPsvFiels(psvReportData)
   }
-}
+
+  //==========================================
+    //getting user seesion data
+    async function retrieveUserSession() {
+   
+      try {
+        const session = await EncryptedStorage.getItem('user_session');
+  
+        if (session !== undefined) {
+          setCurrentUser(JSON.parse(session));
+         console.log(currentUser);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    useEffect(()=>{
+      retrieveUserSession()
+      if(route.params){
+        if(route.params["params"] == "report"){
+          retrieveReportSession()
+        }
+      }
+    },[])
+
+//=======================================================end report  code
 
  function setPsvFiels(result) {
  //Alert.alert(result.seatingCap);
   setType(result.vehicleType);
-  //  setLetter(result.prefixRegNo);
-  //  setVehicleYear(result.vehicleModel.toString());
-  //  setNumber(result.regNo);
+   setLetter(result.prefixRegNo);
+  setYear(result.vehicleModel.toString());
+  setNumber(result.regNo.toString());
    setChasis(result.chasisNo);
    setEngine(result.engineNo);
    setMake(result.vehicleMake);
@@ -83,7 +107,7 @@ async function retrieveUserSession() {
    setEmergencyExit(result.exitGate);
    setManfYear(result.manufactureYear.toString());
    setCompany(result.companyName);
-
+    
  } 
 
 
@@ -93,10 +117,9 @@ async function retrieveUserSession() {
   function clearAllData(){
 
     
-  setType("");
-
+   setType("");
    setLetter("");
-   setVehicleYear("22");
+   setYear("");
    setNumber("");
    setChasis("");
    setEngine("");
@@ -116,38 +139,10 @@ async function retrieveUserSession() {
   const today = new Date()
   const time = new Date().toLocaleTimeString() 
 
-//=======================================================get report data 
 
-  //===============getting report data
-
-  async function retrieveReportSession() {
-    try {
-      const session = await EncryptedStorage.getItem('Report');
-
-      if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
-       
-      }
-    } catch (error) {
-      // There was an error on the native side
-    }
-  }
-
-//============================================retriveing vehicle info
-useEffect(()=>{
-  retrieveUserSession()
- if(route.params == "report"){
-  retrieveReportSession()
- 
- }
- 
-},[])
   //===========================================================vehicle sesion saving 
  async function storeVehicleSession(letter,modal,number) {
+
         try {
             await EncryptedStorage.setItem(
                 "psv_session",
@@ -156,8 +151,9 @@ useEffect(()=>{
                     psvModal:modal ,
                     psvNumber:number 
                 })
+                  
             );
-           
+           console.log("session Saved=========", letter,modal,number)
         } catch (error) {
             // There was an error on the native side
         }
@@ -177,6 +173,7 @@ const getPsv = async()=>{
        
     setPsvData(result)  //    Use this to set data in fileds   
     setPsvFiels (result)
+
       }
       else {
         Alert.alert("PSV vehicle not in Record.")
@@ -214,18 +211,20 @@ const getPsv = async()=>{
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
       .then( (response)=> {
 
+        
         Alert.alert('Vehicle intial info. saved');
-        storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+        
       })
       .catch((error) => {
         console.log(error);
       })
+     await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
      clearAllData()
     
-       navigation.navigate("Add Documentation", {params:{letter:Vehicle_letter, year:Vehicle_year,no:Vehicle_number}})
+       navigation.navigate("Add Documentation")
       
     }
-   //---------------------------------------------------update psv
+    //-----------------------------------------update psv
    
 const upedtedPsv ={
   vehicleType: Vehicle_type,
@@ -249,6 +248,7 @@ const upedtedPsv ={
 
 
 const updatePsv =async ()=>{
+  // clearVehicleSession()
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
     .then(response =>{ Alert.alert("Driver Data Updated")
@@ -256,6 +256,7 @@ const updatePsv =async ()=>{
 }
     )
     .catch(error => console.error(error));
+    clearAllData()
   }
 
 
@@ -319,8 +320,8 @@ const updatePsv =async ()=>{
                 placeholder='Year[2019]'
                 maxLength={4}
                 keyboardType='phone-pad'
-                Value={Vehicle_year}
-                onChangeText={e => setVehicleYear(e)}
+                onChangeText={e => setYear(e)}
+                value={Vehicle_year}
                 className='   bg-white border-black text-black    text-lg' />
             </View>
 
@@ -331,6 +332,7 @@ const updatePsv =async ()=>{
                 placeholderTextColor={'grey'}
                 placeholder='[0000]'
                 maxLength={4}
+                keyboardType='phone-pad'
                 value={Vehicle_number}
                 onChangeText={e=>setNumber(e)}
                 // keyboardType='phone-pad'

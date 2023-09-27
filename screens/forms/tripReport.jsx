@@ -83,12 +83,12 @@ const [remarks, setremarks] =useState()
 
       if (session !== undefined) {
 
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
+        // // console.log(
+        // //   'trip report data===========',
+        // //   JSON.parse(session).tripReport,
+        // ); // data for report
 
-        console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
+      //  console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
         const tripdata = JSON.parse(session).tripReport;  // data for report
        
         setTripData(tripdata)
@@ -99,8 +99,10 @@ const [remarks, setremarks] =useState()
     }
   }
 
+
 // settripdata
 function setTripData(tripdata){
+  
     setpsvNo(tripdata.psvNo)
     setcompanyName(tripdata.companyName);
     setexitGate(tripdata.exitGate);
@@ -215,7 +217,7 @@ function setTripData(tripdata){
                 <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
 
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 border"} w-4/6 items-center rounded-md`}>
                <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                     <Text className="text-white font-bold">{v_routeStatus} : {v_routedate}</Text>
 
@@ -244,7 +246,7 @@ function setTripData(tripdata){
               </View>
 
 
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-800 border"} w-4/6 items-center rounded-md`}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 border"} w-4/6 items-center rounded-md`}>
               <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                   <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate}</Text>
                 </TouchableOpacity>
@@ -384,7 +386,9 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">License Details</Text>
               </View>
               <View className="w-4/6 items-center">
+                <TouchableOpacity onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
                 <Text className="text-black font-bold">{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -393,9 +397,11 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">License Expiry </Text>
               </View>
+              <TouchableOpacity onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
               <View className="w-4/6 items-center">
                 <Text className="text-black font-bold">{d_L_expiry}</Text>
               </View>
+              </TouchableOpacity>
             </View>
 
              {/* Action Taken by officer */}
