@@ -217,7 +217,7 @@ function setTripData(tripdata){
                 <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
 
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 border"} w-4/6 items-center rounded-md`}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
                <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                     <Text className="text-white font-bold">{v_routeStatus} : {v_routedate}</Text>
 
@@ -246,7 +246,7 @@ function setTripData(tripdata){
               </View>
 
 
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 border"} w-4/6 items-center rounded-md`}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
               <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                   <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate}</Text>
                 </TouchableOpacity>

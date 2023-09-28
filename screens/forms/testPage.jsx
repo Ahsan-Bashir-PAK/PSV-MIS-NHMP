@@ -69,8 +69,9 @@ const TestPage = () => {
                         <Text className="text-black text-lg font-bold">Punjab Transport Department</Text>
                         <Text className="text-black text-lg">Vehicle Inspection & Verification System (VICS)
                         </Text>
-                       <Text> user Name: tcc</Text>
-                       <Text> password: tm4862</Text>
+                       <Text className="text-black text-lg"> user Name: tcc</Text>
+                       <Text className="text-black text-lg"
+                       > password: tm4862</Text>
                         
                         <TouchableOpacity  onPress={() => Linking.openURL('http://52.29.248.107/VidCentral/AdminApp/Inspection/SearchVIR.aspx')}>
                         <Text className="font-bold text-blue-700">
@@ -80,9 +81,9 @@ const TestPage = () => {
 
                       {/* =================== */}
 
-                      <Text className="text-black text-lg font-bold mt-2"> Vehicle Verification System</Text>
-                        <Text>user Name: NHMPCR</Text>
-                        <Text>password: NHMPCR#93g8*KB</Text>
+                      <Text className="text-black text-lg font-bold mt-2"> Punjab Excise Vehicle Verification System</Text>
+                        <Text className="text-black text-lg">user Name: NHMPCR</Text>
+                        <Text className="text-black text-lg">password: NHMPCR#93g8*KB</Text>
                         
                         <TouchableOpacity onPress={() => Linking.openURL('https://mvrs.punjab.gov.pk/mvrsapp/')}>
                         <Text style={{color: 'blue'}}>

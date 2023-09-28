@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
+import { Keyboard, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -126,7 +126,12 @@ const AddVehicle = ({route}) => {
     
  } 
 
-
+ /// keyboar handler
+ function KeyBoardhandler(){
+  Keyboard.dismiss();
+  //console.log("weww")
+  getPsv()
+}
 
 
 
@@ -278,7 +283,7 @@ const updatePsv =async ()=>{
 
  //------------------------------returning UI    
   return (
-     <ScrollView className=" ">
+     <ScrollView >
       <View className=" flex flex-col ">
         <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
 
@@ -344,22 +349,26 @@ const updatePsv =async ()=>{
             {/* Number */}
             <View className="w-3/12 items-center ">
               <TextInput
-            
+                
                 placeholderTextColor={'grey'}
                 placeholder='[0000]'
                 maxLength={4}
                 keyboardType='phone-pad'
                 value={Vehicle_number}
                 onChangeText={e=>setNumber(e)}
+                onBlur={()=>KeyBoardhandler()}
                 // keyboardType='phone-pad'
                 className=' bg-white border-black text-black   text-lg' />
             </View>
 {/* //Search Button */}
-                
-                    <TouchableOpacity onPress = {()=>getPsv()} className="flex flex-row rounded-md  justify-center items-center w-1/4 bg-orange-400">
+                 
+                    <TouchableOpacity  onPress ={()=>getPsv()}
+                    
+                     className="flex flex-row rounded-md  justify-center items-center w-1/4 bg-orange-400">
                       
                       <Text className="text-xl font-bold text-black">Search</Text>
                     </TouchableOpacity>
+                   
                 
           </View>
 
@@ -392,14 +401,14 @@ const updatePsv =async ()=>{
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >
             <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number</Text></View>
-            <View className=" w-4/6  items-center">
+            <View className=" w-4/6 text-center items-center ">
               <TextInput
                 placeholderTextColor={'grey'}
                 placeholder='Chassis Number'
                 maxLength={50}
                 value={vehicle_chasis}
                 onChangeText={e => setChasis(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+                className=' border-black text-black rounded-md  w-full text-lg items-center text-center' />
 
             </View>
           </View>
@@ -473,7 +482,7 @@ const updatePsv =async ()=>{
                 maxLength={2}
                 value={vehicle_seats}
                 onChangeText={e => setVehicleSeats(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+                className=' border-black text-black rounded-md  text-lg text-center' />
             </View>
           </View>
 
@@ -527,7 +536,7 @@ const updatePsv =async ()=>{
                 maxLength={30}
                 value={vehcile_company}
                 onChangeText={e => setCompany(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+                className=' border-black text-black rounded-md  text-lg text-center' />
             </View>
           </View>
 

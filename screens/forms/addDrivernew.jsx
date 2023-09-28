@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { BusFront, Scroll, User, Square, CheckSquare, Search, Calendar } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -132,6 +132,13 @@ const [dobdate, setdobDate] = useState(new Date())
     setSearchCnic("");
 
   }
+  //keyboard handler
+
+  function KeyBoardhandler(){
+    Keyboard.dismiss();
+    //console.log("weww")
+    getDriver()
+  }
 //===========================------------------backend integration==============================
 //---------------------------------------------------saving data to offices
 
@@ -235,6 +242,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
 
 //------------------------return 
   return (
+    
      <ScrollView className=" ">
       <View className=" flex flex-col   ">
         <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
@@ -253,14 +261,17 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
             
             <View className=" w-4/6  border border-gray-200 items-center ">
                 <TextInput 
+                
                 placeholderTextColor={'grey'}
                 placeholder='Enter Driver CNIC'
                 maxLength={13}
                 keyboardType='numeric'
                 value = {searchCnic}
+                onBlur={()=>KeyBoardhandler()}
+                
                 onChangeText={e=>setSearchCnic(e)}
 
-                className=' text-black rounded-md  text-lg' />
+                className=' text-black rounded-md  text-lg text-center' />
                 
             </View>
             <TouchableOpacity onPress={()=>getDriver()}  className="flex flex-row-reverse  bg-green-600  justify-center items-center w-2/6">
@@ -543,6 +554,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
         </KeyboardAvoidingView>
       </View>
     </ScrollView>
+    
   );
 };
 
