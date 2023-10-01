@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
+import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User  } from 'lucide-react-native';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
@@ -245,6 +245,21 @@ function Home() {
             <Plus stroke="white" size={25} />
             <Text className=" font-bold font-white  text-lg text-white">
               Add New User
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      {/* User Profile*/}
+
+      <View className="mt-2 ">
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}
+          className="w-full   h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
+          <View className="justify-center flex flex-row items-center  w-full gap-2">
+            <User stroke="white" size={25} />
+            <Text className=" font-bold font-white  text-lg text-white">
+              User Profile
             </Text>
           </View>
         </TouchableOpacity>

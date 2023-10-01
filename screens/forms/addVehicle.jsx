@@ -10,16 +10,29 @@ import axios from 'axios'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import retrieveUserSession from '../../config';
 import { tabactions } from '@react-navigation/native';
-
+import { SelectList } from 'react-native-dropdown-select-list'
 
 
 
 const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];  
 const Vehicle_make_company = [ "YUTONG" ,"HIGER", "HINO", "MAN", "NOVA", "EURO", "ISUZU", "KING-LONG", "ZHONGTONG", "MITSUBISHI", "NISHI", "VOLVO", "DAEWOO", "YUTONG-MASTER", "OTHER"];    
 
+const data = [
+  {key:'1', value:'Mobiles', disabled:true},
+  {key:'2', value:'Appliances'},
+  {key:'3', value:'Cameras'},
+  {key:'4', value:'Computers', disabled:true},
+  {key:'5', value:'Vegetables'},
+  {key:'6', value:'Diary Products'},
+  {key:'7', value:'Drinks'},
+]
+
 
 
 const AddVehicle = ({route}) => {
+
+  // Searchable drop down
+  const [selected, setSelected] = React.useState("");
 
   //const jumptoaction = tabactions.jumpto("Add Documentation", { params });
   const navigation = useNavigation();
@@ -562,17 +575,28 @@ const updatePsv =async ()=>{
           </View>
 
           {/* Company Name */}
-          <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Company Name</Text></View>
-            <View className="w-4/6 items-center">
-              <TextInput
+          <View className={`${styles.outerview}  `}>
+            <View className={styles.labelstyle}>
+              <Text className="text-black font-bold">Company Name</Text>
+            </View>
+            {/* <View className="w-4/6 items-center"> */}
+              {/* <TextInput
                 placeholderTextColor={'grey'}
                 placeholder='[Faisal Mover, Daewoo, Kohistan]'
                 maxLength={30}
                 value={vehcile_company}
                 onChangeText={e => setCompany(e)}
-                className=' border-black text-black rounded-md  text-lg text-center' />
-            </View>
+                className=' border-black text-black rounded-md  text-lg text-center' /> */}
+                <View className="bg-green-400 relative z-50 w-2/4  ">
+                <SelectList
+                setSelected={(val) => setSelected(val)} 
+                data={data} 
+                save="value"
+                />
+                </View>
+                
+                
+            {/* </View> */}
           </View>
 
            {/* Buttons Save - Clear -Update */}

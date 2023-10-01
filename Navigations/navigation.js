@@ -13,7 +13,7 @@ import AddDocumentation from '../screens/forms/addDocumentation';
 import AddCondition from '../screens/forms/addCondition'
 import AddOtherInfo from '../screens/forms/addOtherinfo';
 import Downloads from '../screens/downloads';
-
+import Profile from '../screens/profile'
 
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +31,7 @@ const MyStack = () => {
          options={{ headerShown: false }}
         />
          <Stack.Screen name="OnlineVerifications" component={OnlineVerifications} /> 
+         <Stack.Screen name="Profile" component={Profile} /> 
          <Stack.Screen name="Downloads" component={Downloads} /> 
          <Stack.Screen name="Trip Report" component={TripReport} />
          <Stack.Screen name="SignUp" component={SignUp} /> 
