@@ -13,7 +13,7 @@ import AddCondition from '../screens/forms/addCondition';
 import AddOtherInfo from '../screens/forms/addOtherinfo';
 import TripReport from '../screens/forms/tripReport';
 import AddDrivernew from '../screens/forms/addDrivernew';
-import TestPage from '../screens/forms/onlineVerifications';
+import AddCompany from '../screens/forms/addCompany';
 
 
 const Tab =  createBottomTabNavigator();
@@ -68,7 +68,15 @@ const MyTabs = () => {
       }}
         
         />
-
+<Tab.Screen name="AddCompany"  component={AddCompany}
+        options={{
+          unmountOnBlur:true,
+          tabBarIcon:()=>(
+            <BadgeInfo  stroke="#0332BB" size={25} fill='white' />
+          )
+      }}
+        
+        />
 
       </Tab.Navigator>
       // </NavigationContainer>

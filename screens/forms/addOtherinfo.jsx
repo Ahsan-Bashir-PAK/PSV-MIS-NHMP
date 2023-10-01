@@ -433,13 +433,13 @@ async function clearPsvSession() {
                   </TouchableOpacity>
                 </View>
 
-                <View className="">
+                {/* <View className="">
                   <TouchableOpacity
                     onPress={() => updatePvsOthers()}
                     className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           </View>

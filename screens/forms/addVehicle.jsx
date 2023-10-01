@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Keyboard, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation } from 'lucide-react-native';
+import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation, Building2 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Bus } from 'lucide-react-native';
@@ -10,23 +10,12 @@ import axios from 'axios'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import retrieveUserSession from '../../config';
 import { tabactions } from '@react-navigation/native';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { Dropdown } from 'react-native-searchable-dropdown-kj';
 
 
 
 const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];  
 const Vehicle_make_company = [ "YUTONG" ,"HIGER", "HINO", "MAN", "NOVA", "EURO", "ISUZU", "KING-LONG", "ZHONGTONG", "MITSUBISHI", "NISHI", "VOLVO", "DAEWOO", "YUTONG-MASTER", "OTHER"];    
-
-const data = [
-  {key:'1', value:'Mobiles', disabled:true},
-  {key:'2', value:'Appliances'},
-  {key:'3', value:'Cameras'},
-  {key:'4', value:'Computers', disabled:true},
-  {key:'5', value:'Vegetables'},
-  {key:'6', value:'Diary Products'},
-  {key:'7', value:'Drinks'},
-]
-
 
 
 const AddVehicle = ({route}) => {
@@ -68,6 +57,9 @@ const AddVehicle = ({route}) => {
   //---------------------------detting data 
   const [updateBtn,setUpdateBtn] = useState('none')
   const [saveBtn,setSaveBtn] = useState('block')
+  const [value,setValue] = useState(null)
+  const [subComp,setSubComp] = useState(null)
+  // const [isFocus, setIsFocus] = useState(false);
 
 
   
@@ -112,10 +104,7 @@ const AddVehicle = ({route}) => {
     useEffect(()=>{
       retrieveUserSession()
       setUpdateBtn("none")
-        
-
-
-  
+       
       if(route.params){
         if(route.params["params"] == "report"){
           retrieveReportSession()
@@ -173,6 +162,8 @@ const AddVehicle = ({route}) => {
    setEmergencyExit("");
    setManfYear("");
    setCompany("");
+   setUpdateBtn("none")
+        setSaveBtn("block")
 
   }
 
@@ -211,7 +202,8 @@ const getPsv = async()=>{
     (response) =>{
       const result = response.data[0]
       if(result){
-       
+        setUpdateBtn("block")
+        setSaveBtn("none")
     // setPsvData(result)  //    Use this to set data in fileds   
     setPsvFiels (result)
 
@@ -221,8 +213,7 @@ const getPsv = async()=>{
       }
   })
   await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
-  setUpdateBtn("block")
-  setSaveBtn("none")
+ 
 }
 
 
@@ -264,13 +255,10 @@ const getPsv = async()=>{
       })
      await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
     // 
-      
-      
+
       clearAllData()
       navigation.navigate("Add Documentation")
-    
-    
-      
+
     }
     //-----------------------------------------update psv
    
@@ -313,6 +301,83 @@ const updatePsv =async ()=>{
         
     clearAllData()
   }
+
+
+  const Companydata = [
+ 
+  ]
+  const subCompanyData = []
+//--------------------------getting companies
+//-----------------------------------------------------------search psv
+const getCompany = async()=>{
+
+
+  await axios.get(`${global.BASE_URL}/cmp/getAllCompany`)
+  .then(
+    (response) =>{
+      const result = response.data
+      if(result){
+       
+    // setPsvData(result)  //    Use this to set data in fileds   
+        result.map((item)=>{
+          Companydata.push(
+            {label:`${item.companyName}`,value:`${item.companyName}`}
+          )
+
+        })
+      
+      }
+      else {
+        Alert.alert("Not in Record.")
+      }
+  })
+}
+
+//==========================sub company
+const getSubCompany = async()=>{
+
+  if(value){
+
+    await axios.get(`${global.BASE_URL}/cmp/getCmp/${value}`)
+    .then(
+      (response) =>{
+        const result = response.data
+        if(result){
+          
+          // setPsvData(result)  //    Use this to set data in fileds   
+          result.map((item)=>{
+            subCompanyData.push(
+              {label:`${item.subOffice}`,value:`${item.subOffice}`}
+              )
+              
+            })
+            
+          }
+          else {
+            Alert.alert("Not in Record.")
+          }
+        })
+      }
+}
+
+
+
+if(Companydata==[]){
+  return(
+    <View>
+      <Text>
+        Loading........
+      </Text>
+    </View>
+  )
+}
+else{
+
+getCompany()
+if(value != ""){
+
+  getSubCompany()
+}
 
 
  //------------------------------returning UI    
@@ -406,32 +471,6 @@ const updatePsv =async ()=>{
                 
           </View>
 
-{/* Modal Code */}
-      <View className="flex-1 w-4/6 z-50 bg-slate-600 opacity-10">
-      <Modal
-          
-          animationType={'slide'}
-          transparent={false}
-          visible={showModal}
-           onRequestClose={() => {
-             console.log('Modal has been closed.');
-           }}
-          >
-            <View className=" w-50 bg-slate-200 p-4">
-         <Text className="text-black text-lg">1. Initial Record of Vehcile Added</Text>
-         <Text className="text-black text-lg">2. Documentation Of Vehicle Added</Text>
-         <Text className="text-black text-lg">3. Condition information of Vehicle Added</Text>
-         <Text className="text-black text-lg">4. otherninformation of Vehcile Added</Text>
-         <Button
-              title="Close This View"
-              onPress={() => {
-                setShowModal(!showModal);
-              }}
-            />
-          </View>
-          </Modal> 
-          </View>
-{/* Modal End */}
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >
             <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number</Text></View>
@@ -466,13 +505,6 @@ const updatePsv =async ()=>{
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By</Text></View>
             <View className="w-4/6 items-center">
-              {/* <TextInput
-                placeholderTextColor={'grey'}
-                placeholder='HIGER-YUTONG-DAEWOO'
-                maxLength={100}
-                value={vehcile_make}
-                onChangeText={e => setMake(e)}
-                className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' /> */}
             <View className=" m-1  z-50">
               <SelectDropdown
                 data= {Vehicle_make_company}
@@ -574,30 +606,83 @@ const updatePsv =async ()=>{
             </View>
           </View>
 
+{/* =================================================== */}
+
+{/* =================================================== */}
+
+
           {/* Company Name */}
           <View className={`${styles.outerview}  `}>
             <View className={styles.labelstyle}>
               <Text className="text-black font-bold">Company Name</Text>
             </View>
-            {/* <View className="w-4/6 items-center"> */}
-              {/* <TextInput
-                placeholderTextColor={'grey'}
-                placeholder='[Faisal Mover, Daewoo, Kohistan]'
-                maxLength={30}
-                value={vehcile_company}
-                onChangeText={e => setCompany(e)}
-                className=' border-black text-black rounded-md  text-lg text-center' /> */}
-                <View className="bg-green-400 relative z-50 w-2/4  ">
-                <SelectList
-                setSelected={(val) => setSelected(val)} 
-                data={data} 
-                save="value"
-                />
-                </View>
+                <View className = "w-3/5 pl-3">
+
+                 
+            <Dropdown 
+                  data={Companydata}
+
+                  search
+                  containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Select"
+                  placeholderStyle={{paddingStart:5}}
+                  inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+                  searchPlaceholder="Search Company"
+                  value={value}
+                  
+                  onChange={item => {
+                    setValue(item.value)
                 
-                
-            {/* </View> */}
+                  }}
+
+                  renderLeftIcon={() => (
+                    <View className="flex flex-row gap-1">
+                    <Building2 stroke="black" size={20} />
+                    <Text className="bg-slate-600 p-1 text-white ">{value}</Text>
+                    </View>
+                  )}
+                  />
+</View>
+
           </View>
+ 
+{/* Sub Company Name */}
+<View className={`${styles.outerview}  `}>
+            <View className={styles.labelstyle}>
+              <Text className="text-black font-bold">Sub Company Name</Text>
+            </View>
+                <View className = "w-3/5 pl-3">
+            <Dropdown 
+                  data={subCompanyData}
+                  containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Select"
+                  searchPlaceholder="Search Company"
+                  placeholderStyle={{paddingStart:10}}
+                  inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+                  value={subComp}
+                  onChange={(item) => {
+                   setSubComp(item.value)
+                    
+                  }}
+                  renderLeftIcon={() => (
+                    <View className="flex flex-row gap-1">
+                    <Building2 stroke="black" size={20} />
+                    <Text className="bg-slate-600 p-1 text-white ">{subComp}</Text>
+                    </View>
+                  )}
+                  />
+</View>
+
+          </View>
+
+
 
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
@@ -629,6 +714,8 @@ const updatePsv =async ()=>{
     </ScrollView>
   );
 };
+
+}
 
 export default AddVehicle;
 

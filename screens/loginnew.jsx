@@ -48,9 +48,10 @@ clearStorage()
             function (response){
                 const result = response.data[0]
           if(result) {
+           
           if(userpwd == result.userPwd){
            
-            storeUserSession(user,result.role)
+            storeUserSession(user,result.role,result.userName,result.rank,result.userPwd)
             
             navigation.navigate("Home")
             clearAll()
@@ -86,14 +87,19 @@ function clearAll(){
 
     
 
-     async function storeUserSession(user,role) {
+     async function storeUserSession(user,role,officer,rank,pwd) {
          try {
              await EncryptedStorage.setItem(
                  "user_session",
                  JSON.stringify({
                      userName : user,
                      role:role,
-                     location:location+userbound
+                     location:location+userbound,
+                     name:officer,
+                     rank:rank,
+                     pwd:pwd
+
+                    
                  })
              );
            

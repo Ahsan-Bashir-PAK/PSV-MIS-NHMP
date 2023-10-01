@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Keyboard } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { BusFront, Scroll, User, Square, CheckSquare, Search, Calendar } from 'lucide-react-native';
+import { BusFront, Scroll, User, Square, CheckSquare, Search, Calendar,Building2 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import DropDownPicker from 'react-native-dropdown-picker';
 import { Bus } from 'lucide-react-native';
@@ -10,6 +10,8 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import '../../config'
 import retrieveUserSession from '../../config';
+import { Dropdown } from 'react-native-searchable-dropdown-kj';
+
 
 
 
@@ -80,7 +82,16 @@ async function retrieveUserSession() {
   }
 }
 
-
+const cmpdata = [
+  { label: 'btem 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'ctem 3', value: '3' },
+  { label: 'dtem 4', value: '4' },
+  { label: 'ktem 5', value: '5' },
+  { label: 'ltem 6', value: '6' },
+  { label: 'otem 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+];
 
 const today = new Date()
 const time = new Date().toLocaleTimeString()
@@ -114,9 +125,12 @@ const [dobdate, setdobDate] = useState(new Date())
   const [updateBtn,setUpdateBtn] = useState('none')
   const [saveBtn,setSaveBtn] = useState('block')
 
+
   //--------state for search driver //back end 
   const [searchCnic,setSearchCnic] =useState("")
   const [data,setData] =useState()
+  const [value,setValue] = useState(null) // Company Name
+  const [subComp,setSubComp] = useState() // Sub company name
 
 //-------------------------------- clear All 
   function clearAll() {
@@ -135,6 +149,10 @@ const [dobdate, setdobDate] = useState(new Date())
     setissueDate(new Date());
     setexpiryDate(new Date());
     setSearchCnic("");
+    setValue("");
+    setSubComp("");
+    setSaveBtn("block");
+    setUpdateBtn("none");
 
   }
   //keyboard handler
@@ -174,7 +192,8 @@ const updatedDeriver ={
   dob:  dobdate,
   address:  address,
   disability:  disability,
-  companyId:  companyId,
+  companyId:  value,
+  subCompany: subComp,
   cellNo :   cellNo, 
   licenseType:  licenseType,
   licenseNo:  licenseNo,
@@ -195,15 +214,15 @@ const getDriver = async()=>{
     async (response) =>{
      const result = response.data[0]
       if(result){
-           
+        setUpdateBtn('block')
+        setSaveBtn('none')
     await setDriverValue(result)
       }
       else {
         Alert.alert("Driver not in Record.")
       }
   })
-  setUpdateBtn('block')
-  setSaveBtn('none')
+  
 }
 
 // Get Driver Values and Saved in form
@@ -215,13 +234,15 @@ async function setDriverValue (result){
   setFatherName(result.fatherName);
   setAddress(result.address);
   setDisability(result.disability);
-  setCompanyId(result.companyId);
+  //setCompanyId(result.companyId);
   setCellNo(result.cellNo);
   setLicenseNo(result.licenseNo);
   setLicenseType(result.licenseType);
   setLicenseAuthority(result.licenseAuthority);
   setissueDate(new Date(result.issueDate));
   setexpiryDate(new Date(result.licenseExpiry));
+  setValue(result.companyId) //company Name
+  setSubComp(result.subCompany); // Sub companys
  
 }
 //----------save driver data
@@ -252,6 +273,83 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
 )
   .then(response => Alert.alert("Driver Data Updated"))
   .catch(error => console.error(error));
+}
+//============================================================
+
+const Companydata = [
+ 
+]
+const subCompanyData = []
+//--------------------------getting companies
+//-----------------------------------------------------------search psv
+const getCompany = async()=>{
+
+
+await axios.get(`${global.BASE_URL}/cmp/getAllCompany`)
+.then(
+  (response) =>{
+    const result = response.data
+    if(result){
+     
+  // setPsvData(result)  //    Use this to set data in fileds   
+      result.map((item)=>{
+        Companydata.push(
+          {label:`${item.companyName}`,value:`${item.companyName}`}
+        )
+
+      })
+    
+    }
+    else {
+      Alert.alert("Not in Record.")
+    }
+})
+}
+
+//==========================sub company
+const getSubCompany = async()=>{
+
+if(value){
+
+  await axios.get(`${global.BASE_URL}/cmp/getCmp/${value}`)
+  .then(
+    (response) =>{
+      const result = response.data
+      if(result){
+        
+        // setPsvData(result)  //    Use this to set data in fileds   
+        result.map((item)=>{
+          subCompanyData.push(
+            {label:`${item.subOffice}`,value:`${item.subOffice}`}
+            )
+            
+          })
+          
+        }
+        else {
+          Alert.alert("Not in Record.")
+        }
+      })
+    }
+}
+
+
+
+if(Companydata==[]){
+return(
+  <View>
+    <Text>
+      Loading........
+    </Text>
+  </View>
+)
+}
+else{
+
+getCompany()
+if(value != ""){
+
+getSubCompany()
 }
 
 //------------------------return 
@@ -416,7 +514,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
           </View>
 
            {/* Company Name */}
-           <View className={styles.outerview}>
+           {/* <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Company Name</Text></View>
             <View className="w-4/6 items-center">
             <TextInput
@@ -428,7 +526,79 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
                 className='  w-8/12 bg-white border-black text-black rounded-md  text-lg tex text-center' />
 
             </View>
+          </View> */}
+          {/* =========================== */}
+           {/* Company Name */}
+           <View className={`${styles.outerview}  `}>
+            <View className={styles.labelstyle}>
+              <Text className="text-black font-bold">Company Name</Text>
+            </View>
+            <View className = "w-3/5 pl-3">
+
+                 
+<Dropdown 
+      data={Companydata}
+
+      search
+      containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+      maxHeight={300}
+      labelField="label"
+      valueField="value"
+      placeholder="Select"
+      placeholderStyle={{paddingStart:5}}
+      inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+      searchPlaceholder="Search Company"
+      value={value}
+      
+      onChange={item => {
+        setValue(item.value)
+    
+      }}
+
+      renderLeftIcon={() => (
+        <View className="flex flex-row gap-1">
+        <Building2 stroke="black" size={20} />
+        <Text className="bg-slate-600 p-1 text-white ">{value}</Text>
+        </View>
+      )}
+      />
+</View>
+
+</View>
+
+{/* Sub Company Name */}
+<View className={`${styles.outerview}  `}>
+<View className={styles.labelstyle}>
+  <Text className="text-black font-bold">Sub Company Name</Text>
+</View>
+    <View className = "w-3/5 pl-3">
+<Dropdown 
+      data={subCompanyData}
+      containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+      search
+      maxHeight={300}
+      labelField="label"
+      valueField="value"
+      placeholder="Select"
+      searchPlaceholder="Search Company"
+      placeholderStyle={{paddingStart:10}}
+      inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+      value={subComp}
+      onChange={(item) => {
+       setSubComp(item.value)
+        
+      }}
+      renderLeftIcon={() => (
+        <View className="flex flex-row gap-1">
+        <Building2 stroke="black" size={20} />
+        <Text className="bg-slate-600 p-1 text-white ">{subComp}</Text>
+        </View>
+      )}
+      />
+</View>
           </View>
+
+          {/* +++++++++++++++++++++++++++++++ */}
 
            {/* License Number */}
            <View className={styles.outerview}>
@@ -571,7 +741,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
     
   );
 };
-
+}
 export default AddDrivernew;
 
 const styles = {
