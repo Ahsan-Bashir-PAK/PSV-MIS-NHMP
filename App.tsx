@@ -39,7 +39,7 @@ import AddCondition from './screens/forms/addCondition';
 import AddOtherInfo from './screens/forms/addOtherinfo';
 import TripReport from './screens/forms/tripReport';
 import AddDriverenew from './screens/forms/addDrivernew'
-import TestPage from './screens/forms/testPage';
+import TestPage from './screens/forms/onlineVerifications';
 import SignUp from './screens/forms/signUp';
 
 function App(): JSX.Element {

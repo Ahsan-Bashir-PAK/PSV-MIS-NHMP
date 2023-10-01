@@ -46,9 +46,12 @@ const [currentUser,setCurrentUser] = useState({})
 //============================================retriveing vehicle info
 useEffect(()=>{
 retrieveUserSession()
+setUpdateBtn('none')
 if(route.params){
   if(route.params["params"] == "report"){
     retrieveReportSession()
+    setUpdateBtn('block')
+    setSaveBtn('none')
   }
 }
 },[])
@@ -108,6 +111,8 @@ const [dobdate, setdobDate] = useState(new Date())
   const [addedDate,setAddedDate] =useState()
   const [addedTime,setAddedTime] =useState()
   const [addedPoint,setAddedPoint] =useState("")
+  const [updateBtn,setUpdateBtn] = useState('none')
+  const [saveBtn,setSaveBtn] = useState('block')
 
   //--------state for search driver //back end 
   const [searchCnic,setSearchCnic] =useState("")
@@ -190,14 +195,15 @@ const getDriver = async()=>{
     async (response) =>{
      const result = response.data[0]
       if(result){
-        console.log(result)      
+           
     await setDriverValue(result)
       }
       else {
         Alert.alert("Driver not in Record.")
       }
   })
-  
+  setUpdateBtn('block')
+  setSaveBtn('none')
 }
 
 // Get Driver Values and Saved in form
@@ -216,13 +222,21 @@ async function setDriverValue (result){
   setLicenseAuthority(result.licenseAuthority);
   setissueDate(new Date(result.issueDate));
   setexpiryDate(new Date(result.licenseExpiry));
-  console.log(result.issueDate,result.licenseExpiry)
+ 
 }
 //----------save driver data
 const saveData = async () => {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
   Alert.alert('Drive added successfully');
+  if(route.params){
+    if(route.params["params"] == "report"){
+      navigation.navigate("Trip Report")
+     
+     }
+   }
+   
+
 })
 .catch((error) => {
   console.log(error);
@@ -422,7 +436,7 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
-                placeholder='LES-15-1234'
+                placeholder='License Number'
                 maxLength={30}
                 onChangeText={e=>setLicenseNo(e)}
                 value={licenseNo}
@@ -530,15 +544,15 @@ axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity onPress={()=>saveData()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity onPress={()=>saveData()} className="bg-[#227935]  px-8 py-2 rounded-md m-2" style={{display:`${saveBtn}`}}>
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
 
 
                 <View className="">
-                  <TouchableOpacity onPress={()=>updateDriver()}className="bg-[#29378a] px-7 py-2 rounded-md m-2">
-                    <Text className="text-white  text-lg">Update</Text>
+                  <TouchableOpacity onPress={()=>updateDriver()}className="bg-[#29378a] px-7 py-2 rounded-md m-2" style={{display:`${updateBtn}`}}>
+                    <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
                 <View className="">

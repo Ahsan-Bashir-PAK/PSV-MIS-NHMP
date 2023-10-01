@@ -16,12 +16,14 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Bus} from 'lucide-react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { retrieveDriverSession, retrieveVehicleSession,retrieveUserSession } from '../../config/functions';
 
-const TripReport = () => {
+const TripReport = ({route}) => {
 
-  const navigation = useNavigation();
-  const [currentUser, setCurrentUser] = useState({});
+
+const navigation = useNavigation();
+const [currentUser,setCurrentUser] = useState("")
 
   //=========================states
 const [v_psvNo, setpsvNo] =useState()
@@ -57,48 +59,86 @@ const [d_name, setDname] = useState();
 const [actionTaken, setActionTaken] =useState()
 const [remarks, setremarks] =useState() 
 
+const [rptPsv, setRptPsv] =useState("")
+const [rptDriver, setDriver] =useState("")
+
+  
 
 
-  useEffect(() => {
-    retrieveUserSession();
-    retrieveReportSession();
-  }, []);
 
-  //getting user seesion data
-  async function retrieveUserSession() {
+useEffect(()=>{
+retrieveUserSession(setCurrentUser)
+retrieveDriverSession(setDriver)
+retrieveVehicleSession(setRptPsv)
+
+},[ ])
+
+// useFocusEffect(()=>{
+
+//   Alert.alert("Record Updated")
+// })
+
+
+
+
+  //================================================report generaation
+  async function getInspectionreport() {
+      if(rptPsv && rptDriver){
+
+      
     try {
-      const session = await EncryptedStorage.getItem('user_session');
-      if (session !== undefined) {
-        setCurrentUser(JSON.parse(session));
-      }
+      
+      await axios
+        .get(
+          `${global.BASE_URL}/psv/getPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}`
+        )
+        .then(async response => {
+          const psvDetail = response.data[0];
+          if (psvDetail) {
+            
+            //------------------------getting driver data
+            await axios
+              .get(`${global.BASE_URL}/dvr/getDriver/${rptDriver.dvrCnic}`)
+              .then(async response => {
+                const driverDetail = response.data[0];
+                if (driverDetail) {
+                 
+                  //-------------------------geeting inspection report rpt/inspectPsv/
+                  await axios
+                    .get(`${global.BASE_URL}/rpt/inspectPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}/${rptDriver.dvrCnic}/${currentUser.location}`)
+                    .then(async response => {
+                      const inspection = response.data[0];
+                      if (inspection) {                            
+                              setTripData(inspection)
+                        await EncryptedStorage.setItem(
+                          'Report',
+                          JSON.stringify({
+                            psvData: psvDetail,
+                            dvrData: driverDetail,
+                           
+                            // tripReport: inspection,
+                          }),
+                        );
+                        
+                   
+                      } else {
+                        Alert.alert('Please Provide all Values');
+                      }
+                    });
+                } else {
+                  Alert.alert('Driver not in record');
+                }
+              });
+          } else {
+            Alert.alert('PSV not in record');
+           
+          }
+        });
     } catch (error) {
       console.log(error);
     }
-  }
-  //===============getting report data
-
-  async function retrieveReportSession() {
-    try {
-      const session = await EncryptedStorage.getItem('Report');
-
-      if (session !== undefined) {
-
-        // // console.log(
-        // //   'trip report data===========',
-        // //   JSON.parse(session).tripReport,
-        // ); // data for report
-
-      //  console.log("trip report data===========",JSON.parse(session).tripReport)  // data for report
-        const tripdata = JSON.parse(session).tripReport;  // data for report
-       
-        setTripData(tripdata)
-
-      }
-    } catch (error) {
-      // There was an error on the native side
-    }
-  }
-
+  }}
+//=============================================================//calling use effect
 
 // settripdata
 function setTripData(tripdata){
@@ -163,6 +203,7 @@ function setTripData(tripdata){
   };
 
   const saveReport = async () => {
+    if(v_onBoardpassenger && actionTaken) {
     await axios
       .post(`${global.BASE_URL}/rpt/addinspection`, reportData)
       .then(response => {
@@ -172,11 +213,28 @@ function setTripData(tripdata){
       .catch(error => {
         console.log(error);
       });
-
+        
+    } else { Alert.alert("Plz Fill onboarded passenger or action taken field")}
    // clearAll();
-  };
+  }; 
 
-  return (
+  if(!rptPsv && !rptDriver){
+    
+    return (
+      <View className="flex justify-center,items-center">
+        <Text className ='text-2xl font-bold'>Loadind ......</Text>
+        </View>
+    )
+  }
+//==========================Note : data will be fetched if and only if sates are apulated and alse added page  focus for data sate changes 
+  else{
+    
+    navigation.addListener('focus',
+    ()=>{
+      getInspectionreport()
+    })
+    getInspectionreport()
+ return (
     <ScrollView >
       <View className="bg-slate-100  flex flex-col  p-2 justify-start">
         
@@ -205,7 +263,7 @@ function setTripData(tripdata){
 
 
                 <Text 
-                  className=" border-black rounded-md  text-lg text-center "
+                  className=" border-black rounded-md  text-lg font-bold text-center "
                 >{v_companyName}</Text>
 
               </View>
@@ -218,8 +276,10 @@ function setTripData(tripdata){
               </View>
 
               <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-               <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
-                    <Text className="text-white font-bold">{v_routeStatus} : {v_routedate}</Text>
+              <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
+                    <Text className="text-white font-bold">{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
+                    
+                     </Text>
 
                 </TouchableOpacity>
               </View>
@@ -248,7 +308,7 @@ function setTripData(tripdata){
 
               <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
               <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
-                  <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate}</Text>
+                  <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate?v_fitnessdate.split('T')[0].split("-").reverse().join("-"):""}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -303,7 +363,7 @@ function setTripData(tripdata){
 
               <View className={`${v_fireExt == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
                <TouchableOpacity onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
-                  <Text className={`${v_fireExt == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fireExt} : {v_fireExtdate}</Text>
+                  <Text className={`${v_fireExt == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fireExt} : {v_fireExtdate?v_fireExtdate.split("T")[0].split("-").reverse().join("-"):""}</Text>
 
                 </TouchableOpacity>
               </View>
@@ -353,24 +413,22 @@ function setTripData(tripdata){
 
                 {/* on Boarded Passenger */}
                 <View className={styles.outerview}>
-              <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">on Boarded Passenger</Text>
+              <View className={`${styles.labelstyle} text-center items-center`}>
+                <Text className="text-black font-bold ">on Boarded Passenger</Text>
               </View>
-            {/* Action Taken by officer */}
-            <View className={styles.outerview}>
+            <View className={`${styles.outerview}  text-center justify-center items-center  w-3/5`}>
 
-              <View className="w-4/6  items-center">
+              <View className="text-center items-center flex">
               <TextInput
-                  
                   placeholder=" Enter Boarded Passenger"
-                  maxLength={3}
+                  maxLength={3} 
                   keyboardType="phone-pad"
                   onChangeText={e => setonBoardpassenger(e)}
                   value={v_onBoardpassenger}
-                  className="text-black "
+                  className="text-black justify-center text-center pl-5"
                   />
               </View>
-                  </View>
+           </View>
             </View>
 
                 {/* Show Driver Tab and name */}
@@ -397,9 +455,9 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">License Expiry </Text>
               </View>
-              <TouchableOpacity onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
-              <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">{d_L_expiry}</Text>
+              <TouchableOpacity className=" w-4/6 items-center" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
+              <View className=" w-4/6 items-center">
+                <Text className="text-black font-bold">{d_L_expiry?d_L_expiry.split('T')[0].split("-").reverse().join("-"):""}</Text>
               </View>
               </TouchableOpacity>
             </View>
@@ -486,6 +544,11 @@ function setTripData(tripdata){
     </ScrollView>
   );
 };
+}
+
+
+
+ 
 
 export default TripReport;
 

@@ -174,12 +174,28 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
+    try {
+      
+   
     axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-    clearAll()
-      .then(response => Alert.alert(" Vehicle Documents udated "))
-      navigation.navigate("Add Condition")
-      .catch(error => console.error(error));
+    .then(response => Alert.alert(" Vehicle Documents udated "))
+    if(route.params){
+      if(route.params["params"] == "report"){
+        navigation.navigate("Trip Report")
+       
+       }
+     }else{
+
+       navigation.navigate("Add Condition")
+      }
+
+    clearAll() 
+  }
+     catch (error) {
+      console.log(error)
+    }
+    
     }
   
     // {params:{letter:bus.letter, year:bus.year,no:bus.no}}
@@ -425,12 +441,12 @@ async function retrieveUserSession() {
                 </View>
 
               
-
+{/* 
                 <View className="">
                   <TouchableOpacity onPress={()=>updatePsvDocs()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
 
                 <View className="" >
                   <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">

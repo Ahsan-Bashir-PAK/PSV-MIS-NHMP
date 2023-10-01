@@ -15,7 +15,7 @@ import { tabactions } from '@react-navigation/native';
 
 
 const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];  
-  
+const Vehicle_make_company = [ "YUTONG" ,"HIGER", "HINO", "MAN", "NOVA", "EURO", "ISUZU", "KING-LONG", "ZHONGTONG", "MITSUBISHI", "NISHI", "VOLVO", "DAEWOO", "YUTONG-MASTER", "OTHER"];    
 
 
 
@@ -53,7 +53,8 @@ const AddVehicle = ({route}) => {
   //=========================setting user session 
   const [currentUser,setCurrentUser] = useState("")
   //---------------------------detting data 
-  const [psvData,setPsvData] = useState({})
+  const [updateBtn,setUpdateBtn] = useState('none')
+  const [saveBtn,setSaveBtn] = useState('block')
 
 
   
@@ -73,7 +74,6 @@ const AddVehicle = ({route}) => {
   
         if (session !== undefined) {
           setCurrentUser(JSON.parse(session));
-         console.log(currentUser);
         }
       } catch (error) {
         console.log(error);
@@ -98,9 +98,17 @@ const AddVehicle = ({route}) => {
 
     useEffect(()=>{
       retrieveUserSession()
+      setUpdateBtn("none")
+        
+
+
+  
       if(route.params){
         if(route.params["params"] == "report"){
           retrieveReportSession()
+          setUpdateBtn('block')
+          setSaveBtn("none")
+
         }
       }
     },[])
@@ -174,7 +182,6 @@ const AddVehicle = ({route}) => {
                 })
                   
             );
-           console.log("session Saved=========", letter,modal,number)
         } catch (error) {
             // There was an error on the native side
         }
@@ -192,7 +199,7 @@ const getPsv = async()=>{
       const result = response.data[0]
       if(result){
        
-    setPsvData(result)  //    Use this to set data in fileds   
+    // setPsvData(result)  //    Use this to set data in fileds   
     setPsvFiels (result)
 
       }
@@ -200,6 +207,9 @@ const getPsv = async()=>{
         Alert.alert("PSV vehicle not in Record.")
       }
   })
+  await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+  setUpdateBtn("block")
+  setSaveBtn("none")
 }
 
 
@@ -240,9 +250,13 @@ const getPsv = async()=>{
         console.log(error);
       })
      await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
-     clearAllData()
+    // 
+      
+      
+      clearAllData()
+      navigation.navigate("Add Documentation")
     
-       navigation.navigate("Add Documentation")
+    
       
     }
     //-----------------------------------------update psv
@@ -277,6 +291,13 @@ const updatePsv =async ()=>{
 }
     )
     .catch(error => console.error(error));
+    if(route.params){
+         if(route.params["params"] == "report"){
+           navigation.navigate("Trip Report")
+          
+          }
+        }
+        
     clearAllData()
   }
 
@@ -432,13 +453,27 @@ const updatePsv =async ()=>{
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By</Text></View>
             <View className="w-4/6 items-center">
-              <TextInput
+              {/* <TextInput
                 placeholderTextColor={'grey'}
                 placeholder='HIGER-YUTONG-DAEWOO'
                 maxLength={100}
                 value={vehcile_make}
                 onChangeText={e => setMake(e)}
-                className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
+                className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' /> */}
+            <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {Vehicle_make_company}
+                onSelect={(selectedItem, index) => {
+                  setMake(selectedItem)            
+                }}
+                defaultButtonText={vehcile_make}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
 
             </View>
           </View>
@@ -490,7 +525,7 @@ const updatePsv =async ()=>{
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Tracker Installed</Text></View>
             <View className="w-4/6 items-center">
-            <TouchableOpacity onPress={()=>vehcile_tracker==""?setTracker("1"):setTracker()}
+            <TouchableOpacity onPress={()=>vehcile_tracker==""?setTracker("1"):setTracker("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${vehcile_tracker == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${vehcile_tracker == ""? "hidden":"block"}`}></CheckSquare>
@@ -543,15 +578,15 @@ const updatePsv =async ()=>{
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity  onPress ={()=>addPsvFormOne()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity  onPress ={()=>addPsvFormOne()} className="bg-[#227935]  px-8 py-2 rounded-md m-2" style={{display:`${saveBtn}`}}>
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
 
 
                 <View className="">
-                  <TouchableOpacity onPress={()=>updatePsv()}  className="bg-[#29378a] px-7 py-2 rounded-md m-2">
-                    <Text className="text-white  text-lg">Update</Text>
+                  <TouchableOpacity onPress={()=>updatePsv()}  className=" bg-[#29378a] px-7 py-2 rounded-md m-2" style={{display:`${updateBtn}`}}>
+                    <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
                 <View className="" >

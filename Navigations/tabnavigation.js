@@ -13,7 +13,7 @@ import AddCondition from '../screens/forms/addCondition';
 import AddOtherInfo from '../screens/forms/addOtherinfo';
 import TripReport from '../screens/forms/tripReport';
 import AddDrivernew from '../screens/forms/addDrivernew';
-import TestPage from '../screens/forms/testPage';
+import TestPage from '../screens/forms/onlineVerifications';
 
 
 const Tab =  createBottomTabNavigator();
@@ -22,36 +22,38 @@ const MyTabs = () => {
   return (
     // <NavigationContainer>
     <Tab.Navigator>
-      <Tab.Screen name="AddDrivernew" component={AddDrivernew} options={{
-        
+      <Tab.Screen name="AddDrivernew" component={AddDrivernew} 
+      options={{  
+        unmountOnBlur:true,
         tabBarIcon:()=>(
-          <User  stroke="#0332BB" size={35} fill='white'/>
+          <User  stroke="#0332BB" size={25} fill='white'/>
         )
     }}
   
       />
         <Tab.Screen name="Add Vehicle"  component={AddVehicle} 
         options={{
+          unmountOnBlur:true,
           tabBarIcon:()=>(
-            <PlusCircle  stroke="#0332BB" size={35} fill='white' />
+            <PlusCircle  stroke="#0332BB" size={25} fill='white' />
           )
       }}
         
         />
         <Tab.Screen name="Add Documentation"  component={AddDocumentation}
         options={{
-        
+          unmountOnBlur:true,
           tabBarIcon:()=>(
-            <FilePlus  stroke="#0332BB" size={35} fill='white' />
+            <FilePlus  stroke="#0332BB" size={25} fill='white' />
           )
       }}
         
         />
          <Tab.Screen name="Add Condition"  component={AddCondition}
         options={{
-        
+          unmountOnBlur:true,
           tabBarIcon:()=>(
-            <ShieldQuestion stroke="#0332BB" size={35} fill='white' />
+            <ShieldQuestion stroke="#0332BB" size={25} fill='white' />
           )
       }}
         
@@ -59,9 +61,9 @@ const MyTabs = () => {
 
 <Tab.Screen name="Other Info"  component={AddOtherInfo}
         options={{
-        
+          unmountOnBlur:true,
           tabBarIcon:()=>(
-            <BadgeInfo  stroke="#0332BB" size={35} fill='white' />
+            <BadgeInfo  stroke="#0332BB" size={25} fill='white' />
           )
       }}
         

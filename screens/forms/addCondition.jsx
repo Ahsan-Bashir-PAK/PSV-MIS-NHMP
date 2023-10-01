@@ -7,9 +7,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown';
+
+const tyre_companies = ["Dunlop", "Bridgestone", "Yokohama", "Michelin", "Van-Lee", "Huayi", "Westlake", "Chaoyang", "Xing yuan", "Continents", "Mirage", "Long March", "General", "Super cargo", "Green-Tiger", "Service", "Panther", "Advance tyre", "others"];
 
 const AddCondition = ({route}) => {
 
+  
   const navigation = useNavigation();
   
   const today = new Date()
@@ -152,7 +156,14 @@ async function retrieveUserSession() {
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
       .then(response => {Alert.alert(" Vehicle document updated ")
-            navigation.navigate("Other Info");
+      if(route.params){
+        if(route.params["params"] == "report"){
+          navigation.navigate("Trip Report")
+         
+         }
+       }
+       else{
+            navigation.navigate("Other Info");}
     })
 
       .catch(error => console.error(error));
@@ -182,15 +193,24 @@ async function retrieveUserSession() {
 
             {/*  Tyre Manufacture */}
             <View className={styles.outerview} >
-              <View className={styles.labelstyle}><Text className="text-black  font-bold">Tyre Manufacture</Text></View>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Tyre Manufacture</Text>
+              </View>
               <View className=" w-4/6  items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder='Enter Company'
-                  maxLength={50}
-                  onChangeText={e=>setTyreCom()}
-                  value={tyrecomp}
-                  className=' border-black text-black rounded-md  text-lg' />
+              <View className=" m-1  z-40">
+              <SelectDropdown
+                data= {tyre_companies}
+                onSelect={(selectedItem, index) => {
+                  setTyreCom(selectedItem)            
+                }}
+                defaultButtonText={tyrecomp}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
 
               </View>
             </View>
@@ -388,11 +408,11 @@ async function retrieveUserSession() {
                   </TouchableOpacity>
                 </View>
 
-                <View className="">
+                {/* <View className="">
                   <TouchableOpacity onPress={()=>updatePsvCondition()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
 
 
               </View>

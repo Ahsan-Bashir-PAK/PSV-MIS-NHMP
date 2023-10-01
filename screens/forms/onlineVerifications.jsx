@@ -7,7 +7,7 @@ import { FileSymlink} from 'lucide-react-native';
 
 
 
-const TestPage = () => {
+const OnlineVerifications = () => {
  
       // const selectDocument = async ()=> {
       //       try {
@@ -44,10 +44,12 @@ const TestPage = () => {
 <View className="border  bg-slate-100 p-2">
                         <Text className="text-black text-lg font-bold"> National Driving Licnese Repoistory (NDLR)</Text>
                         {/* <Text></Text> */}
-                        <TouchableOpacity onPress={() => Linking.openURL('https://dlims.punjab.gov.pk/verify/')}>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://nrdla.punjab.gov.pk/')}>
                         <Text style={{color: 'blue'}}>
-                          NDLR, Click here 
-                        </Text>
+                          NDLR, Click here </Text>
+                          <Text className="text-black">Username : scr.m3.nhmp </Text>
+                          <Text className="text-black">Pwd: Tccm3@rajana </Text>
+                        
                       </TouchableOpacity>
             </View>
 
@@ -153,7 +155,7 @@ const TestPage = () => {
 );
 };
 
-export default TestPage;
+export default OnlineVerifications;
 
 const styles = {
   inputViolet:

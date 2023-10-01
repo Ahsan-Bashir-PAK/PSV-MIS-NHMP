@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {Calendar, CheckSquare, Disc2, Square, Info} from 'lucide-react-native';
+import {Calendar, CheckSquare, Square, Info} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -174,6 +174,10 @@ async function clearPsvSession() {
   };
 
   const updatePvsOthers = async () => {
+    // if(route.params){
+    //   if(route.params["params"] == "report"){
+
+    //   }}
     axios
       .patch(
         `${global.BASE_URL}/psv/updatePsvOthers/${
@@ -182,11 +186,20 @@ async function clearPsvSession() {
         PsvOthers,
       )
 
-      .then(response =>{ Alert.alert(" PSV's Data has been completed. ")
+      .then(response =>{ Alert.alert(" Data Updated. ")
       
       clearAll();
-      clearPsvSession();
-      navigation.navigate('Home')
+     
+      if(route.params){
+        if(route.params["params"] == "report"){
+          navigation.navigate("Trip Report")
+         
+         }
+       }else{
+
+         clearPsvSession();
+         navigation.navigate('Home')
+        }
     })
 
     
