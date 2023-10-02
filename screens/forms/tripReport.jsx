@@ -57,6 +57,7 @@ const [d_L_expiry, setDLexpiry] =useState()
 
 const [d_name, setDname] = useState();
 const [actionTaken, setActionTaken] =useState()
+
 const [remarks, setremarks] =useState() 
 
 const [rptPsv, setRptPsv] =useState("")
@@ -126,10 +127,12 @@ retrieveVehicleSession(setRptPsv)
                       }
                     });
                 } else {
+                  navigation.navigate('Home');
                   Alert.alert('Driver not in record');
                 }
               });
           } else {
+            navigation.navigate('Home');
             Alert.alert('PSV not in record');
            
           }
@@ -214,7 +217,7 @@ function setTripData(tripdata){
         console.log(error);
       });
         
-    } else { Alert.alert("Plz Fill onboarded passenger or action taken field")}
+    } else { Alert.alert("Insert on Boarded Passenger and Select Action...")}
    // clearAll();
   }; 
 
@@ -248,7 +251,7 @@ function setTripData(tripdata){
             </View>
             
             {/* Show Vehicle Number */}
-            <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+            <View className=" bg-[#bfbfbf] p-1 rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Report of BUS No: {v_psvNo}
               </Text>
@@ -257,13 +260,13 @@ function setTripData(tripdata){
             {/*  Company Name */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black  font-bold">Company Name</Text>
+                <Text className="text-black  font-bold">Name of Company</Text>
               </View>
               <View className=" w-4/6  items-center">
 
 
                 <Text 
-                  className=" border-black rounded-md  text-lg font-bold text-center "
+                  className=" border-black rounded-md  text-black text-lg font-bold text-center "
                 >{v_companyName}</Text>
 
               </View>
@@ -274,15 +277,15 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
-
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-              <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 "} w-4/6 items-center rounded-md `}>
+              
                     <Text className="text-white font-bold">{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
                     
                      </Text>
 
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/*  Route Path */}
@@ -290,13 +293,13 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Route From -To</Text>
               </View>
+                <TouchableOpacity className="w-full px-1 rounded-md" >
               <View className=" w-4/6  items-center">
 
-                <TouchableOpacity >
                     <Text className="text-black font-bold">{v_routePath}</Text>
 
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/*  Fitness */}
@@ -306,11 +309,11 @@ function setTripData(tripdata){
               </View>
 
 
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
               <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-              <TouchableOpacity onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
                   <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate?v_fitnessdate.split('T')[0].split("-").reverse().join("-"):""}</Text>
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Tyre Condition */}
@@ -319,12 +322,12 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">Tyre Condition</Text>
               </View>
 
+                <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Condition",{params:"report"})}>
               <View className={`${v_tyrecondition == "Poor" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-                <TouchableOpacity onPress={()=>navigation.navigate("Add Condition",{params:"report"})}>
                   {/* Tyre Expiry yet to be decided */}
                   <Text className={`${v_tyrecondition == "Poor" ? "text-white font-bold": "text-black font-bold"}`} > {v_tyrecondition}</Text>
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Tracker Installed */}
@@ -333,11 +336,11 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
 
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
               <View className={`${v_routeStatus == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-              <TouchableOpacity onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
                   <Text className={`${v_trackerStaus == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`} >{v_trackerStaus}</Text>
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Emergency Exit */}
@@ -347,12 +350,12 @@ function setTripData(tripdata){
               </View>
 
 
+                 <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
               <View className={`${v_exitGate == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-                 <TouchableOpacity onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
                   <Text className={`${v_exitGate == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`}>{v_exitGate}</Text>
 
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Fire Extinguisher*/}
@@ -361,12 +364,12 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">Fire Extinguisher</Text>
               </View>
 
+               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
               <View className={`${v_fireExt == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-               <TouchableOpacity onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
                   <Text className={`${v_fireExt == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fireExt} : {v_fireExtdate?v_fireExtdate.split("T")[0].split("-").reverse().join("-"):""}</Text>
 
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Number Plate Status */}
@@ -377,12 +380,12 @@ function setTripData(tripdata){
                 </Text>
               </View>
 
+          <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
               <View className={`${v_regPlate == "Out of pattern" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-          <TouchableOpacity onPress={()=>navigation.navigate("Other Info",{params:"report"})}>
-                <Text className={`${v_regPlate == "Out of pattern" ? "text-white font-bold": "text-black font-bold"}`}>{v_regPlate}</Text>  
+                <Text className={`${v_regPlate == "Out of pattern" ? "text-white font-bold": "text-black font-bold rounded-md"}`}>{v_regPlate}</Text>  
 
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
             {/* Vehicle Trip Count */}
@@ -432,7 +435,7 @@ function setTripData(tripdata){
             </View>
 
                 {/* Show Driver Tab and name */}
-            <View className=" bg-yellow-600  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+            <View className=" bg-[#bfbfbf]s  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Details of Driver: {d_name}
               </Text>
@@ -443,11 +446,11 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">License Details</Text>
               </View>
+                <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
               <View className="w-4/6 items-center">
-                <TouchableOpacity onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
                 <Text className="text-black font-bold">{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
-                </TouchableOpacity>
               </View>
+                </TouchableOpacity>
             </View>
 
           {/* Driver License Expiry */}

@@ -21,6 +21,7 @@ import {
   Button,
   ImageBackground,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { LinearGradient } from 'react-native-svg';
 import SignUp from './forms/signUp';
@@ -88,6 +89,7 @@ function Home() {
 
   return (
     // <SafeAreaView>
+   
     <View className="p-2 h-screen w-full bg-white">
       <View className=" flex flex-row  bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center">
         <Image
@@ -280,6 +282,7 @@ function Home() {
         </TouchableOpacity>
       </View>
     </View>
+    
   );
 }
 

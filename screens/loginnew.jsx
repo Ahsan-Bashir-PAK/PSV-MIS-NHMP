@@ -39,6 +39,14 @@ clearStorage()
 
 //-----------Signin & get User 
         const signIn =async()=>{       
+
+            if(user== "") {
+                Alert.alert("Please enter User Name") }
+               else if(userpwd== "") {
+                    Alert.alert("Please enter Password") }
+                  else  if(location== "") {Alert.alert("Please enter current location") }
+                 else   if(userbound== "") {Alert.alert("Please Select Nort or South Bound")}
+        else {
             
         if(user && userpwd && location && userbound){
          await axios.get(`${global.BASE_URL}/users/getUser/${user}`
@@ -73,7 +81,7 @@ clearStorage()
           )
         }}
 
-
+    }
      //---------------------------------------store session
 
 //

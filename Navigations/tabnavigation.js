@@ -6,7 +6,7 @@ import {View, Text} from 'react-native';
 
 import AddVehicle from '../screens/forms/addVehicle';
 import { getTabBarHeight } from '@react-navigation/bottom-tabs/lib/typescript/src/views/BottomTabBar';
-import { UserCircle, User, PlusCircle, FilePlus, BadgeInfo, Wrench, ShieldQuestion  } from 'lucide-react-native';
+import {  User, PlusCircle, FilePlus, BadgeInfo, Wrench, ShieldQuestion, PlusSquare  } from 'lucide-react-native';
 
 import AddDocumentation from '../screens/forms/addDocumentation';
 import AddCondition from '../screens/forms/addCondition';
@@ -72,7 +72,7 @@ const MyTabs = () => {
         options={{
           unmountOnBlur:true,
           tabBarIcon:()=>(
-            <BadgeInfo  stroke="#0332BB" size={25} fill='white' />
+            <PlusSquare  stroke="#0332BB" size={25} fill='white' />
           )
       }}
         

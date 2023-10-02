@@ -73,11 +73,15 @@ const company ={
 
   return (
     
-    
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'android' ? 'height' : null}
+     enabled>
+ 
+      <ScrollView keyboardShouldPersistTaps='handled'>
    
 
     <View style={styles.container}>
-        <ScrollView>
+        
         {/* Vehicle Information Design Tab */}
         <View className="  mt-1 w-full  ">
 
@@ -93,23 +97,19 @@ const company ={
         value={companyName}
         onChangeText={text => setCompanyName(text)}
         placeholder="Enter company name"
+        placeholderTextColor={'grey'}
       />
 
-      <Text style={styles.label}>Sub Company:</Text>
+      <Text style={styles.label}>Sub Company or Terminal:</Text>
       <TextInput
         style={styles.input}
         value={subCompany}
         onChangeText={text => setSubCompany(text)}
         placeholder="Enter sub company"
+        placeholderTextColor={'grey'}
       />
 
-      <Text style={styles.label}>Terminal:</Text>
-      <TextInput
-        style={styles.input}
-        value={terminal}
-        onChangeText={text => setTerminal(text)}
-        placeholder="Enter terminal"
-      />
+
 
       <Text style={styles.label}>Manager Name:</Text>
       <TextInput
@@ -117,6 +117,7 @@ const company ={
         value={managerName}
         onChangeText={text => setManagerName(text)}
         placeholder="Enter manager name"
+        placeholderTextColor={'grey'}
       />
 
       <Text style={styles.label}>Manager Cell Number:</Text>
@@ -127,6 +128,7 @@ const company ={
         placeholder="Enter manager cell number"
         maxLength={11}
         keyboardType='number-pad'
+        placeholderTextColor={'grey'}
       />
 
     <Text style={styles.label}>Owner Name:</Text>
@@ -135,6 +137,7 @@ const company ={
         value={ownerName}
         onChangeText={text => setOwnerName(text)}
         placeholder="Enter manager name"
+        placeholderTextColor={'grey'}
       />
 
       <Text style={styles.label}>Owner Cell Number:</Text>
@@ -145,6 +148,7 @@ const company ={
         placeholder="Enter owner cell number"
         maxLength={11}
         keyboardType='number-pad'
+        placeholderTextColor={'grey'}
       />
 
         
@@ -155,6 +159,7 @@ const company ={
         onChangeText={text => setCompanyAddres(text)}
         placeholder="Enter Address"
         maxLength={100}
+        placeholderTextColor={'grey'}
         
       />
 
@@ -167,9 +172,10 @@ const company ={
           <Text style={{ color: 'white' }}>Reset</Text>
         </TouchableOpacity>
       </View>
-      </ScrollView>
     </View>
-    
+      
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -182,6 +188,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
+    color:'black'
   
   },
   input: {

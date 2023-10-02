@@ -11,7 +11,7 @@ import axios from 'axios';
 import '../../config'
 import retrieveUserSession from '../../config';
 import { Dropdown } from 'react-native-searchable-dropdown-kj';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -22,6 +22,9 @@ const License_type = ["LTV", "HTV", "LTV / PSV" , "HTV / PSV", "Other" ]
 
 const AddDrivernew = ({route}) => {
 
+
+  const navigation = useNavigation();
+   
 const [currentUser,setCurrentUser] = useState({})
 
  //===============getting report data  for backend
@@ -155,13 +158,6 @@ const [dobdate, setdobDate] = useState(new Date())
     setUpdateBtn("none");
 
   }
-  //keyboard handler
-
-  function KeyBoardhandler(){
-    Keyboard.dismiss();
-    //console.log("weww")
-    getDriver()
-  }
 //===========================------------------backend integration==============================
 //---------------------------------------------------saving data to offices
 
@@ -272,7 +268,19 @@ const updateDriver =async ()=>{
 axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
 )
   .then(response => Alert.alert("Driver Data Updated"))
+  
   .catch(error => console.error(error));
+  
+  if(route.params){
+    if(route.params["params"] == "report"){
+      navigation.navigate("Trip Report")
+     
+     }
+   }else{
+
+     clearPsvSession();
+     navigation.navigate('Home')
+    }
 }
 //============================================================
 
@@ -355,9 +363,13 @@ getSubCompany()
 //------------------------return 
   return (
     
-     <ScrollView className=" ">
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'android' ? 'height' : null}
+     enabled>
+ 
+      <ScrollView keyboardShouldPersistTaps='handled'>
       <View className=" flex flex-col   ">
-        <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
+     
 
           {/* Vehicle Information Design Tab */}
           <View className="  mt-1 w-full  ">
@@ -379,7 +391,7 @@ getSubCompany()
                 maxLength={13}
                 keyboardType='numeric'
                 value = {searchCnic}
-                onBlur={()=>KeyBoardhandler()}
+                
                 
                 onChangeText={e=>setSearchCnic(e)}
 
@@ -735,9 +747,9 @@ getSubCompany()
               </View>
 
 
-        </KeyboardAvoidingView>
       </View>
     </ScrollView>
+        </KeyboardAvoidingView>
     
   );
 };

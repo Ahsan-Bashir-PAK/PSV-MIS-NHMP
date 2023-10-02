@@ -104,7 +104,7 @@ const OnlineVerifications = () => {
                           KPK Transport Department (Driving License Verification),Click here
                         </Text>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => Linking.openURL('https://ptpkp.gov.pk/license-authentication-2/')}>
+                      <TouchableOpacity onPress={() => Linking.openURL('https://ptpkp.gov.pk/license-verification/')}>
                         <Text style={{color: 'blue'}}>
                           CITY Traffic Police, Peshawar-KPK (Driving License Verification),Click here
                         </Text>

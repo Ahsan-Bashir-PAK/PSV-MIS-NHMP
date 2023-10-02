@@ -85,7 +85,7 @@ const saveUser = async () => {
       }) 
         .then(response => {
           if (response.ok) {
-            Alert.alert('Data inserted successfully');
+            Alert.alert('User created successfully');
             clearAll();
           } else {
             Alert.alert('Failed to insert data');

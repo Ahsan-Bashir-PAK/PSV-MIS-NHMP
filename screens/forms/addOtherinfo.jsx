@@ -15,6 +15,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import '../../config';
+
 
 const AddOtherInfo = ({route}) => {
 
@@ -178,6 +180,7 @@ async function clearPsvSession() {
     //   if(route.params["params"] == "report"){
 
     //   }}
+   // console.log(PsvOthers)
     axios
       .patch(
         `${global.BASE_URL}/psv/updatePsvOthers/${
@@ -187,9 +190,7 @@ async function clearPsvSession() {
       )
 
       .then(response =>{ Alert.alert(" Data Updated. ")
-      
-      clearAll();
-     
+
       if(route.params){
         if(route.params["params"] == "report"){
           navigation.navigate("Trip Report")
@@ -200,6 +201,10 @@ async function clearPsvSession() {
          clearPsvSession();
          navigation.navigate('Home')
         }
+      
+      clearAll();
+     
+     
     })
 
     

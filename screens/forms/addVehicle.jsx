@@ -11,6 +11,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import retrieveUserSession from '../../config';
 import { tabactions } from '@react-navigation/native';
 import { Dropdown } from 'react-native-searchable-dropdown-kj';
+import KeyboardAvoidWrapper from '../keyboardavoidingwrapper';
 
 
 
@@ -382,9 +383,13 @@ if(value != ""){
 
  //------------------------------returning UI    
   return (
-     <ScrollView >
+    <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? 'height' : null}
+         enabled>
+     
+          <ScrollView keyboardShouldPersistTaps='handled'>
       <View className=" flex flex-col ">
-        <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
+        
 
           {/* Vehicle Information Design Tab */}
           <View className="  mt-1 w-full  ">
@@ -709,9 +714,10 @@ if(value != ""){
               </View>
 
 
-        </KeyboardAvoidingView>
+        
       </View>
-    </ScrollView>
+      </ScrollView>
+      </KeyboardAvoidingView>
   );
 };
 

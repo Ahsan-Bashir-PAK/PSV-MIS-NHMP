@@ -172,9 +172,9 @@ async function retrieveUserSession() {
 
   //==================================================
   return (
-    <ScrollView className=" ">
+    
       <View className="bg-slate-100  flex flex-col   p-2 ">
-        <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
+        
           {/* Vehicle Tyre Condition Tab */}
           <View className=" mt-1 w-full  ">
 
@@ -422,9 +422,9 @@ async function retrieveUserSession() {
 
 </View>
 
-        </KeyboardAvoidingView>
+        
       </View>
-    </ScrollView>
+    
   );
 };
 
