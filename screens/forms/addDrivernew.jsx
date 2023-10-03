@@ -243,15 +243,24 @@ async function setDriverValue (result){
 }
 //----------save driver data
 const saveData = async () => {
+  if(driverName ="") {Alert.alert("");}
+  if(cnic ="") {Alert.alert("");}
+  if(licenseNo ="") {Alert.alert("");}
+  if(licenseType ="") {Alert.alert("");}
+  if( expirydate="") {Alert.alert("");} else {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 .then( (response)=> {
   Alert.alert('Drive added successfully');
   if(route.params){
     if(route.params["params"] == "report"){
-      navigation.navigate("Trip Report")
+   
+    Alert.alert('Data Updated', ' ', [
      
-     }
+      {text: 'OK', onPress: () =>  navigation.navigate("Trip Report")},
+    ]);
+   
    }
+ }
    
 
 })
@@ -260,27 +269,34 @@ await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
 })
 clearAll()
 }
-
+}
 
 //--------------------------------------update driver
 
 const updateDriver =async ()=>{
 axios.patch(`${global.BASE_URL}/dvr/updateDriver/${cnic}`, updatedDeriver
 )
-  .then(response => Alert.alert("Driver Data Updated"))
-  
-  .catch(error => console.error(error));
-  
-  if(route.params){
-    if(route.params["params"] == "report"){
-      navigation.navigate("Trip Report")
+  .then(response =>{
+    if(route.params){
+      if(route.params["params"] == "report"){
+     
+      Alert.alert('Data Updated', ' ', [
+       
+        {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+      ]);
+      // navigation.navigate("Trip Report")
      
      }
    }else{
-
-     clearPsvSession();
      navigation.navigate('Home')
     }
+
+  }
+    
+   )
+  
+  .catch(error => console.error(error));
+  
 }
 //============================================================
 

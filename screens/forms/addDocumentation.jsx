@@ -32,7 +32,7 @@ const [routedate, setRouteDate] = useState(new Date())
 const [routeopen, setRouteOpen] = useState(false)
 
 // Route Type
-const select_route_type = ["Temporary", "Permanent"]
+const select_route_type = ["Temporary", "Permanent", "No-Route"]
 const [route_type, setRouteType] = useState("");
 
 const [route_from, setRouteFrom] = useState("");
@@ -174,21 +174,40 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
+      if(vroute == "") { Alert.alert("Please enter Route Permit or type N.A");  }
+        else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority or type N.A ")  }
+        else if (route_type=="") {Alert.alert("Select Route Type")}
+        else if (fitnessno =="") { Alert.alert("Please Enter Fitness No. or type N.A")}
+        else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Authority No. or type N.A")}
+        else {
     try {
       
    
     axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-    .then(response => Alert.alert(" Vehicle Documents udated "))
-    if(route.params){
-      if(route.params["params"] == "report"){
-        navigation.navigate("Trip Report")
+    .then(response =>{
+      if(route.params){
+        if(route.params["params"] == "report"){
+       
+        Alert.alert('Data Updated', ' ', [
+         
+          {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+        ]);
+        // navigation.navigate("Trip Report")
        
        }
      }else{
+      Alert.alert('Data Updated', ' ', [
+         
+        {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
+      ]);
+        
+        }
 
-       navigation.navigate("Add Condition")
-      }
+    }
+      
+      )
+   
 
     clearAll() 
   }
@@ -197,7 +216,7 @@ async function retrieveUserSession() {
     }
     
     }
-  
+  }
     // {params:{letter:bus.letter, year:bus.year,no:bus.no}}
 //-============================================ returnin UI
   return (

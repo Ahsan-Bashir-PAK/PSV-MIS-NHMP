@@ -152,20 +152,31 @@ async function retrieveUserSession() {
   
   
   const updatePsvCondition =async ()=>{
+    
+
 
       if (tyrecondition !=""){    // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => {Alert.alert(" Vehicle document updated ")
-      if(route.params){
+      .then(response => {
         if(route.params["params"] == "report"){
-          navigation.navigate("Trip Report")
+       
+          Alert.alert('Data Updated', ' ', [
+           
+            {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+          ]);
+          // navigation.navigate("Trip Report")
          
          }
-       }
        else{
-            navigation.navigate("Other Info");}
-    })
+        Alert.alert('Data Updated', ' ', [
+           
+          {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
+        ]);
+            }
+    }
+    
+    )
 
       .catch(error => console.error(error));
     } else { Alert.alert("Please Set Tyre Condition")}} 

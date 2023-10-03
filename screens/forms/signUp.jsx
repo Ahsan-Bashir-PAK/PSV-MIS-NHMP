@@ -10,6 +10,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 //import axios from 'axios';
 
 const user_status = [ "User" ,"Admin"]; 
+const region = [ "Central" ,"North", "South"]; 
 
 const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
 const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO HQ, Islamabad"];  

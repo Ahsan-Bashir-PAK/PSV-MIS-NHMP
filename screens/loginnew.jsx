@@ -45,7 +45,7 @@ clearStorage()
                else if(userpwd== "") {
                     Alert.alert("Please enter Password") }
                   else  if(location== "") {Alert.alert("Please enter current location") }
-                 else   if(userbound== "") {Alert.alert("Please Select Nort or South Bound")}
+                 else   if(userbound== "") {Alert.alert("Please Select North or South Bound")}
         else {
             
         if(user && userpwd && location && userbound){

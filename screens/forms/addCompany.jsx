@@ -43,11 +43,19 @@ const company ={
 
 
  async function AddCompanyData(){
+    if(companyName == "") {Alert.alert("Enter Company name")}
+        else if (managerName=="") {Alert.alert("Enter Manager name")}
+        else if (managerCellNumber=="" || managerCellNumber.length !=11 )
+           {Alert.alert("Enter Manager Cell Number or complete digit")}
+        else if (ownerName=="") {Alert.alert("Enter Owner name")}
+        else if (ownerCellNumber=="" || ownerCellNumber.length !=11) 
+        {Alert.alert("Enter Owner Cell Number or complete digit")}
+        else if (compAdress=="") {Alert.alert("Enter company address.")}
+      else {
     axios.post(`${global.BASE_URL}/cmp/addCompany`, company )
     .then( (response)=> {
 
-      
-      Alert.alert('Campany Saved');
+      Alert.alert('New Company Saved');
       
     })
     .catch((error) => {
@@ -58,7 +66,7 @@ const company ={
    // navigation.navigate("Home")
        
  } 
-
+ }
   const clearAllData = () => {
     // Reset the form fields
     setCompanyName('');

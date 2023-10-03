@@ -66,11 +66,11 @@ function Home() {
 
   //============================================saving report Session
 
-  async function rptSessionProps() {
+  async function  getInspectionreport() {
     try {
       if(reg && year && number && dvrCnic){
-        storeVehicleSession(reg,year,number)
-        storeDriverSession(dvrCnic)
+       await storeVehicleSession(reg,year,number)
+       await storeDriverSession(dvrCnic)
        
         navigation.navigate("Trip Report")
       }
@@ -84,7 +84,43 @@ function Home() {
    
   }
 
-  //============================================================saving report session 
+  //============================================================checking
+  async function rptSessionProps() {
+  
+
+    
+  try {
+    
+    await axios
+      .get(
+        `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`
+      )
+      .then(async response => {
+        const psvDetail = response.data[0];
+        if (psvDetail) {
+          
+          //------------------------getting driver data
+          await axios
+            .get(`${global.BASE_URL}/dvr/getDriver/${dvrCnic}`)
+            .then(async response => {
+              const driverDetail = response.data[0];
+              if (driverDetail) {
+                getInspectionreport()
+              } else {
+              
+                Alert.alert('Driver not in record');
+              }
+            });
+        } else {
+        
+          Alert.alert('PSV not in record');
+         
+        }
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
   
 
   return (

@@ -244,6 +244,17 @@ const getPsv = async()=>{
 
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
+      if(Vehicle_type == "") {Alert.alert("Please Select Vehicle Type")}
+        else if(Vehicle_letter == "" ) {Alert.alert("Please Enter Letter")}
+        else if(Vehicle_year == "" ) {Alert.alert("Please Enter Registeration Year")}
+        else if(Vehicle_number == "" ) {Alert.alert("Please Enter Registeration Number")}
+        else if(vehicle_chasis == "") {Alert.alert("Please Enter Chasis Number")}
+        else if(vehcile_engine == "") {Alert.alert("Please Enter Engine Number")}
+        else if(vehcile_make == "") {Alert.alert("Please Enter Vehicle Company")}
+        else if(vehicle_seats == "") {Alert.alert("Please Enter Seats")}
+        else if(vehcile_manf_year == "") {Alert.alert("Please Enter Manufacturing Year")}
+        else {
+      
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
       .then( (response)=> {
 
@@ -261,6 +272,7 @@ const getPsv = async()=>{
       navigation.navigate("Add Documentation")
 
     }
+  }
     //-----------------------------------------update psv
    
 const upedtedPsv ={
@@ -288,17 +300,23 @@ const updatePsv =async ()=>{
   // clearVehicleSession()
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
-    .then(response =>{ Alert.alert("Data has been Updated")
+    .then(response =>{ 
+      if(route.params){
+        if(route.params["params"] == "report"){
+       
+        Alert.alert('Data Updated', ' ', [
+         
+          {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+        ]);
+       
+       
+       }
+     }
     storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
 }
     )
     .catch(error => console.error(error));
-    if(route.params){
-         if(route.params["params"] == "report"){
-           navigation.navigate("Trip Report")
-          
-          }
-        }
+ 
         
     clearAllData()
   }

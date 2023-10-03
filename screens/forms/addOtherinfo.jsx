@@ -189,11 +189,18 @@ async function clearPsvSession() {
         PsvOthers,
       )
 
-      .then(response =>{ Alert.alert(" Data Updated. ")
-
-      if(route.params){
-        if(route.params["params"] == "report"){
-          navigation.navigate("Trip Report")
+      .then(response =>{ 
+        
+        
+        
+        if(route.params){
+          if(route.params["params"] == "report"){
+         
+          Alert.alert('Data Updated', ' ', [
+           
+            {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+          ]);
+          // navigation.navigate("Trip Report")
          
          }
        }else{
