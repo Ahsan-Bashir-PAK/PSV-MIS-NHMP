@@ -77,7 +77,9 @@ useEffect(async ()=>{
   retrieveVehicleSession()
   if(route.params["params"] == 'report'){
     await retrieveReportSession()
+    {!loading && 
    await  showReportData()
+    }
   }
 },[])
 //getting user seesion data 

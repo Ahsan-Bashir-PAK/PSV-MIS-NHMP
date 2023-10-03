@@ -60,10 +60,7 @@ const AddOtherInfo = ({route}) => {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
+      
         console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
        
       }
