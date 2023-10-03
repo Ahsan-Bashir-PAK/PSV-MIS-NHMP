@@ -127,12 +127,14 @@ function Home() {
     // <SafeAreaView>
    
     <View className="p-2 h-screen w-full bg-white">
-      <View className=" flex flex-row  bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center">
+      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center">
+      <ImageBackground source={require('../img/bground.jpg')}  resizeMode="cover" style={{ height:'100%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
         <Image
           source={require('../img/logo.png')}
           style={{width: 60, height: 60}}
           className="pl-2"
         />
+         
         <View className=" w-5/6 ">
           <Text className="text-white items-center text-center font-extrabold text-lg">
             NHMP PSVs Dashboard
