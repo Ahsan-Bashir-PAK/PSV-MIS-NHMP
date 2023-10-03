@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus  } from 'lucide-react-native';
-import retrieveUserSession from '../config';
+import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User  } from 'lucide-react-native';
+
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
+import { retrieveUserSession,storeDriverSession,storeVehicleSession } from '../config/functions';
 
 
 import {
@@ -20,6 +21,7 @@ import {
   Button,
   ImageBackground,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { LinearGradient } from 'react-native-svg';
 import SignUp from './forms/signUp';
@@ -47,91 +49,83 @@ function Home() {
   const navigation = useNavigation("");
 
   useEffect(() => {
-    retrieveUserSession();
+    retrieveUserSession(setCurrentUser);
   }, []);
 
-  //getting user seesion data
-  async function retrieveUserSession() {
-    try {
-      const session = await EncryptedStorage.getItem('user_session');
+  // logout clear all sessions
 
-      if (session !== undefined) {
-        //  setCurrentUser(session)
-        setCurrentUser(JSON.parse(session));
-        console.log(currentUser);
+ async function logoutSesion () {
+    try{  
+  //  await EncryptedStorage.clear();    
+   navigation.navigate('Login');
+  } catch (error) {}
+
+  }  
+  
+
+
+  //============================================saving report Session
+
+  async function  getInspectionreport() {
+    try {
+      if(reg && year && number && dvrCnic){
+       await storeVehicleSession(reg,year,number)
+       await storeDriverSession(dvrCnic)
+       
+        navigation.navigate("Trip Report")
       }
+      else{
+        Alert.alert("Please fill All Fields")
+      }
+      
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
+   
   }
 
-  //=============================================getting vehicle search data and creating session
+  //============================================================checking
+  async function rptSessionProps() {
+  
 
-  async function getInspectionreport() {
-    try {
-
-      console.log(`${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`)
-      await axios
-        .get(
-          `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`
-        )
-        .then(async response => {
-          const psvDetail = response.data[0];
-          if (psvDetail) {
-            //------------------------getting driver data
-            await axios
-              .get(`${global.BASE_URL}/dvr/getDriver/${dvrCnic}`)
-              .then(async response => {
-                const driverDetail = response.data[0];
-                if (driverDetail) {
-                  //-------------------------geeting inspection report rpt/inspectPsv/
-                  await axios
-                    .get(`${global.BASE_URL}/rpt/inspectPsv/${reg}/${year}/${number}/${dvrCnic}/${currentUser.location}`)
-                    .then(async response => {
-                      const inspection = response.data[0];
-                      if (inspection) {
-                        await EncryptedStorage.setItem(
-                          'Report',
-                          JSON.stringify({
-                            psvData: psvDetail,
-                            dvrData: driverDetail,
-                            tripReport: inspection,
-                          }),
-                        );
-                        Alert.alert('Report generated');
-                        navigation.navigate("Trip Report")
-                      } else {
-                        Alert.alert('Report not generated');
-                      }
-                    });
-                } else {
-                  Alert.alert('Driver not in Record.');
-                }
-              });
-          } else {
-            Alert.alert('No Record Found.');
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    
+  try {
+    
+    await axios
+      .get(
+        `${global.BASE_URL}/psv/getPsv/${reg}/${year}/${number}`
+      )
+      .then(async response => {
+        const psvDetail = response.data[0];
+        if (psvDetail) {
+          
+          //------------------------getting driver data
+          await axios
+            .get(`${global.BASE_URL}/dvr/getDriver/${dvrCnic}`)
+            .then(async response => {
+              const driverDetail = response.data[0];
+              if (driverDetail) {
+                getInspectionreport()
+              } else {
+              
+                Alert.alert('Driver not in record');
+              }
+            });
+        } else {
+        
+          Alert.alert('PSV not in record');
+         
+        }
+      });
+  } catch (error) {
+    console.log(error);
   }
-
-  //---------------------------------------------------------------------------------------------
-
-  // function searchPSV() {
-  //   const psv = reg + '-' + year + '-' + number;
-  //   console.log(psv);
-  //   console.log(searchPSV[0]);
-
-  //   if (psv == '') {
-  //     console.log(search_psv);
-  //   } else {
-  //   }
-  // }
+}
+  
 
   return (
     // <SafeAreaView>
+   
     <View className="p-2 h-screen w-full bg-white">
       <View className=" flex flex-row  bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center">
         <Image
@@ -204,7 +198,8 @@ function Home() {
         </View>
         <View className="flex-row p-1 justify-center  w-full m-2">
           <TouchableOpacity
-            onPress={() => getInspectionreport()}
+            // onPress={() => getInspectionreport()}
+            onPress={() => rptSessionProps()}
             className="bg-[#29378a]  justify-center  flex-row w-full rounded-md items-center p-3 ">
             <BookCopy stroke="white" size={25} />
             <Text className=" text-center font-bold font-white  text-lg text-white">
@@ -249,7 +244,7 @@ function Home() {
         </View>
         <View className=" flex-row justify-around mt-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate('TestPage')}
+           onPress={() => navigation.navigate('Downloads')}
             className="  w-2/5 flex-row shadow-md shadow-slate-950  rounded-lg  flex justify-around items-center border border-slate-400  bg-white">
             <View className="  items-center gap-1 justify-center mt-2 ">
               <ArrowDownToLine stroke="purple" size={40} />
@@ -261,15 +256,15 @@ function Home() {
             </View>
           </TouchableOpacity>
 
-          {/*Edit PSV Button  */}
+          {/*online Links  */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('TestPage')}
+            onPress={() => navigation.navigate('OnlineVerifications')}
             className="w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white">
             <View className="  items-center  gap-1 justify-center mt-2 ">
               <Link stroke="grey" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
                 <Text className=" font-bold font-white  text-lg text-black">
-                  Online Links
+                  Online Verifications
                 </Text>
               </View>
             </View>
@@ -293,11 +288,26 @@ function Home() {
         </TouchableOpacity>
       </View>
 
+      {/* User Profile*/}
+
+      <View className="mt-2 ">
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}
+          className="w-full   h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
+          <View className="justify-center flex flex-row items-center  w-full gap-2">
+            <User stroke="white" size={25} />
+            <Text className=" font-bold font-white  text-lg text-white">
+              User Profile
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
       {/* Update Logout */}
 
       <View className="mt-2 ">
         <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => logoutSesion()}
           className="w-full   h-10 rounded-lg  justify-center items-center bg-[#a32d37] ">
           <View className="justify-center flex flex-row items-center  w-full gap-2">
             <LogOutIcon stroke="white" size={25} />
@@ -308,6 +318,7 @@ function Home() {
         </TouchableOpacity>
       </View>
     </View>
+    
   );
 }
 

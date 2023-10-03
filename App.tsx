@@ -39,8 +39,9 @@ import AddCondition from './screens/forms/addCondition';
 import AddOtherInfo from './screens/forms/addOtherinfo';
 import TripReport from './screens/forms/tripReport';
 import AddDriverenew from './screens/forms/addDrivernew'
-import TestPage from './screens/forms/testPage';
+import TestPage from './screens/forms/onlineVerifications';
 import SignUp from './screens/forms/signUp';
+// import AddVehicle from './screens/forms/addVehicle';
 
 function App(): JSX.Element {
   
@@ -49,7 +50,7 @@ function App(): JSX.Element {
   <MyStack />
     //<Main />
   // <MyTabs />
-//<AddVehicle/>
+//<AddVehicle /> 
    //<AddDocumentation/>
    //<AddDrivernew/>
    //<AddCondition/>

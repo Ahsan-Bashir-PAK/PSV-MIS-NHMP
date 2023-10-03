@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../screens/loginnew';
 import Home from '../screens/home';
 import MyTabs from './tabnavigation';
-import TestPage from '../screens/forms/testPage';
+import OnlineVerifications from '../screens/forms/onlineVerifications';
 import SignUp from '../screens/forms/signUp';
 import TripReport from '../screens/forms/tripReport';
 import AddDrivernew from '../screens/forms/addDrivernew';
@@ -12,8 +12,8 @@ import AddVehicle from '../screens/forms/addVehicle';
 import AddDocumentation from '../screens/forms/addDocumentation';
 import AddCondition from '../screens/forms/addCondition'
 import AddOtherInfo from '../screens/forms/addOtherinfo';
-
-
+import Downloads from '../screens/downloads';
+import Profile from '../screens/profile'
 
 
 const Stack = createNativeStackNavigator();
@@ -30,12 +30,15 @@ const MyStack = () => {
         <Stack.Screen name="Home" component={Home} 
          options={{ headerShown: false }}
         />
-         <Stack.Screen name="TestPage" component={TestPage} /> 
+         <Stack.Screen name="OnlineVerifications" component={OnlineVerifications} /> 
+         <Stack.Screen name="Profile" component={Profile} /> 
+         <Stack.Screen name="Downloads" component={Downloads} /> 
          <Stack.Screen name="Trip Report" component={TripReport} />
          <Stack.Screen name="SignUp" component={SignUp} /> 
         <Stack.Screen name="MyTabs" component={MyTabs} 
         options={{
           headerShown:false
+         
         }}
         />
          <Stack.Screen name="AddDrivernew" component={AddDrivernew} />

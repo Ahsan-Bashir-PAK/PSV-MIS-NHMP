@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
+import { Keyboard, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, Modal, Button } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation } from 'lucide-react-native';
+import { BusFront, Scroll, User, Square, CheckSquare, Search, Navigation, Building2 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Bus } from 'lucide-react-native';
@@ -10,16 +10,19 @@ import axios from 'axios'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import retrieveUserSession from '../../config';
 import { tabactions } from '@react-navigation/native';
-
+import { Dropdown } from 'react-native-searchable-dropdown-kj';
+import KeyboardAvoidWrapper from '../keyboardavoidingwrapper';
 
 
 
 const Vehicletype = [ "BUS" ,"HIACE", "HIROOF", "COASTER", "APV", "OTHER"];  
-  
-
+const Vehicle_make_company = [ "YUTONG" ,"HIGER", "HINO", "MAN", "NOVA", "EURO", "ISUZU", "KING-LONG", "ZHONGTONG", "MITSUBISHI", "NISHI", "VOLVO", "DAEWOO", "YUTONG-MASTER", "OTHER"];    
 
 
 const AddVehicle = ({route}) => {
+
+  // Searchable drop down
+  const [selected, setSelected] = React.useState("");
 
   //const jumptoaction = tabactions.jumpto("Add Documentation", { params });
   const navigation = useNavigation();
@@ -27,7 +30,7 @@ const AddVehicle = ({route}) => {
 
   const [Vehicle_type, setType] = useState(""); // BUS / HIACE
   const [Vehicle_letter, setLetter] = useState(""); // LES
-  const [Vehicle_year, setVehicleYear] = useState("");  //2019
+  const [Vehicle_year, setYear] = useState("");  //2019
   const [Vehicle_number, setNumber] = useState(""); //5351
   const [vehicle_chasis , setChasis] = useState(""); // chasis
   const [vehcile_engine, setEngine] = useState(""); // engine
@@ -53,26 +56,74 @@ const AddVehicle = ({route}) => {
   //=========================setting user session 
   const [currentUser,setCurrentUser] = useState("")
   //---------------------------detting data 
-  const [psvData,setPsvData] = useState({})
+  const [updateBtn,setUpdateBtn] = useState('none')
+  const [saveBtn,setSaveBtn] = useState('block')
+  const [value,setValue] = useState(null)
+  const [subComp,setSubComp] = useState(null)
+  // const [isFocus, setIsFocus] = useState(false);
 
-  //==================getting user seesion data 
-async function retrieveUserSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
-      if (session !== undefined) {
-        setCurrentUser(JSON.parse(session))
-      }
-  } catch (error) {
-      // There was an error on the native side
+
+  
+  ///================================retriving Data
+  
+  async function showReportData (psvReportData){
+  ////code herer plz===========%%$$%$%$%#$@#$#$@#$@#$#@$=======
+  setPsvFiels(psvReportData)
   }
-}
+
+  //==========================================
+    //getting user seesion data
+    async function retrieveUserSession() {
+   
+      try {
+        const session = await EncryptedStorage.getItem('user_session');
+  
+        if (session !== undefined) {
+          setCurrentUser(JSON.parse(session));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function retrieveReportSession() {
+      try {
+        const session = await EncryptedStorage.getItem('Report');
+  
+        if (session !== undefined) {
+         
+          Data1 = JSON.parse(session).psvData; //data of vehicle
+  
+          setPsvFiels(Data1);
+        
+        }
+      } catch (error) {
+        // There was an error on the native side
+      }
+    }
+
+    useEffect(()=>{
+      retrieveUserSession()
+      setUpdateBtn("none")
+       
+      if(route.params){
+        if(route.params["params"] == "report"){
+          retrieveReportSession()
+          setUpdateBtn('block')
+          setSaveBtn("none")
+
+        }
+      }
+    },[])
+
+//=======================================================end report  code
 
  function setPsvFiels(result) {
  //Alert.alert(result.seatingCap);
   setType(result.vehicleType);
-  //  setLetter(result.prefixRegNo);
-  //  setVehicleYear(result.vehicleModel.toString());
-  //  setNumber(result.regNo);
+   setLetter(result.prefixRegNo);
+  setYear(result.vehicleModel.toString());
+  setNumber(result.regNo.toString());
    setChasis(result.chasisNo);
    setEngine(result.engineNo);
    setMake(result.vehicleMake);
@@ -83,20 +134,24 @@ async function retrieveUserSession() {
    setEmergencyExit(result.exitGate);
    setManfYear(result.manufactureYear.toString());
    setCompany(result.companyName);
-
+    
  } 
 
-
+ /// keyboar handler
+ function KeyBoardhandler(){
+  Keyboard.dismiss();
+  //console.log("weww")
+  getPsv()
+}
 
 
 
   function clearAllData(){
 
     
-  setType("");
-
+   setType("");
    setLetter("");
-   setVehicleYear("22");
+   setYear("");
    setNumber("");
    setChasis("");
    setEngine("");
@@ -108,6 +163,8 @@ async function retrieveUserSession() {
    setEmergencyExit("");
    setManfYear("");
    setCompany("");
+   setUpdateBtn("none")
+        setSaveBtn("block")
 
   }
 
@@ -116,38 +173,10 @@ async function retrieveUserSession() {
   const today = new Date()
   const time = new Date().toLocaleTimeString() 
 
-//=======================================================get report data 
 
-  //===============getting report data
-
-  async function retrieveReportSession() {
-    try {
-      const session = await EncryptedStorage.getItem('Report');
-
-      if (session !== undefined) {
-        console.log(
-          'trip report data===========',
-          JSON.parse(session).tripReport,
-        ); // data for report
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
-       
-      }
-    } catch (error) {
-      // There was an error on the native side
-    }
-  }
-
-//============================================retriveing vehicle info
-useEffect(()=>{
-  retrieveUserSession()
- if(route.params == "report"){
-  retrieveReportSession()
- 
- }
- 
-},[])
   //===========================================================vehicle sesion saving 
  async function storeVehicleSession(letter,modal,number) {
+
         try {
             await EncryptedStorage.setItem(
                 "psv_session",
@@ -156,8 +185,8 @@ useEffect(()=>{
                     psvModal:modal ,
                     psvNumber:number 
                 })
+                  
             );
-           
         } catch (error) {
             // There was an error on the native side
         }
@@ -174,14 +203,18 @@ const getPsv = async()=>{
     (response) =>{
       const result = response.data[0]
       if(result){
-       
-    setPsvData(result)  //    Use this to set data in fileds   
+        setUpdateBtn("block")
+        setSaveBtn("none")
+    // setPsvData(result)  //    Use this to set data in fileds   
     setPsvFiels (result)
+
       }
       else {
         Alert.alert("PSV vehicle not in Record.")
       }
   })
+  await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+ 
 }
 
 
@@ -211,21 +244,36 @@ const getPsv = async()=>{
 
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
+      if(Vehicle_type == "") {Alert.alert("Please Select Vehicle Type")}
+        else if(Vehicle_letter == "" ) {Alert.alert("Please Enter Letter")}
+        else if(Vehicle_year == "" ) {Alert.alert("Please Enter Registeration Year")}
+        else if(Vehicle_number == "" ) {Alert.alert("Please Enter Registeration Number")}
+        else if(vehicle_chasis == "") {Alert.alert("Please Enter Chasis Number")}
+        else if(vehcile_engine == "") {Alert.alert("Please Enter Engine Number")}
+        else if(vehcile_make == "") {Alert.alert("Please Enter Vehicle Company")}
+        else if(vehicle_seats == "") {Alert.alert("Please Enter Seats")}
+        else if(vehcile_manf_year == "") {Alert.alert("Please Enter Manufacturing Year")}
+        else {
+      
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
       .then( (response)=> {
 
+        
         Alert.alert('Vehicle intial info. saved');
-        storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+        
       })
       .catch((error) => {
         console.log(error);
       })
-     clearAllData()
-    
-       navigation.navigate("Add Documentation", {params:{letter:Vehicle_letter, year:Vehicle_year,no:Vehicle_number}})
-      
+     await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+    // 
+
+      clearAllData()
+      navigation.navigate("Add Documentation")
+
     }
-   //---------------------------------------------------update psv
+  }
+    //-----------------------------------------update psv
    
 const upedtedPsv ={
   vehicleType: Vehicle_type,
@@ -249,21 +297,117 @@ const upedtedPsv ={
 
 
 const updatePsv =async ()=>{
+  // clearVehicleSession()
   axios.patch(`${global.BASE_URL}/psv/updatePsv/${Vehicle_letter+Vehicle_year+Vehicle_number}`, upedtedPsv
   )
-    .then(response =>{ Alert.alert("Driver Data Updated")
+    .then(response =>{ 
+      if(route.params){
+        if(route.params["params"] == "report"){
+       
+        Alert.alert('Data Updated', ' ', [
+         
+          {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+        ]);
+       
+       
+       }
+     }
     storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
 }
     )
     .catch(error => console.error(error));
+ 
+        
+    clearAllData()
   }
+
+
+  const Companydata = [
+ 
+  ]
+  const subCompanyData = []
+//--------------------------getting companies
+//-----------------------------------------------------------search psv
+const getCompany = async()=>{
+
+
+  await axios.get(`${global.BASE_URL}/cmp/getAllCompany`)
+  .then(
+    (response) =>{
+      const result = response.data
+      if(result){
+       
+    // setPsvData(result)  //    Use this to set data in fileds   
+        result.map((item)=>{
+          Companydata.push(
+            {label:`${item.companyName}`,value:`${item.companyName}`}
+          )
+
+        })
+      
+      }
+      else {
+        Alert.alert("Not in Record.")
+      }
+  })
+}
+
+//==========================sub company
+const getSubCompany = async()=>{
+
+  if(value){
+
+    await axios.get(`${global.BASE_URL}/cmp/getCmp/${value}`)
+    .then(
+      (response) =>{
+        const result = response.data
+        if(result){
+          
+          // setPsvData(result)  //    Use this to set data in fileds   
+          result.map((item)=>{
+            subCompanyData.push(
+              {label:`${item.subOffice}`,value:`${item.subOffice}`}
+              )
+              
+            })
+            
+          }
+          else {
+            Alert.alert("Not in Record.")
+          }
+        })
+      }
+}
+
+
+
+if(Companydata==[]){
+  return(
+    <View>
+      <Text>
+        Loading........
+      </Text>
+    </View>
+  )
+}
+else{
+
+getCompany()
+if(value != ""){
+
+  getSubCompany()
+}
 
 
  //------------------------------returning UI    
   return (
-     <ScrollView className=" ">
+    <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? 'height' : null}
+         enabled>
+     
+          <ScrollView keyboardShouldPersistTaps='handled'>
       <View className=" flex flex-col ">
-        <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
+        
 
           {/* Vehicle Information Design Tab */}
           <View className="  mt-1 w-full  ">
@@ -319,69 +463,48 @@ const updatePsv =async ()=>{
                 placeholder='Year[2019]'
                 maxLength={4}
                 keyboardType='phone-pad'
-                Value={Vehicle_year}
-                onChangeText={e => setVehicleYear(e)}
+                onChangeText={e => setYear(e)}
+                value={Vehicle_year}
                 className='   bg-white border-black text-black    text-lg' />
             </View>
 
             {/* Number */}
             <View className="w-3/12 items-center ">
               <TextInput
-            
+                
                 placeholderTextColor={'grey'}
                 placeholder='[0000]'
                 maxLength={4}
+                keyboardType='phone-pad'
                 value={Vehicle_number}
                 onChangeText={e=>setNumber(e)}
+                onBlur={()=>KeyBoardhandler()}
                 // keyboardType='phone-pad'
                 className=' bg-white border-black text-black   text-lg' />
             </View>
 {/* //Search Button */}
-                
-                    <TouchableOpacity onPress = {()=>getPsv()} className="flex flex-row rounded-md  justify-center items-center w-1/4 bg-orange-400">
+                 
+                    <TouchableOpacity  onPress ={()=>getPsv()}
+                    
+                     className="flex flex-row rounded-md  justify-center items-center w-1/4 bg-orange-400">
                       
                       <Text className="text-xl font-bold text-black">Search</Text>
                     </TouchableOpacity>
+                   
                 
           </View>
 
-{/* Modal Code */}
-      <View className="flex-1 w-4/6 z-50 bg-slate-600 opacity-10">
-      <Modal
-          
-          animationType={'slide'}
-          transparent={false}
-          visible={showModal}
-           onRequestClose={() => {
-             console.log('Modal has been closed.');
-           }}
-          >
-            <View className=" w-50 bg-slate-200 p-4">
-         <Text className="text-black text-lg">1. Initial Record of Vehcile Added</Text>
-         <Text className="text-black text-lg">2. Documentation Of Vehicle Added</Text>
-         <Text className="text-black text-lg">3. Condition information of Vehicle Added</Text>
-         <Text className="text-black text-lg">4. otherninformation of Vehcile Added</Text>
-         <Button
-              title="Close This View"
-              onPress={() => {
-                setShowModal(!showModal);
-              }}
-            />
-          </View>
-          </Modal> 
-          </View>
-{/* Modal End */}
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >
             <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number</Text></View>
-            <View className=" w-4/6  items-center">
+            <View className=" w-4/6 text-center items-center ">
               <TextInput
                 placeholderTextColor={'grey'}
                 placeholder='Chassis Number'
                 maxLength={50}
                 value={vehicle_chasis}
                 onChangeText={e => setChasis(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+                className=' border-black text-black rounded-md  w-full text-lg items-center text-center' />
 
             </View>
           </View>
@@ -405,13 +528,20 @@ const updatePsv =async ()=>{
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By</Text></View>
             <View className="w-4/6 items-center">
-              <TextInput
-                placeholderTextColor={'grey'}
-                placeholder='HIGER-YUTONG-DAEWOO'
-                maxLength={100}
-                value={vehcile_make}
-                onChangeText={e => setMake(e)}
-                className='   w-8/12 bg-white border-black text-black rounded-md  text-lg text-center' />
+            <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {Vehicle_make_company}
+                onSelect={(selectedItem, index) => {
+                  setMake(selectedItem)            
+                }}
+                defaultButtonText={vehcile_make}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
 
             </View>
           </View>
@@ -455,7 +585,7 @@ const updatePsv =async ()=>{
                 maxLength={2}
                 value={vehicle_seats}
                 onChangeText={e => setVehicleSeats(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+                className=' border-black text-black rounded-md  text-lg text-center' />
             </View>
           </View>
 
@@ -463,7 +593,7 @@ const updatePsv =async ()=>{
           <View className={styles.outerview}>
             <View className={styles.labelstyle}><Text className="text-black font-bold">Tracker Installed</Text></View>
             <View className="w-4/6 items-center">
-            <TouchableOpacity onPress={()=>vehcile_tracker==""?setTracker("1"):setTracker()}
+            <TouchableOpacity onPress={()=>vehcile_tracker==""?setTracker("1"):setTracker("")}
                  className={`p-2 flex-row gap-1 text-center items-center`}>
                 <Square stroke="black" className={`${vehcile_tracker == ""? "block":"hidden"}`} />
                 <CheckSquare stroke="black" className={`${vehcile_tracker == ""? "hidden":"block"}`}></CheckSquare>
@@ -499,32 +629,96 @@ const updatePsv =async ()=>{
             </View>
           </View>
 
+{/* =================================================== */}
+
+{/* =================================================== */}
+
+
           {/* Company Name */}
-          <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Company Name</Text></View>
-            <View className="w-4/6 items-center">
-              <TextInput
-                placeholderTextColor={'grey'}
-                placeholder='[Faisal Mover, Daewoo, Kohistan]'
-                maxLength={30}
-                value={vehcile_company}
-                onChangeText={e => setCompany(e)}
-                className=' border-black text-black rounded-md  text-lg' />
+          <View className={`${styles.outerview}  `}>
+            <View className={styles.labelstyle}>
+              <Text className="text-black font-bold">Company Name</Text>
             </View>
+                <View className = "w-3/5 pl-3">
+
+                 
+            <Dropdown 
+                  data={Companydata}
+
+                  search
+                  containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Select"
+                  placeholderStyle={{paddingStart:5}}
+                  inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+                  searchPlaceholder="Search Company"
+                  value={value}
+                  
+                  onChange={item => {
+                    setValue(item.value)
+                
+                  }}
+
+                  renderLeftIcon={() => (
+                    <View className="flex flex-row gap-1">
+                    <Building2 stroke="black" size={20} />
+                    <Text className="bg-slate-600 p-1 text-white ">{value}</Text>
+                    </View>
+                  )}
+                  />
+</View>
+
           </View>
+ 
+{/* Sub Company Name */}
+<View className={`${styles.outerview}  `}>
+            <View className={styles.labelstyle}>
+              <Text className="text-black font-bold">Sub Company Name</Text>
+            </View>
+                <View className = "w-3/5 pl-3">
+            <Dropdown 
+                  data={subCompanyData}
+                  containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Select"
+                  searchPlaceholder="Search Company"
+                  placeholderStyle={{paddingStart:10}}
+                  inputSearchStyle={{backgroundColor:"#dfdfdf",color:"black"}}
+                  value={subComp}
+                  onChange={(item) => {
+                   setSubComp(item.value)
+                    
+                  }}
+                  renderLeftIcon={() => (
+                    <View className="flex flex-row gap-1">
+                    <Building2 stroke="black" size={20} />
+                    <Text className="bg-slate-600 p-1 text-white ">{subComp}</Text>
+                    </View>
+                  )}
+                  />
+</View>
+
+          </View>
+
+
 
            {/* Buttons Save - Clear -Update */}
            <View className="flex-row items-center justify-center ">
                 <View className=" ">
-                  <TouchableOpacity  onPress ={()=>addPsvFormOne()} className="bg-[#227935]  px-8 py-2 rounded-md m-2">
+                  <TouchableOpacity  onPress ={()=>addPsvFormOne()} className="bg-[#227935]  px-8 py-2 rounded-md m-2" style={{display:`${saveBtn}`}}>
                     <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
 
 
                 <View className="">
-                  <TouchableOpacity onPress={()=>updatePsv()}  className="bg-[#29378a] px-7 py-2 rounded-md m-2">
-                    <Text className="text-white  text-lg">Update</Text>
+                  <TouchableOpacity onPress={()=>updatePsv()}  className=" bg-[#29378a] px-7 py-2 rounded-md m-2" style={{display:`${updateBtn}`}}>
+                    <Text className="text-white  text-lg">Save</Text>
                   </TouchableOpacity>
                 </View>
                 <View className="" >
@@ -538,11 +732,14 @@ const updatePsv =async ()=>{
               </View>
 
 
-        </KeyboardAvoidingView>
+        
       </View>
-    </ScrollView>
+      </ScrollView>
+      </KeyboardAvoidingView>
   );
 };
+
+}
 
 export default AddVehicle;
 

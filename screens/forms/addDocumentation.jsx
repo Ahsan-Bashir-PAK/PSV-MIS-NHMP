@@ -32,7 +32,7 @@ const [routedate, setRouteDate] = useState(new Date())
 const [routeopen, setRouteOpen] = useState(false)
 
 // Route Type
-const select_route_type = ["Temporary", "Permanent"]
+const select_route_type = ["Temporary", "Permanent", "No-Route"]
 const [route_type, setRouteType] = useState("");
 
 const [route_from, setRouteFrom] = useState("");
@@ -53,45 +53,24 @@ const [currentUser,setCurrentUser] = useState({})
 
 //
 const [psvreport , setPsvReportData] = useState("");
+const [vehicleNo,setVehicleNo] =useState()
 
 
-//getting user seesion data 
-async function retrieveVehicleSession() {
-  try {   
-      const session = await EncryptedStorage.getItem("psv_session");
-      if (session !== undefined) {
-        setCurrentPsv(JSON.parse(session))
-      
-      }
-  } catch (error) {
-      // There was an error on the native side
-  }
-}
-//===============================================================getting user seesion data 
-async function retrieveUserSession({route}) {
-  try {   
-      const session = await EncryptedStorage.getItem("user_session");
-      if (session !== undefined) {
-        //  setCurrentUser(session)
-        setCurrentUser(JSON.parse(session)) 
-      }
-  } catch (error) {
-      // There was an error on the native side
-  }
-}
+
+
 // SET DATA INTO FIELDS
 function setData (psvreport) {
-     console.log(psvreport.fitnessExpiryDate)
       setRoute(psvreport.routePermitNo);
       setRouteAuthority (psvreport.issueAuthority);
       //setexpir ("");
       setRouteType(psvreport.routeType);
+      setRouteDate(new Date(psvreport.routeExpiryDate));
       setRouteFrom(psvreport.routeFrom);
       setRouteTo(psvreport.routeTo);
       setRouteVia(psvreport.routeVia);
       setFitness(psvreport.fitnessNo);
       //fitness expiry
-      setFDate(psvreport.fitnessExpiryDate)
+      setFDate(new Date (psvreport.fitnessExpiryDate))
       setFitAuthority(psvreport.fitnessAuthority);
 
 }
@@ -114,30 +93,62 @@ function setData (psvreport) {
     }
   }
 //============================================retriveing vehicle info
+
+
+
 useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
-
- if(route.params){
-  if(route.params["params"] =="report"){
-    retrieveReportSession()
+  if(route.params){
+    if(route.params["params"] =="report"){
+      retrieveReportSession()
+    }
   }
-  
- }
-  
 },[])
+
+  //===============================================================getting user seesion data 
+async function retrieveUserSession() {
+  try {   
+      const session = await EncryptedStorage.getItem("user_session");
+      if (session !== undefined) {
+        //console.log(JSON.parse(session))
+        setCurrentUser(JSON.parse(session)) 
+        
+      }
+  } catch (error) {
+      // There was an error on the native side
+  }
+}
+  //getting user seesion data 
+  async function retrieveVehicleSession() {
+    try {   
+        const session = await EncryptedStorage.getItem("psv_session");
+        //console.log("session=========",session)
+        if (session !== undefined) {
+          const sessiondata = JSON.parse(session)
+          setCurrentPsv(sessiondata)
+        }
+    } catch (error) {
+        // There was an error on the native side
+    }
+  }
+
+  async function vehicleno (){
+    const vehicle = currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber
+    setVehicleNo(vehicle)
+  }
 
 //=============================================== clear 
   function clearAll() {
       setRoute("");
       setRouteAuthority ("");
-      //setexpir ("");
+      setRouteDate(new Date());
       setRouteType("");
       setRouteFrom("");
       setRouteTo("");
       setRouteVia("");
       setFitness("");
-      //fitness expiry
+      setFDate(new Date());
       setFitAuthority("");
   }
 
@@ -163,13 +174,49 @@ useEffect(()=>{
   
   
   const updatePsvDocs =async ()=>{
+      if(vroute == "") { Alert.alert("Please enter Route Permit or type N.A");  }
+        else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority or type N.A ")  }
+        else if (route_type=="") {Alert.alert("Select Route Type")}
+        else if (fitnessno =="") { Alert.alert("Please Enter Fitness No. or type N.A")}
+        else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Authority No. or type N.A")}
+        else {
+    try {
+      
+   
     axios.patch(`${global.BASE_URL}/psv/updatePsvDocs/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => Alert.alert(" PSV's Document Data Updated "))
-      navigation.navigate("Add Condition")
-      .catch(error => console.error(error));
+    .then(response =>{
+      if(route.params){
+        if(route.params["params"] == "report"){
+       
+        Alert.alert('Data Updated', ' ', [
+         
+          {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+        ]);
+        // navigation.navigate("Trip Report")
+       
+       }
+     }else{
+      Alert.alert('Data Updated', ' ', [
+         
+        {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
+      ]);
+        
+        }
+
     }
-  
+      
+      )
+   
+
+    clearAll() 
+  }
+     catch (error) {
+      console.log(error)
+    }
+    
+    }
+  }
     // {params:{letter:bus.letter, year:bus.year,no:bus.no}}
 //-============================================ returnin UI
   return (
@@ -187,7 +234,9 @@ useEffect(()=>{
 
             <View className=" bg-zinc-200  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold  ">
-                     {currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+           
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
+            
                 </Text>
               
             </View>
@@ -231,6 +280,7 @@ useEffect(()=>{
               <View className="flex flex-row gap-1">
             
             <DatePicker
+              
               modal
               mode="date"
               open={routeopen}
@@ -410,12 +460,12 @@ useEffect(()=>{
                 </View>
 
               
-
+{/* 
                 <View className="">
                   <TouchableOpacity onPress={()=>updatePsvDocs()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
 
                 <View className="" >
                   <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">
@@ -431,7 +481,15 @@ useEffect(()=>{
         </KeyboardAvoidingView>
       </View>
     </ScrollView>
+
+    
   );
+
+// return(
+//   <View>
+//     <Text>hello</Text>
+//   </View>
+// )
 };
 
 export default AddDocumentation;

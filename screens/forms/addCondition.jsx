@@ -7,9 +7,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown';
+
+const tyre_companies = ["Dunlop", "Bridgestone", "Yokohama", "Michelin", "Van-Lee", "Huayi", "Westlake", "Chaoyang", "Xing yuan", "Continents", "Mirage", "Long March", "General", "Super cargo", "Green-Tiger", "Service", "Panther", "Advance tyre", "others"];
 
 const AddCondition = ({route}) => {
 
+  
   const navigation = useNavigation();
   
   const today = new Date()
@@ -17,7 +21,7 @@ const time = new Date().toLocaleTimeString()
 
   const [tyrecomp, setTyreCom] =useState();
   // Tyre Manufacturing Date
-  const [date, setDate] = useState(new Date())
+  const [t_manDate, setmanDate] = useState(new Date())
   const [open, setOpen] = useState(false)
  
   // Tyre expiry Date
@@ -35,8 +39,8 @@ const time = new Date().toLocaleTimeString()
   const [emergencylight, SetemergencyLight] =useState("");
   const [currentPsv,setCurrentPsv] = useState({})
   const [currentUser,setCurrentUser] = useState({})
-  const [psvReportData,setPsvReportData] =useState({})
-  const [loading, setLoading] = useState(true);
+  // const [psvReportData,setPsvReportData] =useState({})
+  // const [loading, setLoading] = useState(true);
   
   function clearAll() {
 
@@ -56,32 +60,49 @@ const time = new Date().toLocaleTimeString()
   //===============getting report data
 
   async function retrieveReportSession() {
-    setLoading(true);
+    
     try {
       const session = await EncryptedStorage.getItem('Report');
 
       if (session !== undefined) {
-       
-        setPsvReportData(JSON.parse(session).psvData); //data of vehicle
+      
+        const data =JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
        
       }
     } catch (error) {
       // There was an error on the native side
     }
-    setLoading(false);
+    
   }
 
 //============================================retriveing vehicle info
-useEffect(async ()=>{
+useEffect(()=>{
   retrieveUserSession()
   retrieveVehicleSession()
-  if(route.params["params"] == 'report'){
-    await retrieveReportSession()
-    {!loading && 
-   await  showReportData()
+  if(route.params){
+    if(route.params["params"] =="report"){
+      retrieveReportSession()
     }
   }
 },[])
+
+///================================retriving Data
+
+async function showReportData (psvReportData){
+  setTyreCom(psvReportData.tyreCompany);
+  setmanDate(new Date(psvReportData.tyreManDate));
+  settyreDate(new Date(psvReportData.tyreExpiry));
+  setTread(`${psvReportData.tyreTread}`);
+  SettyreCondition(psvReportData.tyreCondition);
+  setRemarks(psvReportData.tyreRemarks);
+  SetheadLight(psvReportData.headLights);
+  SetbackLight(psvReportData.backLigths);
+  SethazardLight(psvReportData.hazardLights);
+  SetfogLight(psvReportData.fogLights);
+  SetemergencyLight(psvReportData.emergencyLights)
+}
+
 //getting user seesion data 
 async function retrieveVehicleSession() {
   try {   
@@ -106,27 +127,12 @@ async function retrieveUserSession() {
   }
 }
 
-///================================retriving Data
-
-async function showReportData (){
-  setTyreCom(psvReportData.tyreCompany);
-  setDate(psvReportData.tyreManDate);
-  settyreDate(psvReportData.tyreExpiry); //tyre expiry
-  setTread(psvReportData.tyreTread);
-  SettyreCondition(psvReportData.tyreCondition);
-  setRemarks(psvReportData.tyreRemarks);
-  SetheadLight(psvReportData.headLights);
-  SetbackLight(psvReportData.backLigths);
-  SethazardLight(psvReportData.hazardLights);
-  SetfogLight(psvReportData.fogLights);
-  SetemergencyLight(psvReportData.emergencyLights)
-}
 
   //========================================================save and update psv document
    
   const PsvDocuments = {
     tyreCompany: tyrecomp,
-    tyreManDate: date,
+    tyreManDate: t_manDate,
     tyreExpiry: tyredate,
     tyreChkDate:today,
     tyreCondition: tyrecondition,
@@ -146,20 +152,40 @@ async function showReportData (){
   
   
   const updatePsvCondition =async ()=>{
-    // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
+    
+
+
+      if (tyrecondition !=""){    // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => {Alert.alert(" PSV's  Data Updated ")
-            navigation.navigate("Other Info");
-    })
+      .then(response => {
+        if(route.params["params"] == "report"){
+       
+          Alert.alert('Data Updated', ' ', [
+           
+            {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+          ]);
+          // navigation.navigate("Trip Report")
+         
+         }
+       else{
+        Alert.alert('Data Updated', ' ', [
+           
+          {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
+        ]);
+            }
+    }
+    
+    )
 
       .catch(error => console.error(error));
-    }
+    } else { Alert.alert("Please Set Tyre Condition")}} 
+
   //==================================================
   return (
-    <ScrollView className=" ">
+    
       <View className="bg-slate-100  flex flex-col   p-2 ">
-        <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
+        
           {/* Vehicle Tyre Condition Tab */}
           <View className=" mt-1 w-full  ">
 
@@ -171,7 +197,7 @@ async function showReportData (){
 
             <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-sm rounded-md font-bold ">
-                {currentPsv.psvLetter+ "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber} 
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
                 </Text>
               
             </View>
@@ -180,15 +206,24 @@ async function showReportData (){
 
             {/*  Tyre Manufacture */}
             <View className={styles.outerview} >
-              <View className={styles.labelstyle}><Text className="text-black  font-bold">Tyre Manufacture</Text></View>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Tyre Manufacture</Text>
+              </View>
               <View className=" w-4/6  items-center">
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  placeholder='Enter Company'
-                  maxLength={50}
-                  onChangeText={e=>setTyreCom()}
-                  value={tyrecomp}
-                  className=' border-black text-black rounded-md  text-lg' />
+              <View className=" m-1  z-40">
+              <SelectDropdown
+                data= {tyre_companies}
+                onSelect={(selectedItem, index) => {
+                  setTyreCom(selectedItem)            
+                }}
+                defaultButtonText={tyrecomp}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
 
               </View>
             </View>
@@ -203,10 +238,10 @@ async function showReportData (){
               modal
               mode="date"
               open={open}
-              date={date}
+              date={t_manDate}
               onConfirm={value => {
                 setOpen(false);
-                setDate(value);
+                setmanDate(value);
               }}
               onCancel={() => {
                 setOpen(false);
@@ -214,7 +249,7 @@ async function showReportData (){
             />
 
             <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
-              {date.toLocaleDateString()}
+              {t_manDate.toLocaleDateString()}
             </Text>
             <TouchableOpacity onPress={() => setOpen(true)}>
               <Calendar stroke="black" fill="white" size={30}></Calendar>
@@ -267,7 +302,7 @@ async function showReportData (){
                   placeholder='3.5 - 2.0'
                   maxLength={4}
                   onChangeText={e=>setTread(e)}
-                  value={tread}
+                  value ={tread}
                   className=' border-black text-black rounded-md  text-lg' />
               </View>
             </View>
@@ -386,11 +421,11 @@ async function showReportData (){
                   </TouchableOpacity>
                 </View>
 
-                <View className="">
+                {/* <View className="">
                   <TouchableOpacity onPress={()=>updatePsvCondition()} className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
 
 
               </View>
@@ -398,9 +433,9 @@ async function showReportData (){
 
 </View>
 
-        </KeyboardAvoidingView>
+        
       </View>
-    </ScrollView>
+    
   );
 };
 

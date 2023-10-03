@@ -9,12 +9,14 @@ import {
   Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {Calendar, CheckSquare, Disc2, Square, Info} from 'lucide-react-native';
+import {Calendar, CheckSquare, Square, Info} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import '../../config';
+
 
 const AddOtherInfo = ({route}) => {
 
@@ -23,6 +25,8 @@ const AddOtherInfo = ({route}) => {
   
   const today = new Date()
   const time = new Date().toLocaleTimeString()
+
+
   // Tyre Manufacturing Date
   const [numberplate, setnumberPlate] = useState(false);
   const [sidemirror, setsideMirror] = useState(false);
@@ -41,6 +45,63 @@ const AddOtherInfo = ({route}) => {
   const [currentPsv, setCurrentPsv] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
+  const [psvreport , setPsvReportData] = useState("");
+
+  
+    //===============getting report data
+
+  async function retrieveReportSession() {
+    
+    try {
+      const session = await EncryptedStorage.getItem('Report');
+
+      if (session !== undefined) {
+      
+        const data =JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
+       
+       
+      }
+    } catch (error) {
+      // There was an error on the native side
+    }
+    
+  }
+
+//============================================retriveing vehicle info
+useEffect(()=>{
+  retrieveUserSession()
+  retrieveVehicleSession()
+  if(route.params){
+    if(route.params["params"] == "report"){
+      retrieveReportSession()
+    }
+  }
+},[])
+
+///================================retriving Data
+
+async function showReportData (psvReportData){
+  setnumberPlate(psvReportData.regPlates);
+  setsideMirror(psvReportData.sideMirror);
+  setfrontWipers(psvReportData.frontWippers);
+  setfireExt(psvReportData.fireExt);
+  setDate(new Date(psvReportData.fireExpiry))
+  setfirstAid(psvReportData.firstAidBox);
+  setzeroSeat(psvReportData.zeroSeat);
+  setCones(psvReportData.cones);
+
+}
+
+async function clearPsvSession() {
+  try {
+    await EncryptedStorage.removeItem('psv_session');
+    setCurrentPsv("");
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   //---------------------------------
 
   function clearAll() {
@@ -51,6 +112,7 @@ const AddOtherInfo = ({route}) => {
     setfirstAid('');
     setzeroSeat('');
     setCones('');
+
   }
 //
   //===============getting report data
@@ -61,7 +123,8 @@ const AddOtherInfo = ({route}) => {
 
       if (session !== undefined) {
       
-        console.log('vehicledata===========', JSON.parse(session).psvData); //data of vehicle
+        const data = JSON.parse(session).psvData; //data of vehicle
+        showReportData(data)
        
       }
     } catch (error) {
@@ -69,14 +132,7 @@ const AddOtherInfo = ({route}) => {
     }
   }
 
-  //============================================retriveing vehicle info
-  useEffect(() => {
-    retrieveUserSession();
-    retrieveVehicleSession();
-    if(route.params =='report'){
-      retrieveReportSession()
-    }
-  }, []);
+
   //getting user seesion data
   async function retrieveVehicleSession() {
     try {
@@ -120,6 +176,11 @@ const AddOtherInfo = ({route}) => {
   };
 
   const updatePvsOthers = async () => {
+    // if(route.params){
+    //   if(route.params["params"] == "report"){
+
+    //   }}
+   // console.log(PsvOthers)
     axios
       .patch(
         `${global.BASE_URL}/psv/updatePsvOthers/${
@@ -127,8 +188,30 @@ const AddOtherInfo = ({route}) => {
         }`,
         PsvOthers,
       )
-      .then(response =>{ Alert.alert(" PSV's Data has been completed. ")
-          navigation.navigate('Home')
+
+      .then(response =>{ 
+        
+        
+        
+        if(route.params){
+          if(route.params["params"] == "report"){
+         
+          Alert.alert('Data Updated', ' ', [
+           
+            {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+          ]);
+          // navigation.navigate("Trip Report")
+         
+         }
+       }else{
+
+         clearPsvSession();
+         navigation.navigate('Home')
+        }
+      
+      clearAll();
+     
+     
     })
 
     
@@ -152,11 +235,7 @@ const AddOtherInfo = ({route}) => {
 
             <View className="  rounded-md p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-sm rounded-md font-bold ">
-                {currentPsv.psvLetter +
-                  '-' +
-                  currentPsv.psvModal +
-                  '-' +
-                  currentPsv.psvNumber}
+              {currentPsv != null ? currentPsv.psvLetter + "-" + currentPsv.psvModal +"-" + currentPsv.psvNumber : ""}
               </Text>
             </View>
 
@@ -277,8 +356,8 @@ const AddOtherInfo = ({route}) => {
 
                     <Text className="rounded-md  w-4/6   text-black text-center font-bold p-2">
                       {fireextdate.toLocaleDateString()}
-                    </Text>
-                    <TouchableOpacity onPress={() => settyreOpen(true)}>
+                    </Text> 
+                    <TouchableOpacity onPress={() => setOpen(true)}>
                       <Calendar
                         stroke="black"
                         fill="white"
@@ -366,13 +445,13 @@ const AddOtherInfo = ({route}) => {
                   </TouchableOpacity>
                 </View>
 
-                <View className="">
+                {/* <View className="">
                   <TouchableOpacity
                     onPress={() => updatePvsOthers()}
                     className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                     <Text className="text-white  text-lg">Update</Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           </View>

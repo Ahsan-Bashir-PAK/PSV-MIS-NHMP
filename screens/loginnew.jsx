@@ -1,4 +1,4 @@
-import React, { useState, Linking } from 'react';
+import React, { useState, Linking,useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {
@@ -24,7 +24,13 @@ import { Facebook, Twitter } from 'lucide-react-native';
 
 function Login() {
 
+useEffect(()=>{
+    function clearStorage(){
 
+        EncryptedStorage.clear()
+    }
+clearStorage()
+},[])
  
     const [user, setUser] = useState("")
     const [userpwd, setPwd] = useState("")
@@ -33,6 +39,14 @@ function Login() {
 
 //-----------Signin & get User 
         const signIn =async()=>{       
+
+            if(user== "") {
+                Alert.alert("Please enter User Name") }
+               else if(userpwd== "") {
+                    Alert.alert("Please enter Password") }
+                  else  if(location== "") {Alert.alert("Please enter current location") }
+                 else   if(userbound== "") {Alert.alert("Please Select North or South Bound")}
+        else {
             
         if(user && userpwd && location && userbound){
          await axios.get(`${global.BASE_URL}/users/getUser/${user}`
@@ -42,9 +56,10 @@ function Login() {
             function (response){
                 const result = response.data[0]
           if(result) {
+           
           if(userpwd == result.userPwd){
            
-            storeUserSession(user,result.role)
+            storeUserSession(user,result.role,result.userName,result.rank,result.userPwd)
             
             navigation.navigate("Home")
             clearAll()
@@ -66,7 +81,7 @@ function Login() {
           )
         }}
 
-
+    }
      //---------------------------------------store session
 
 //
@@ -80,20 +95,24 @@ function clearAll(){
 
     
 
-     async function storeUserSession(user,role) {
+     async function storeUserSession(user,role,officer,rank,pwd) {
          try {
              await EncryptedStorage.setItem(
                  "user_session",
                  JSON.stringify({
                      userName : user,
                      role:role,
-                     location:location+userbound
+                     location:location+userbound,
+                     name:officer,
+                     rank:rank,
+                     pwd:pwd
+
+                    
                  })
              );
-             //console.log("home-----", user,role, location)
-             // Congrats! You've just stored your first value!
+           
          } catch (error) {
-             // There was an error on the native side
+             console.log(error)
          }
      }
 
@@ -115,6 +134,7 @@ function clearAll(){
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
                 <Text className='font-extrabold text-3xl  text-white'>PSVs MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
+                <Text className="text-white font-light font-mono italic">(Version 1.0)</Text>
             </View>
            
                        {/* Login Panel */}
@@ -128,7 +148,7 @@ function clearAll(){
                     onChangeText={text=>setUser(text)}
                     placeholderTextColor='grey'
                     keyboardType='number-pad'
-                    className=' h-[50]   text-lg border bg-white border-blue-400 text-black m-3 rounded-md ' />
+                    className=' h-[50]  pl-5 text-lg border bg-white border-blue-400 text-black m-3 rounded-md ' />
                 </View>
 
                 {/* Password  */}
@@ -140,7 +160,7 @@ function clearAll(){
                     onChangeText={e => setPwd(e)}
                     placeholderTextColor='grey'
                     
-                    className='h-[50]  text-lg  border  bg-white border-blue-400 text-black m-3 rounded-md ' />
+                    className='h-[50]  pl-5 text-lg  border  bg-white border-blue-400 text-black m-3 rounded-md ' />
                 </View>
                 <View className="  w-full flex flex-row">
                         <View className=" mt-3 mb-3 ml-3 w-4/12">
@@ -152,10 +172,10 @@ function clearAll(){
                         keyboardType='number-pad'
                         maxLength={4}
                         
-                        className='h-[50]  text-lg  rounded-md border  bg-white border-blue-400 text-black  ' />
+                        className='h-[50] pl-5 text-lg  rounded-md border  bg-white border-blue-400 text-black  ' />
                         </View>
 
-                        <View className="w-12 border rounded-md mt-3 mb-3  justify-center  bg-white border-blue-400">    
+                        <View className="w-12  rounded-md mt-3 mb-3  justify-center ">    
                                  <Text className="text-center items-center text-black  font-bold text-lg " > {userbound} </Text>
                         </View>
 
