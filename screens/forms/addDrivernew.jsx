@@ -243,12 +243,15 @@ async function setDriverValue (result){
 }
 //----------save driver data
 const saveData = async () => {
-  if(driverName ="") {Alert.alert("");}
-  if(cnic ="") {Alert.alert("");}
-  if(licenseNo ="") {Alert.alert("");}
-  if(licenseType ="") {Alert.alert("");}
-  if( expirydate="") {Alert.alert("");} else {
+  if(driverName =="") {Alert.alert("Please Enter Driver Name");}
+    else if(cnic =="" || cnic.length != 13) {Alert.alert("Please Enter CNIC");}
+    else if(cellNo == "" || cellNo.length != 11) {Alert.alert("Please enter Cell No.");} 
+    else if(licenseNo =="") {Alert.alert("Please Enter License Number");}
+    else if(licenseType =="") {Alert.alert("Please select license Type");}
+    else if(licenseAuthority =="") {Alert.alert("Please select license Authority");}
+  else {
 await axios.post(`${global.BASE_URL}/dvr/addDriver`, driver)
+
 .then( (response)=> {
   Alert.alert('Drive added successfully');
   if(route.params){
