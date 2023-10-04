@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { Linking } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import { CircleDot, FileDown, FileSymlink, User, UserCircle,Dot, Circle } from 'lucide-react-native';
+import { CircleDot, FileDown, FileSymlink, User, UserCircle,Dot, Circle, Pencil, PencilLine } from 'lucide-react-native';
 import { retrieveUserSession } from '../config/functions';
 import axios from 'axios';
 
@@ -37,20 +37,12 @@ function submitFeedBack () {
                     {/* User Profile TAB*/}
                     <View className=" mt-1 w-full  ">
 
-                        <View className=" p-10  bg-blue-400  rounded-md  w-fit items-center justify-center flex ">
-                            <View className=" border-blue-700 shadow-md border rounded-3xl w-full  bg-blue-600 h-[100]  justify-center items-center flex flex-row">
+                        <View className=" p-10  bg-yellow-400  rounded-md  w-fit items-center justify-center flex ">
+                            <View className=" border-yellow-200 shadow-md border rounded-3xl w-full  bg-yellow-500  h-[100] shadow-black justify-center items-center flex flex-row-reverse">
                                <Text className="font-bold  text-white text-xl">Feed Back & Suggestion</Text>
-                               
+                               <Pencil stroke="#123456" size={25} className='mr-2' />
                             </View>
-                            <View className="mt-10 flex flex-row-reverse">
                           
-                                    
-                                
-                                <Text className="font-extrabold text-black text-xl">
-                                    {/* {`${currentUser.rank}  ${currentUser.name}`} */}
-                                </Text>
-                                
-                            </View>
                             
                         </View>
                     </View>    

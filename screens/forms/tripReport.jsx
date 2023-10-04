@@ -475,7 +475,7 @@ function setTripData(tripdata){
               </View>
               <View className="w-4/6 items-center">
 
-                <Text className="text-black font-bold ">{roadworthy=="" ? setActionTaken():" AC (Yes)"}</Text>
+                <Text className="text-black font-bold ">{roadworthy} {warning} {returned} {Enforcement}</Text>
 
               </View>
             </View>

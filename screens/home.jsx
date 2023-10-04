@@ -292,10 +292,11 @@ function Home() {
 
       {/* User Profile*/}
 
-      <View className="mt-2 flex flex-row ">
+      <View className=" mt-2 flex flex-row p-1 ">
+        <View className="p-1 w-2/4">
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
-          className="w-2/4 h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
+          className=" h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
           <View className="justify-center flex flex-row items-center  w-full ">
             <User stroke="white" size={25} />
             <Text className=" font-bold font-white  text-lg text-white">
@@ -303,18 +304,20 @@ function Home() {
             </Text>
           </View>
         </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Feed Back')}
-          className="w-2/4 m-1  h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
-          <View className="justify-center flex flex-row items-center  w-full ">
-            <PenSquare stroke="white" size={25} />
-            <Text className=" font-bold font-white  text-lg text-white">
-             Feed Back
-            </Text>
-          </View>
-        </TouchableOpacity>
-        
+        <View className="  p-1 w-2/4">
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Feed Back')}
+            className="  h-10 rounded-lg  justify-center items-center bg-[#40b63c] ">
+            <View className="justify-center flex flex-row items-center  w-full ">
+              <PenSquare stroke="white" size={25} />
+              <Text className=" font-bold font-white  text-lg text-white">
+              Feed Back
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Update Logout */}
