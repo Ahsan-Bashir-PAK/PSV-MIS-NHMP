@@ -7,13 +7,14 @@ import '../../config'
 
 
 import SelectDropdown from 'react-native-select-dropdown';
-//import axios from 'axios';
+import axios from 'axios';
+
 
 const user_status = [ "User" ,"Admin"]; 
-const region = [ "Central" ,"North", "South"]; 
 
-const ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
-const Zone = [ "Motorway Central-I" ,"Motorway Central-II", "Motorway North", "N-5 Central", "N-5 North", "N-5 South", "West", "Training College", "CPO-HQ-Islamabad"];  
+
+let ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
+ 
 
 
 
@@ -38,50 +39,75 @@ const [officerRegion, setOfcrRegion] = useState("");
 const [officerzone, setOfcrzone] = useState("");
 const [officersector, setOfcrsector] = useState("");
 const [officerbeat, setOfcrbeat] = useState("");
+const[regions,setRegions] = useState("")
+const[zones,setZones] = useState("")
+const[sectors,setSectors] = useState("")
+const[beats,setbeats] = useState("")
 //============================================================
 const [officerrole, setOfcrrole] = useState("");
 //================================================================ function to get offices data 
 const getRegion = async () => {
+  
   await axios.get(`${global.BASE_URL}/ofc/region`).then(async response => {
     const region = response.data;
+    const regions = []
     if (region) {
-      console.log(region);
-      //====================================zone
-      await axios
-        .get(`${global.BASE_URL}/ofc/zone/${officerRegion}`)
-        .then(async response => {
-          const zone = response.data;
-          if (zone) {
-            console.log(zone);
-            //------------------------------------------------sector
-            await axios
-              .get(`${global.BASE_URL}/ofc/sector/${officerzone}`)
-              .then(async response => {
-                const sector = response.data;
-                if (sector) {
-                  console.log(sector);
-                  //-------------------------------------------------------------beat
-                  await axios
-                    .get(`${global.BASE_URL}/ofc/beat/${officersector}`)
-                    .then(async response => {
-                      const beat = response.data;
-                      if (beat) {
-                        console.log(beat);
-
-                        //------------------------------------------
-                      }
-                    });
-                  //---------------------------------------------------
-                }
-              });
-            //------------------------------------------------------------
-          }
-        });
-      //-----------------------------------------------------------------------
+      region.map( item=>{
+        regions.push(item.region)
+      }) 
+      setRegions(regions)
+     
     }
   });
 };
-
+const Zones =[]
+//=============================================================get zone 
+const getZone = async (region) => {
+  
+  await axios.get(`${global.BASE_URL}/ofc/zone/${region}`).then(async response => {
+    const zone = response.data;
+   const data =[]
+    if (zone) {
+      zone.map( item=>{
+        data.push(item.zone)
+      }) 
+      setZones(data)
+    }
+   
+  });
+};
+//=============================================================get sectors
+const getSector = async (zone) => {
+ 
+  await axios.get(`${global.BASE_URL}/ofc/sector/${zone}`).then(async response => {
+    const sector = response.data;
+   const data =[]
+    if (sector) {
+      
+      sector.map( item=>{
+        data.push(item.sector)
+      }) 
+      setSectors(data)
+     
+    }
+   
+  });
+};
+//=============================================================get sectors
+const getBeat = async (sector) => {
+  
+  await axios.get(`${global.BASE_URL}/ofc/beat/${sector}`).then(async response => {
+    const beat = response.data;
+   const data =[]
+    if (beat) {
+      beat.map( item=>{
+        data.push(item.beat)
+      }) 
+      setbeats(data)
+    }
+   
+  });
+};
 //==============================================================================================/>
  // Clear Data
 const  clearAll =()=>{
@@ -144,11 +170,9 @@ const saveUser = async () => {
         });
       } else { Alert.alert("Note: Please Fill All Fields");}
       }
-
 useEffect(()=>{
   getRegion()
-},[ ])
-      
+},[regions])
 return (
     <ScrollView className=" ">
     <View className=" flex flex-col   ">
@@ -163,8 +187,8 @@ return (
           </View>
         </View>
 
-        {/*  FIND */}
-        <View className={`${styles.outerview} `} style={{}} >
+         {/* FIND */}
+        {/* <View className={`${styles.outerview} `} style={{}} >
           
           <View className=" w-4/6  border border-gray-200 items-center ">
               <TextInput 
@@ -178,10 +202,10 @@ return (
               
           </View>
           <View className="flex flex-row-reverse  bg-orange-200  justify-center items-center w-2/6"><Text className="text-black text-lg  font-bold">Search</Text>
-          
+           */}
           {/* <Search stroke='black' /> */}
-          </View>
-        </View>
+          {/* </View>
+        </View> */}
         
         {/*   officer Name */}
         <View className={styles.outerview} >
@@ -285,17 +309,43 @@ return (
 
           </View>
         </View>
+        
+        {/* Region */}
+        <View className={styles.outerview}>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Region</Text></View>
+          <View className="w-4/6 items-center">
+          <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {regions}
+                value={officerRegion}
+                onSelect={ (selectedItem, index) => {
+                  
+                  setOfcrRegion(selectedItem);
+                 getZone(selectedItem)
+                }}
+                defaultButtonText='Select Region'
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
 
+
+          </View>
+        </View>
         {/* Zone */}
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Zone</Text></View>
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
-                data= {Zone}
+                data= {zones}
                 value={officerzone}
                 onSelect={(selectedItem, index) => {
                   setOfcrzone(selectedItem);
+                  getSector(selectedItem)
                 }}
                 defaultButtonText='Select Zone'
                 buttonStyle={{
@@ -316,12 +366,15 @@ return (
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
-                data= {Zone}
-                value={officerzone}
+                data= {sectors}
+                value={officersector}
                 onSelect={(selectedItem, index) => {
-                  setOfcrzone(selectedItem);
+                  setOfcrsector(selectedItem);
+                  getBeat(selectedItem)
+                 
+
                 }}
-                defaultButtonText='Select Zone'
+                defaultButtonText='Select Sector'
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -338,12 +391,13 @@ return (
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
-                data= {Zone}
-                value={officerzone}
+                data= {beats}
+                value={officerbeat}
                 onSelect={(selectedItem, index) => {
-                  setOfcrzone(selectedItem);
+                  setOfcrbeat(selectedItem);
+                 
                 }}
-                defaultButtonText='Select Zone'
+                defaultButtonText='Select Beat'
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -406,6 +460,7 @@ return (
   </ScrollView>
   );
 };
+
 
 export default SignUp;
 

@@ -18,7 +18,6 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import { retrieveDriverSession, retrieveVehicleSession,retrieveUserSession } from '../../config/functions';
-
 const TripReport = ({route}) => {
 
 
@@ -81,7 +80,50 @@ retrieveVehicleSession(setRptPsv)
 //   Alert.alert("Record Updated")
 // })
 
+////////////////
 
+
+function setActionTakenWorthy () {
+  setRoadWorthy("Road Worthy");
+  setWarning("");
+  setReturned("");
+  setEnforced("");
+  setActionTaken("Road Worthy")
+}
+function setActionTakenWarning () {
+  setRoadWorthy("");
+  
+  setWarning("Warned");
+  
+  setEnforced("");
+  setActionTaken("Warned" + " " + returned)
+
+}
+function setActionTakenEnforced () {
+  setRoadWorthy("");
+  
+  setWarning("");
+  
+  setEnforced("Enforced");
+  setActionTaken("Enforced" + " "+ returned )
+}
+
+function setActionTakenReturned () {
+  setRoadWorthy("");
+  
+  
+  setActionTaken("Returned" + " "+ warning + Enforcement )
+}
+
+function clearAllActionTaken () {
+  setRoadWorthy("");
+  
+  setWarning("");
+  
+  setEnforced("");
+  setActionTaken("")
+  setReturned("")
+}
 
 
   //================================================report generaation
@@ -253,7 +295,7 @@ function setTripData(tripdata){
             </View>
             
             {/* Show Vehicle Number */}
-            <View className=" bg-[#bfbfbf] p-1 rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+            <View className=" bg-[#5ec44a] p-1 rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Report of BUS No: {v_psvNo}
               </Text>
@@ -280,9 +322,9 @@ function setTripData(tripdata){
                 <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 "} w-4/6 items-center rounded-md `}>
+              <View className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 text-black "} w-4/6 items-center rounded-md `}>
               
-                    <Text className="text-white font-bold">{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
+                    <Text className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 text-black "} font-bold `}>{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
                     
                      </Text>
 
@@ -437,7 +479,7 @@ function setTripData(tripdata){
             </View>
 
                 {/* Show Driver Tab and name */}
-            <View className=" bg-[#bfbfbf]s  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
+            <View className=" bg-[#5ec44a] p-1  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Details of Driver: {d_name}
               </Text>
@@ -473,17 +515,20 @@ function setTripData(tripdata){
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">Action Taken</Text>
               </View>
-              <View className="w-4/6 items-center">
+              <View className="w-3/6 items-center">
 
-                <Text className="text-black font-bold ">{roadworthy} {warning} {returned} {Enforcement}</Text>
-
+                <Text className="text-black font-bold ">{actionTaken}</Text>
+                
               </View>
+              <TouchableOpacity onPress={()=>clearAllActionTaken()} className="bg-red-500 rounded-md px-2">
+                    <Text className="font-bold text-white p-1 ">Clear All</Text>
+                </TouchableOpacity>
             </View>
 
             {/* Road Worthy */}
 
             <View className="  p-2 justify-around flex flex-row  bg-slate-100 items-center text-center">
-              <TouchableOpacity  onPress ={()=>setRoadWorthy("Road Worthy")} className=" bg-[#44cf56] border border-gray-300 p-3 w-1/5 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity  onPress ={()=>setActionTakenWorthy()} className=" bg-[#44cf56] border border-gray-300 w-1/5 p-1 py-3 items-center rounded-md shadow-md  shadow-blue-900">
 
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
@@ -492,19 +537,19 @@ function setTripData(tripdata){
 
 
 
-              <TouchableOpacity onPress ={()=>setActions("Warned")} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
+              <TouchableOpacity onPress ={()=>setActionTakenWarning()} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
 
                {/* Returned*/}
-               <TouchableOpacity onPress ={()=>setActions("Returned")}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
+               <TouchableOpacity onPress ={()=>setActionTakenReturned()}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
 
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
 
               {/* Enforced */}
 
-              <TouchableOpacity onPress ={()=>setActions("Enforced")} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
+              <TouchableOpacity onPress ={()=>setActionTakenEnforced()} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
 
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>

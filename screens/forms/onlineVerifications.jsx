@@ -38,7 +38,32 @@ const OnlineVerifications = () => {
          <View className=" border bg-yellow-400  rounded-md p-5  w-fit items-center justify-center flex flex-row">
             <FileSymlink  stroke="black" size={35} />
             <Text className="text-black text-lg rounded-md font-bold ">Important Documents Verifications links all over Pakistan</Text>
+            
         </View>
+        
+{/* ICT-Islamabad */}
+<View className="border  bg-slate-100 p-2">
+                        
+                  <Text className="text-black text-lg font-bold "> ICT- Islamabad</Text>
+                        {/* <Text></Text> */}
+                        <TouchableOpacity onPress={() => Linking.openURL('https://ict.islamabadpolice.gov.pk:4433/verification/')}>
+                        <Text style={{color: 'blue'}}>
+                          Driving License Verification, Click here </Text>
+                       
+                        
+                      </TouchableOpacity>
+                        
+                        
+                        <TouchableOpacity onPress={() => Linking.openURL('http://58.65.189.226:8080/ovd/API_FOR_VEH_REG_DATA/TXTMEM/LOGIN1.php')}>
+                        <Text style={{color: 'blue'}}>
+                          ICT Vehicle Verification, Click here </Text>
+                          
+                        
+                      </TouchableOpacity>
+                      <Text className="text-black">Username : nhmp </Text>
+                          <Text className="text-black">Pwd: nhmp@121 </Text>
+            </View>
+
 
 {/* National Repository */}
 <View className="border  bg-slate-100 p-2">
@@ -47,10 +72,11 @@ const OnlineVerifications = () => {
                         <TouchableOpacity onPress={() => Linking.openURL('https://nrdla.punjab.gov.pk/')}>
                         <Text style={{color: 'blue'}}>
                           NDLR, Click here </Text>
-                          <Text className="text-black">Username : scr.m3.nhmp </Text>
-                          <Text className="text-black">Pwd: Tccm3@rajana </Text>
+                          
                         
                       </TouchableOpacity>
+                      <Text className="text-black">Username : scr.m3.nhmp </Text>
+                          <Text className="text-black">Pwd: Tccm3@rajana </Text>
             </View>
 
 

@@ -5,17 +5,21 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { CircleDot, FileDown, FileSymlink, User, UserCircle,Dot, Circle, Pencil, PencilLine } from 'lucide-react-native';
 import { retrieveUserSession } from '../config/functions';
 import axios from 'axios';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const FeedBack = () => {
 
+    const navigation = useNavigation();
  
     const [feedback, setFeedBack] = useState('');
+    const [currentUser,setCurrentUser] = useState('')
+
+        
 
     useEffect(()=>{
-      //  retrieveUserSession(setCurrentUser)
+       retrieveUserSession(setCurrentUser)
     },[])
 
 function clearAll(){
@@ -23,12 +27,29 @@ function clearAll(){
    
 }
 
-function submitFeedBack () {
-    if(feedback="") {Alert.alert("Please Enter Feed Back")} else {
-
-    }
+const userFeedback ={
+    userCnic:currentUser.userName,
+    feedBack:feedback
 }
 
+const saveFeedBack = async () => {
+    if(feedback) {
+    await axios
+      .post(`${global.BASE_URL}/fbk/feedbck`, userFeedback)
+      .then(response => {
+        Alert.alert('Thanks', 'Your feed back is valueable for us ', [
+         
+            {text: 'Back to Home', onPress: () =>  navigation.navigate("Home")},
+          ]);
+         
+      })
+      .catch(error => {
+        console.log(error);
+      });
+        
+    } else { Alert.alert("Please  write your valuable feed back ")}
+   clearAll();
+  }; 
    
     return (
         <ScrollView >
@@ -67,14 +88,14 @@ function submitFeedBack () {
                     </View>   
                      <View className={styles.outerview}>
                         <View className={`${styles.labelstyle} p-2 justify-Center w-full border-r-0 text-red-600`}>
-                            <Text className="text-green-600 font-extrabold">* Note: Your valuable Feedback & suggestion helpfull  for improvement of this Application</Text>
+                            <Text className="text-green-600 font-extrabold">* Note: Your valuable Feedback & suggestions are helpfull  for improvement of this Application.</Text>
                         </View>   
                      </View>   
                     
 
                     <View className='flex flex-row mt-3 justify-center'>
                         <TouchableOpacity onPress={() => clearAll()} className='bg-[#fc4343] px-5 py-2 rounded-md m-2'><Text className='text-white font-extrabold'>RESET</Text></   TouchableOpacity>
-                    <TouchableOpacity onPress={()=>submitFeedBack()} className='bg-[#29378a] px-5 py-2 rounded-md m-2'><Text className='text-white font-extrabold'>Sumbit Feed Back</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={()=>saveFeedBack()} className='bg-[#29378a] px-5 py-2 rounded-md m-2'><Text className='text-white font-extrabold'>Sumbit Feed Back</Text></TouchableOpacity>
                      </View>
 
                 </KeyboardAvoidingView>
