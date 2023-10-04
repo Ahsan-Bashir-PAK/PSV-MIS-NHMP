@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User  } from 'lucide-react-native';
+import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User, PenSquare  } from 'lucide-react-native';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
@@ -292,17 +292,29 @@ function Home() {
 
       {/* User Profile*/}
 
-      <View className="mt-2 ">
+      <View className="mt-2 flex flex-row ">
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
-          className="w-full   h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
+          className="w-2/4 h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
+          <View className="justify-center flex flex-row items-center  w-full ">
             <User stroke="white" size={25} />
             <Text className=" font-bold font-white  text-lg text-white">
               User Profile
             </Text>
           </View>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Feed Back')}
+          className="w-2/4 m-1  h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
+          <View className="justify-center flex flex-row items-center  w-full ">
+            <PenSquare stroke="white" size={25} />
+            <Text className=" font-bold font-white  text-lg text-white">
+             Feed Back
+            </Text>
+          </View>
+        </TouchableOpacity>
+        
       </View>
 
       {/* Update Logout */}

@@ -57,13 +57,15 @@ const [d_L_expiry, setDLexpiry] =useState()
 
 const [d_name, setDname] = useState();
 const [actionTaken, setActionTaken] =useState()
+const [roadworthy, setRoadWorthy] =useState()
+const [warning, setWarning] =useState()
+const [returned, setReturned] =useState()
+const [Enforcement, setEnforced] =useState()
 
 const [remarks, setremarks] =useState() 
 
 const [rptPsv, setRptPsv] =useState("")
 const [rptDriver, setDriver] =useState("")
-
-  
 
 
 
@@ -473,7 +475,7 @@ function setTripData(tripdata){
               </View>
               <View className="w-4/6 items-center">
 
-                <Text className="text-black font-bold ">{actionTaken}</Text>
+                <Text className="text-black font-bold ">{roadworthy=="" ? setActionTaken():" AC (Yes)"}</Text>
 
               </View>
             </View>
@@ -481,7 +483,7 @@ function setTripData(tripdata){
             {/* Road Worthy */}
 
             <View className="  p-2 justify-around flex flex-row  bg-slate-100 items-center text-center">
-              <TouchableOpacity  onPress ={()=>setActionTaken("Road Worthy")} className=" bg-[#44cf56] border border-gray-300 p-3 w-1/5 rounded-md shadow-md  shadow-blue-900">
+              <TouchableOpacity  onPress ={()=>setRoadWorthy("Road Worthy")} className=" bg-[#44cf56] border border-gray-300 p-3 w-1/5 rounded-md shadow-md  shadow-blue-900">
 
                 <Text className="text-black font-bold">Road Worthy</Text>
               </TouchableOpacity>
@@ -490,19 +492,19 @@ function setTripData(tripdata){
 
 
 
-              <TouchableOpacity onPress ={()=>setActionTaken("Warned")} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
+              <TouchableOpacity onPress ={()=>setActions("Warned")} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
 
                {/* Returned*/}
-               <TouchableOpacity onPress ={()=>setActionTaken("Returned")}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
+               <TouchableOpacity onPress ={()=>setActions("Returned")}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
 
                 <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
 
               {/* Enforced */}
 
-              <TouchableOpacity onPress ={()=>setActionTaken("Enforced")} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
+              <TouchableOpacity onPress ={()=>setActions("Enforced")} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
 
                 <Text className="text-black font-bold">Enforced</Text>
               </TouchableOpacity>

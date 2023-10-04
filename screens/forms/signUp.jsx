@@ -128,7 +128,7 @@ return (
               className=' text-black rounded-md  text-lg' />
               
           </View>
-          <View className="flex flex-row-reverse  bg-orange-2200  justify-center items-center w-2/6"><Text className="text-black text-lg  font-bold">Search</Text>
+          <View className="flex flex-row-reverse  bg-orange-200  justify-center items-center w-2/6"><Text className="text-black text-lg  font-bold">Search</Text>
           
           {/* <Search stroke='black' /> */}
           </View>
@@ -265,13 +265,21 @@ return (
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Sector</Text></View>
           <View className="w-4/6 items-center">
-            <TextInput
-              placeholderTextColor={'grey'}
-              placeholder='Sector'
-              value={officersector}
-              maxLength={11}
-              onChangeText={e=>setOfcrsector(e)}
-              className=' border-black text-black rounded-md  text-lg' />
+          <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {Zone}
+                value={officerzone}
+                onSelect={(selectedItem, index) => {
+                  setOfcrzone(selectedItem);
+                }}
+                defaultButtonText='Select Zone'
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
           </View>
         </View>
 
@@ -279,13 +287,21 @@ return (
         <View className={styles.outerview}>
           <View className={styles.labelstyle}><Text className="text-black font-bold">Beat</Text></View>
           <View className="w-4/6 items-center">
-            <TextInput
-              placeholderTextColor={'grey'}
-              placeholder='(Beat-09)'
-              value={officerbeat}
-              maxLength={15}
-              onChangeText={e=>setOfcrbeat(e)}
-              className=' border-black text-black rounded-md  text-lg' />
+          <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {Zone}
+                value={officerzone}
+                onSelect={(selectedItem, index) => {
+                  setOfcrzone(selectedItem);
+                }}
+                defaultButtonText='Select Zone'
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
           </View>
         </View>
 
