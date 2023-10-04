@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert } from 'react-native';
 
 import { User } from 'lucide-react-native';
@@ -30,16 +30,59 @@ const [officername, setOfcrname] = useState("");
 const [officercnic, setOfcrcnic] = useState("");
 const [officercell, setOfcrcell] = useState("");
 const [officerpwd, setOfcrpwd] = useState("");
-
 const [officerrank, setOfcrrank] = useState("");
-
 const [officerbelt, setOfcrbelt] = useState("");
+
+//=======================================================office satates 
+const [officerRegion, setOfcrRegion] = useState("");
 const [officerzone, setOfcrzone] = useState("");
 const [officersector, setOfcrsector] = useState("");
 const [officerbeat, setOfcrbeat] = useState("");
-
+//============================================================
 const [officerrole, setOfcrrole] = useState("");
+//================================================================ function to get offices data 
+const getRegion = async () => {
+  await axios.get(`${global.BASE_URL}/ofc/region`).then(async response => {
+    const region = response.data;
+    if (region) {
+      console.log(region);
+      //====================================zone
+      await axios
+        .get(`${global.BASE_URL}/ofc/zone/${officerRegion}`)
+        .then(async response => {
+          const zone = response.data;
+          if (zone) {
+            console.log(zone);
+            //------------------------------------------------sector
+            await axios
+              .get(`${global.BASE_URL}/ofc/sector/${officerzone}`)
+              .then(async response => {
+                const sector = response.data;
+                if (sector) {
+                  console.log(sector);
+                  //-------------------------------------------------------------beat
+                  await axios
+                    .get(`${global.BASE_URL}/ofc/beat/${officersector}`)
+                    .then(async response => {
+                      const beat = response.data;
+                      if (beat) {
+                        console.log(beat);
 
+                        //------------------------------------------
+                      }
+                    });
+                  //---------------------------------------------------
+                }
+              });
+            //------------------------------------------------------------
+          }
+        });
+      //-----------------------------------------------------------------------
+    }
+  });
+};
+
+//==============================================================================================/>
  // Clear Data
 const  clearAll =()=>{
   
@@ -50,6 +93,7 @@ const  clearAll =()=>{
   setOfcrcell("");
   setOfcrpwd("");
   setOfcrrank("");
+  setOfcrRegion("")
   setOfcrzone("");
   setOfcrsector("");
   setOfcrbeat("");
@@ -70,13 +114,14 @@ const user ={
   status:"Active",
   beatId :officerbeat ,
   sectorId: officersector,
-  zoneId:officerzone
+  zoneId:officerzone,
+  regionId:officerRegion
 
 }
 
 //------------------------save user
 const saveUser = async () => {
-  if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerzone && officerbeat ) {
+  if(officercnic && officerbelt && officercell && officername && officerpwd && officerrank && officersector && officerrole && officerRegion && officerzone && officerbeat ) {
       await fetch(`${global.BASE_URL}/users/addUser`, {
         method: 'POST',
         headers: {
@@ -100,7 +145,9 @@ const saveUser = async () => {
       } else { Alert.alert("Note: Please Fill All Fields");}
       }
 
-
+useEffect(()=>{
+  getRegion()
+},[ ])
       
 return (
     <ScrollView className=" ">
