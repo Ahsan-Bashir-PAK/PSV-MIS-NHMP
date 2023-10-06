@@ -96,7 +96,11 @@ function setActionTakenWarning () {
   setWarning("Warned");
   
   setEnforced("");
+  if(returned!=undefined){
   setActionTaken("Warned" + " " + returned)
+} else {
+  setActionTaken("Warned" )
+}
 
 }
 function setActionTakenEnforced () {
@@ -105,14 +109,18 @@ function setActionTakenEnforced () {
   setWarning("");
   
   setEnforced("Enforced");
+  
   setActionTaken("Enforced" + " "+ returned )
 }
 
 function setActionTakenReturned () {
   setRoadWorthy("");
   
-  
-  setActionTaken("Returned" + " "+ warning + Enforcement )
+  if(warning!=undefined && Enforcement != undefined) {
+   setActionTaken("Returned" + " "+ warning + Enforcement )
+} else {
+  setActionTaken("Returned")
+} 
 }
 
 function clearAllActionTaken () {

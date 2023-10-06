@@ -571,7 +571,7 @@ getSubCompany()
       data={Companydata}
 
       search
-      containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+      containerStyle={{borderWidth:1,borderColor:'#7077c4',borderRadius:10, Color:'black', backgroundColor:'#7077c4'}}
       maxHeight={300}
       labelField="label"
       valueField="value"
@@ -605,7 +605,7 @@ getSubCompany()
     <View className = "w-3/5 pl-3">
 <Dropdown 
       data={subCompanyData}
-      containerStyle={{borderWidth:1,borderColor:'black',borderRadius:10}}
+      containerStyle={{borderWidth:1,borderColor:'#7077c4',borderRadius:10, Color:'black', backgroundColor:'#7077c4'}}
       search
       maxHeight={300}
       labelField="label"

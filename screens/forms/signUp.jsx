@@ -39,6 +39,7 @@ const [officerRegion, setOfcrRegion] = useState("");
 const [officerzone, setOfcrzone] = useState("");
 const [officersector, setOfcrsector] = useState("");
 const [officerbeat, setOfcrbeat] = useState("");
+//=================overall offices
 const[regions,setRegions] = useState("")
 const[zones,setZones] = useState("")
 const[sectors,setSectors] = useState("")
@@ -120,11 +121,11 @@ const  clearAll =()=>{
   setOfcrpwd("");
   setOfcrrank("");
   setOfcrRegion("")
-  setOfcrzone("");
-  setOfcrsector("");
-  setOfcrbeat("");
-  setOfcrrole("");
-  setOfcrbelt("");
+  setOfcrzone("")
+  setOfcrsector("")
+  setOfcrbeat("")
+  setOfcrrole("")
+  setOfcrbelt("")
   
 }
 
