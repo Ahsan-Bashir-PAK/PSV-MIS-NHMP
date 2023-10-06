@@ -283,7 +283,7 @@ return (
                 onSelect={(selectedItem, index) => {
                   setOfcrrank(selectedItem);
                 }}
-                defaultButtonText="Select Rank"
+                defaultButtonText={officerrank}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -323,7 +323,7 @@ return (
                   setOfcrRegion(selectedItem);
                  getZone(selectedItem)
                 }}
-                defaultButtonText='Select Region'
+                defaultButtonText={officerRegion}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -347,7 +347,7 @@ return (
                   setOfcrzone(selectedItem);
                   getSector(selectedItem)
                 }}
-                defaultButtonText='Select Zone'
+                defaultButtonText={officerzone}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -374,7 +374,7 @@ return (
                  
 
                 }}
-                defaultButtonText='Select Sector'
+                defaultButtonText={officersector}
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -397,7 +397,7 @@ return (
                   setOfcrbeat(selectedItem);
                  
                 }}
-                defaultButtonText='Select Beat'
+                defaultButtonText={officerbeat}
                 buttonStyle={{
                   backgroundColor:'white',
                     

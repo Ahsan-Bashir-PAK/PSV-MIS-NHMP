@@ -196,15 +196,7 @@ function clearAll(){
                     </TouchableOpacity>
             </View>
             {/* important NMHP social links */}
-            <View className='text-white p-2 w-full flex  flex-row justify-center  items-center bg-blue-800 '>
-                {/* <Text>Official Pages NHMP</Text> */}
-               <TouchableOpacity > 
-                    <Facebook stroke="#140aa4" size={35} fill="white" / >
-                </TouchableOpacity>
-                <TouchableOpacity>
-                <Twitter stroke="#0898b4" size={35} fill="white"  />
-                </TouchableOpacity>
-            </View>
+           
 
             {/* copyrights Tab */}
             <View className='text-white  w-full  justify-center  items-center pt-3'>
