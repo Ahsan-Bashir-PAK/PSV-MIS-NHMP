@@ -177,8 +177,8 @@ async function retrieveUserSession() {
       if(vroute == "") { Alert.alert("Please enter Route Permit or type N.A");  }
         else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority or type N.A ")  }
         else if (route_type=="") {Alert.alert("Select Route Type")}
-        else if (fitnessno =="") { Alert.alert("Please Enter Fitness No. or type N.A")}
-        else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Authority No. or type N.A")}
+        else if (fitnessno =="") { Alert.alert("Please Enter Fitness Certificate No. or type N.A")}
+        else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Issuing Authority No. or type N.A")}
         else {
     try {
       
@@ -189,7 +189,7 @@ async function retrieveUserSession() {
       if(route.params){
         if(route.params["params"] == "report"){
        
-        Alert.alert('Data Updated', ' ', [
+        Alert.alert('Data updated', ' ', [
          
           {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
         ]);
@@ -197,7 +197,7 @@ async function retrieveUserSession() {
        
        }
      }else{
-      Alert.alert('Data Updated', ' ', [
+      Alert.alert('PSV Documents record updated', ' ', [
          
         {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
       ]);

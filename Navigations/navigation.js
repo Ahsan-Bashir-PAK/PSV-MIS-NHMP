@@ -29,7 +29,9 @@ const MyStack = () => {
         }}
         />
         <Stack.Screen name="Home" component={Home} 
-         options={{ headerShown: false }}
+         options={{ 
+          unmountOnBlur:true,
+          headerShown: false }}
         />
          <Stack.Screen name="Feed Back" component={FeedBack} /> 
          <Stack.Screen name="OnlineVerifications" component={OnlineVerifications} /> 

@@ -27,16 +27,6 @@ import { LinearGradient } from 'react-native-svg';
 import SignUp from './forms/signUp';
 
 
-const search_psv = [
-{
-"PSV": "BSA-2019-1515", 
-"seating_capacity":"45",
-"company":"Faisal Movers",
-"Route Permit":"15-09-2023",
-"fitness":"20-11-2023",
-"emergency exit":"yes"
-}];
-
 
 
 function Home() {
@@ -56,7 +46,11 @@ function Home() {
 
  async function logoutSesion () {
     try{  
-  //  await EncryptedStorage.clear();    
+  
+          await EncryptedStorage.removeItem('psv_session');
+          await EncryptedStorage.removeItem('currentUser');
+          
+       
    navigation.navigate('Login');
   } catch (error) {}
 
@@ -127,7 +121,7 @@ function Home() {
     // <SafeAreaView>
    
     <View className="p-2 h-screen w-full bg-white">
-      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center">
+      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center ">
       <ImageBackground source={require('../img/bground.jpg')}  resizeMode="cover" style={{ height:'100%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
         <Image
           source={require('../img/logo.png')}
@@ -141,7 +135,7 @@ function Home() {
           </Text>
         </View>
       </View>
-      <View className="   mt-5 rounded-m  h-2/6  w-full text-center">
+      <View className="   mt-5 rounded-m  h-2/8  w-full text-center">
         {/* View Input Type */}
         <View className=" flex-row m-2">
           <TextInput
@@ -212,11 +206,11 @@ function Home() {
       </View>
 
       {/* PSVs TABS */}
-      <View className=" bg-slate-100   rounded-lg h-[30%]   p-4 ">
+      <View className=" bg-slate-100   rounded-lg h-[30%]   p-2">
         {/*ADD PSV Button  */}
         <View className="flex-row justify-around">
           <TouchableOpacity
-            onPress={() => navigation.push('MyTabs', {screen: 'Add Vehicle'})}
+            onPress={() => navigation.navigate('MyTabs', {screen: 'Add Vehicle'})}
             className="shadow-md shadow-slate-950  w-2/5 flex-row  rounded-lg  flex justify-around items-center border border-slate-400  bg-white">
             <View className="  items-center gap-1 justify-center mt-2 p-1 ">
               <BusFront stroke="orange" size={40} />
@@ -231,7 +225,7 @@ function Home() {
 
           {/*Add driver  */}
           <TouchableOpacity
-            onPress={() => navigation.push('MyTabs', {screen: 'AddDrivernew'})}
+            onPress={() => navigation.navigate('MyTabs', {screen: 'AddDrivernew'})}
             className="w-2/5  shadow-md shadow-slate-950 rounded-lg  flex justify-center items-center   border border-slate-400  bg-white">
             <View className="  items-center  gap-1 justify-center mt-2 p-1 ">
               <UserPlus stroke="green" size={40} />
@@ -277,7 +271,7 @@ function Home() {
       {/* Add New User */}
 
       <View
-        className={`${currentUser.role == 'Admin' ? 'block' : 'hidden'} mt-2`}>
+        className={`${currentUser.role == 'Admin' ? 'block' : 'hidden'} mt-4`}>
         <TouchableOpacity
           onPress={() => navigation.navigate('SignUp')}
           className="w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] ">

@@ -215,7 +215,7 @@ const getDriver = async()=>{
     await setDriverValue(result)
       }
       else {
-        Alert.alert("Driver not in Record.")
+        Alert.alert("Driver is not in the Record.")
       }
   })
   

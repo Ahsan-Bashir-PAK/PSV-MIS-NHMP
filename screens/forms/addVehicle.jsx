@@ -210,7 +210,7 @@ const getPsv = async()=>{
 
       }
       else {
-        Alert.alert("PSV vehicle not in Record.")
+        Alert.alert("PSV does not exist in Record.")
       }
   })
   await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
@@ -244,22 +244,22 @@ const getPsv = async()=>{
 
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
-      if(Vehicle_type == "") {Alert.alert("Please Select Vehicle Type")}
-        else if(Vehicle_letter == "" ) {Alert.alert("Please Enter Letter")}
-        else if(Vehicle_year == "" ) {Alert.alert("Please Enter Registeration Year")}
-        else if(Vehicle_number == "" ) {Alert.alert("Please Enter Registeration Number")}
-        else if(vehicle_chasis == "") {Alert.alert("Please Enter Chasis Number")}
-        else if(vehcile_engine == "") {Alert.alert("Please Enter Engine Number")}
-        else if(vehcile_make == "") {Alert.alert("Please Enter Vehicle Company")}
-        else if(vehicle_seats == "") {Alert.alert("Please Enter Seats")}
-        else if(vehcile_manf_year == "") {Alert.alert("Please Enter Manufacturing Year")}
+      if(Vehicle_type == "") {Alert.alert("Please select vehicle type")}
+        else if(Vehicle_letter == "" ) {Alert.alert("Please enter Alphabet")}
+        else if(Vehicle_year == "" ) {Alert.alert("Please enter Registeration Year")}
+        else if(Vehicle_number == "" ) {Alert.alert("Please enter Registeration Number")}
+        else if(vehicle_chasis == "") {Alert.alert("Please enter Chasis Number")}
+        else if(vehcile_engine == "") {Alert.alert("Please enter Engine Number")}
+        else if(vehcile_make == "") {Alert.alert("Please enter PSV Company")}
+        else if(vehicle_seats == "") {Alert.alert("Please enter seatin capacity")}
+        else if(vehcile_manf_year == "") {Alert.alert("Please enter Manufacturing Year")}
         else {
       
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
       .then( (response)=> {
 
         
-        Alert.alert('Vehicle intial info. saved');
+        Alert.alert('PSV Basic Inforamtion added in the record');
         
       })
       .catch((error) => {

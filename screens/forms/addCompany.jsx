@@ -106,6 +106,7 @@ const company ={
         onChangeText={text => setCompanyName(text)}
         placeholder="Enter company name"
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
       <Text style={styles.label}>Sub Company or Terminal:</Text>
@@ -115,6 +116,7 @@ const company ={
         onChangeText={text => setSubCompany(text)}
         placeholder="Enter sub company"
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
 
@@ -126,6 +128,7 @@ const company ={
         onChangeText={text => setManagerName(text)}
         placeholder="Enter manager name"
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
       <Text style={styles.label}>Manager Cell Number:</Text>
@@ -137,6 +140,7 @@ const company ={
         maxLength={11}
         keyboardType='number-pad'
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
     <Text style={styles.label}>Owner Name:</Text>
@@ -146,6 +150,7 @@ const company ={
         onChangeText={text => setOwnerName(text)}
         placeholder="Enter manager name"
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
       <Text style={styles.label}>Owner Cell Number:</Text>
@@ -157,6 +162,7 @@ const company ={
         maxLength={11}
         keyboardType='number-pad'
         placeholderTextColor={'grey'}
+        className="text-black"
       />
 
         
@@ -168,6 +174,7 @@ const company ={
         placeholder="Enter Address"
         maxLength={100}
         placeholderTextColor={'grey'}
+        className="text-black"
         
       />
 

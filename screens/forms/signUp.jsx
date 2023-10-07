@@ -39,6 +39,7 @@ const [officerRegion, setOfcrRegion] = useState("");
 const [officerzone, setOfcrzone] = useState("");
 const [officersector, setOfcrsector] = useState("");
 const [officerbeat, setOfcrbeat] = useState("");
+
 //=================overall offices
 const[regions,setRegions] = useState("")
 const[zones,setZones] = useState("")
@@ -112,14 +113,13 @@ const getBeat = async (sector) => {
 //==============================================================================================/>
  // Clear Data
 const  clearAll =()=>{
-  
 
   setCnic("");
-  setOfcrname("");
-  setOfcrcnic("");
-  setOfcrcell("");
-  setOfcrpwd("");
-  setOfcrrank("");
+  setOfcrname("")
+  setOfcrcnic("")
+  setOfcrcell("")
+  setOfcrpwd("")
+  setOfcrrank("")
   setOfcrRegion("")
   setOfcrzone("")
   setOfcrsector("")

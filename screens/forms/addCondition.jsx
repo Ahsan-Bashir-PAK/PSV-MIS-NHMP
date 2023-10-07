@@ -155,7 +155,8 @@ async function retrieveUserSession() {
     
 
 
-      if (tyrecondition !=""){    // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
+      if (tyrecondition !=""){    
+        // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
       .then(response => {
@@ -169,7 +170,7 @@ async function retrieveUserSession() {
          
          }
        else{
-        Alert.alert('Data Updated', ' ', [
+        Alert.alert('PSV tyre & Lights information updated', ' ', [
            
           {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
         ]);
@@ -179,7 +180,7 @@ async function retrieveUserSession() {
     )
 
       .catch(error => console.error(error));
-    } else { Alert.alert("Please Set Tyre Condition")}} 
+    } else { Alert.alert("Please select Tyre Condition")}} 
 
   //==================================================
   return (

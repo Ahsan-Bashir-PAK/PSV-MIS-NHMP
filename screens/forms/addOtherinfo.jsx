@@ -205,6 +205,8 @@ async function clearPsvSession() {
          }
        }else{
 
+        Alert.alert('PSV complete record added.');
+
          clearPsvSession();
          navigation.navigate('Home')
         }
