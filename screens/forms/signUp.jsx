@@ -119,7 +119,7 @@ function  clearAll (){
   setOfcrcnic("")
   setOfcrcell("")
   setOfcrpwd("")
-  setOfcrrank(" ")
+  setOfcrrank("")
   setOfcrRegion("")
   setOfcrzone("")
   setOfcrsector("")

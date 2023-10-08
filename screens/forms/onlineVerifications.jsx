@@ -30,43 +30,145 @@ const OnlineVerifications = () => {
 
   return (
   <ScrollView >
-    <View className="bg-slate-100  flex flex-col  border p-2 justify-start">
+    <View className="bg-slate-100  flex flex-col   p-2 justify-start">
       <KeyboardAvoidingView style={{ backgroundColor: 'white' }}>
         {/* Vehicle Information Design Tab */}
-        <View className=" mt-1 w-full  ">
+        <View className="   mt-1 w-full  ">
           
          <View className=" border bg-yellow-400  rounded-md p-5  w-fit items-center justify-center flex flex-row">
             <FileSymlink  stroke="black" size={35} />
             <Text className="text-black text-lg rounded-md font-bold ">Important Documents Verifications links all over Pakistan</Text>
             
         </View>
-        
-{/* ICT-Islamabad */}
-<View className="border  bg-slate-100 p-2">
-                        
-                  <Text className="text-black text-lg font-bold "> ICT- Islamabad</Text>
-                        {/* <Text></Text> */}
-                        <TouchableOpacity onPress={() => Linking.openURL('https://ict.islamabadpolice.gov.pk:4433/verification/')}>
-                        <Text style={{color: 'blue'}}>
-                          Driving License Verification, Click here </Text>
-                       
-                        
-                      </TouchableOpacity>
-                        
-                        
-                        <TouchableOpacity onPress={() => Linking.openURL('http://58.65.189.226:8080/ovd/API_FOR_VEH_REG_DATA/TXTMEM/LOGIN1.php')}>
-                        <Text style={{color: 'blue'}}>
-                          ICT Vehicle Verification, Click here </Text>
-                          
-                        
-                      </TouchableOpacity>
-                      <Text className="text-black">Username : nhmp </Text>
-                          <Text className="text-black">Pwd: nhmp@121 </Text>
+{/* Excise Vehicle Verifications TAB */}
+        <View className=" border mt-5 bg-slate-200 rounded-md p-2  w-fit items-center justify-center flex flex-row">
+            
+            <Text className="text-black text-lg rounded-md font-bold ">Excise verification of all Provinces</Text>
+            
+        </View>
+{/* Excise All provinces links */}
+            <View className=" bg-slate-100 p-2 flex flex-row justify-center ">
+                <TouchableOpacity 
+                className='p-2 bg-[#316879] text-center rounded-md w-4/12  ' 
+                onPress={() => Linking.openURL('http://58.65.189.226:8080/ovd/API_FOR_VEH_REG_DATA/TXTMEM/LOGIN1.php')}>
+                  <Text className='text-white text-center  font-bold text-lg'>Islamabad</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={()=>Linking.openURL('https://mtmis.excise.punjab.gov.pk/')}
+                  className='p-2 bg-[#039fbe] text-center rounded-md w-3/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>Punjab</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={() => Linking.openURL('https://www.kpexcise.gov.pk/mvrecords/')}
+                  className='p-2 bg-[#ffc13b] text-center rounded-md w-3/12 ml-1 ' >
+                  <Text className='text-white text-center font-bold text-lg'>KPK</Text>
+                </TouchableOpacity>
+             </View>   
+
+             <View className=" bg-slate-100 p-2 flex flex-row justify-center">   
+                <TouchableOpacity onPress={()=>Linking.openURL('https://excise.gos.pk/vehicle/vehicle_search')}
+                  className='p-2 bg-[#ad954b] text-center rounded-md w-4/12 ' >
+                  <Text className='text-white text-center font-bold text-lg'>Sindh</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={()=>Linking.openURL('http://gbexcise.gov.pk/vehicle-search/')}
+                  className='p-2 bg-[#1e847f] text-center rounded-md w-4/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>GB</Text>
+                </TouchableOpacity>
+              </View>
+<View className="">
+<Text className="text-black font-bold">For Punjab Special Login credentials</Text>
+<Text className="text-black">UserName: NHMPCR</Text>
+<Text className="text-black">UserPaswword: NHMPCR#93g8*kB</Text>
+<Text className="text-black font-bold">For Islamabad Special Login credentials</Text>
+<Text className="text-black">UserName: nhmp</Text>
+<Text className="text-black">UserPaswword: nhmp@21</Text>
+</View>
+                  
+{/* Driving Licneses Verifications */}
+<View className=" mt-5 border bg-slate-200  rounded-md p-2  w-fit items-center justify-center flex flex-row">
+            
+            <Text className="text-black text-lg rounded-md font-bold ">DL verification of All Provinces</Text>
+            
+        </View>
+
+        <View className=" bg-white p-2 flex flex-row justify-center ">
+                <TouchableOpacity 
+                className='p-2 bg-[#316879] text-center rounded-md w-4/12  ' 
+                onPress={() => Linking.openURL('https://ict.islamabadpolice.gov.pk:4433/verification/')}>
+                  <Text className='text-white text-center  font-bold text-lg'>Islamabad</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={()=>Linking.openURL('https://dlims.punjab.gov.pk/verify/')}
+                  className='p-2 bg-[#039fbe] text-center rounded-md w-3/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>Punjab</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={() => Linking.openURL('http://www.transport.kpdata.gov.pk/')}
+                  className='p-2 bg-[#ffc13b] text-center rounded-md w-3/12 ml-1 ' >
+                  <Text className='text-white text-center font-bold text-lg'>KPK</Text>
+                </TouchableOpacity>
+             </View>   
+
+             <View className=" p-2 flex flex-row justify-center">   
+                <TouchableOpacity onPress={()=>Linking.openURL('https://dls.gos.pk/online-verification.html')}
+                  className='p-2 bg-[#ad954b] text-center rounded-md w-3/12 ' >
+                  <Text className='text-white text-center font-bold text-lg'>Sindh</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={()=>Linking.openURL('https://dlmis.gbp.gov.pk/verify/')}
+                  className='p-2 bg-[#1e847f] text-center rounded-md w-3/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>GB</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={()=>Linking.openURL('http://dlmajk.com/search/speciality')}
+                  className='p-2 bg-[#077b8a] text-center rounded-md w-3/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>AJK</Text>
+                </TouchableOpacity>
+              </View>
+
+
+{/* Driving Licneses Verifications */}
+<View className=" mt-5 border bg-slate-200  rounded-md p-2  w-fit items-center justify-center flex flex-row">
+            
+            <Text className="text-black text-lg rounded-md font-bold ">Vehicle Fitness verifications</Text>
+            
+        </View>
+
+        <View className=" bg-white p-2 flex flex-row justify-center ">
+       
+                <TouchableOpacity 
+                  onPress={()=>Linking.openURL('http://52.29.248.107/VidCentral/Login.aspx?ReturnUrl=%2fVidCentral%2fAdminApp%2fIn')}
+                  className='p-2 bg-[#039fbe] text-center rounded-md w-3/12 ml-1' >
+                  <Text className='text-white text-center font-bold text-lg'>Punjab</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={() => Linking.openURL('http://www.transport.kpdata.gov.pk/Fitness.aspx')}
+                  className='p-2 bg-[#ffc13b] text-center rounded-md w-3/12 ml-1 ' >
+                  <Text className='text-white text-center font-bold text-lg'>KPK</Text>
+                </TouchableOpacity>
+             </View>   
+
+  
+
+
+             
+
+             {/* user Name & Passowrds */}
+             <View className=" pl-2">
+                        <Text className="text-black  font-bold">Punjab Vehicle Fitness Login credentials</Text>
+                     
+                      <Text className="text-black">Username : tcc.m3 </Text>
+                      <Text className="text-black">Pwd: tm4862 </Text>
             </View>
 
-
-{/* National Repository */}
-<View className="border  bg-slate-100 p-2">
+                 {/* National Repository */}
+                 <View className="border p-2">
                         <Text className="text-black text-lg font-bold"> National Driving Licnese Repoistory (NDLR)</Text>
                         {/* <Text></Text> */}
                         <TouchableOpacity onPress={() => Linking.openURL('https://nrdla.punjab.gov.pk/')}>
@@ -76,115 +178,21 @@ const OnlineVerifications = () => {
                         
                       </TouchableOpacity>
                       <Text className="text-black">Username : scr.m3.nhmp </Text>
-                          <Text className="text-black">Pwd: Tccm3@rajana </Text>
-            </View>
-
-
-{/* Punjab */}
-            <View className="border  bg-slate-100 p-2">
-                        <Text className="text-black text-lg font-bold"> Punjab - DL Verification</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('https://dlims.punjab.gov.pk/verify/')}>
-                        <Text style={{color: 'blue'}}>
-                          DLMIS-Punjab, Click here 
-                        </Text>
-                      </TouchableOpacity>
+                      <Text className="text-black">Pwd: Tccm3@rajana </Text>
             </View>
 
 
 
-{/* Punjab  Fitness*/}
-<View className="border  bg-slate-200 p-2">
-                        <Text className="text-black text-lg font-bold">Punjab Transport Department</Text>
-                        <Text className="text-black text-lg">Vehicle Inspection & Verification System (VICS)
-                        </Text>
-                       <Text className="text-black text-lg"> user Name: tcc</Text>
-                       <Text className="text-black text-lg"
-                       > password: tm4862</Text>
-                        
-                        <TouchableOpacity  onPress={() => Linking.openURL('http://52.29.248.107/VidCentral/AdminApp/Inspection/SearchVIR.aspx')}>
-                        <Text className="font-bold text-blue-700">
-                          VICS-Punjab, Click here 
-                        </Text>
-                      </TouchableOpacity>
 
-                      {/* =================== */}
 
-                      <Text className="text-black text-lg font-bold mt-2"> Punjab Excise Vehicle Verification System</Text>
-                        <Text className="text-black text-lg">user Name: NHMPCR</Text>
-                        <Text className="text-black text-lg">password: NHMPCR#93g8*KB</Text>
-                        
-                        <TouchableOpacity onPress={() => Linking.openURL('https://mvrs.punjab.gov.pk/mvrsapp/')}>
-                        <Text style={{color: 'blue'}}>
-                          Vehicle Verification, Click here
-                          </Text>
-                      </TouchableOpacity>
-            </View>
 
-{/* KPK */}
-
-<View className="border bg-slate-100 p-2">
-                        
-                        <Text className="text-black text-lg font-bold"> Vehicle's & Driver's Verification System- KPK</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('http://www.transport.kpdata.gov.pk/Default.aspx')}>
-                        <Text style={{color: 'blue'}}>
-                          KPK Transport Department (Driving License Verification),Click here
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => Linking.openURL('https://ptpkp.gov.pk/license-verification/')}>
-                        <Text style={{color: 'blue'}}>
-                          CITY Traffic Police, Peshawar-KPK (Driving License Verification),Click here
-                        </Text>
-                      </TouchableOpacity>
-            </View>
-{/* Sindh*/}
-<View className="border bg-slate-200 p-2">
-                        
-                        <Text className="text-black text-lg font-bold"> Driver License Verification System SINDH</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('https://dls.gos.pk/online-verification.html')}>
-                        <Text style={{color: 'blue'}}>
-                          SINDH (Driving License Verification), Click here
-                        </Text>
-                      </TouchableOpacity>
-
-                      <Text className="text-black text-lg font-bold"> Excise Vehicle Verification System-SINDH</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('https://excise.gos.pk/vehicle/vehicle_search')}>
-                        <Text style={{color: 'blue'}}>
-                        Vehicle Verification, Click here
-                        </Text>
-                      </TouchableOpacity>
-                     
-            </View>
-
-{/* Balouchistan */}
-<View className="border bg-slate-100 p-2 ">
-                        
-                        <Text className="text-black text-lg font-bold">Driver License Verification System Balochistan</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('https://qtp.gob.pk/main/license-verification/')}>
-                        <Text style={{color: 'blue'}}>
-                          Quetta (Driving License Verification), Click here
-                        </Text>
-                      </TouchableOpacity>
-                     
-            </View>
-                    {/* Gilgit Baltistan*/}
-                    <View className="border bg-slate-200 p-2">
-                        
-                        <Text className="text-black text-lg font-bold">Driver License Verification System Gilgit Baltistan</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('https://dlmis.gbp.gov.pk/verify/')}>
-                        <Text style={{color: 'blue'}}>
-                          Gilgit Baltistan (Driving License Verification), Click here
-                        </Text>
-                      </TouchableOpacity>
-                     
-                    </View>
-
-                    {/* Important Note */}
+                    {/* Important Note
                     <View className="border bg-slate-200 p-2">
                         
                         <Text className="text-red-800 text-lg font-bold">* Note: All login credentials for official purpose only.</Text>
                         
                      
-                    </View>
+                    </View> */}
             
         </View>
 

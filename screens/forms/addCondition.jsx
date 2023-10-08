@@ -184,6 +184,12 @@ async function retrieveUserSession() {
 
   //==================================================
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'android' ? 'height' : null}
+     enabled>
+ 
+      <ScrollView keyboardShouldPersistTaps='handled'>
+      <View className=" flex flex-col   "></View>
     
       <View className="bg-slate-100  flex flex-col   p-2 ">
         
@@ -436,7 +442,8 @@ async function retrieveUserSession() {
 
         
       </View>
-    
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
