@@ -206,7 +206,7 @@ function Home() {
       </View>
 
       {/* PSVs TABS */}
-      <View className=" bg-slate-100   rounded-lg h-[30%]   p-2">
+      <View className="rounded-lg   p-2">
         {/*ADD PSV Button  */}
         <View className="flex-row justify-around">
           <TouchableOpacity
@@ -260,7 +260,7 @@ function Home() {
               <Link stroke="grey" size={40} />
               <View className="flex justify-center items-center flex-row gap-1">
                 <Text className=" font-bold font-white  text-lg text-black">
-                  Online Verifications
+                  Verifications
                 </Text>
               </View>
             </View>

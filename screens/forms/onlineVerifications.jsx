@@ -35,7 +35,7 @@ const OnlineVerifications = () => {
         {/* Vehicle Information Design Tab */}
         <View className="   mt-1 w-full  ">
           
-         <View className=" border bg-yellow-400  rounded-md p-5  w-fit items-center justify-center flex flex-row">
+         <View className=" border bg-yellow-400  rounded-md p-3  w-fit items-center justify-center flex flex-row">
             <FileSymlink  stroke="black" size={35} />
             <Text className="text-black text-lg rounded-md font-bold ">Important Documents Verifications links all over Pakistan</Text>
             
