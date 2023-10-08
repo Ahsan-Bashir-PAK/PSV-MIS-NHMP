@@ -121,7 +121,7 @@ function Home() {
     // <SafeAreaView>
    
     <View className="p-2 h-screen w-full bg-white">
-      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center ">
+      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center  overflow-hidden">
       <ImageBackground source={require('../img/bground.jpg')}  resizeMode="cover" style={{ height:'100%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
         <Image
           source={require('../img/logo.png')}
@@ -179,7 +179,7 @@ function Home() {
           </TouchableOpacity>
         </View> */}
 
-        <View className=" m-2 flex-row p-1 justify-center  w-full ">
+        <View className=" mt-2 flex-row p-1 justify-center  w-full ">
           <TextInput
             style={{backgroundColor: 'white'}}
             placeholderTextColor={'grey'}
@@ -192,7 +192,7 @@ function Home() {
             className="border justify-center pl-4 bg-white border-black m-1 rounded-md w-full  text-lg text-black"
           />
         </View>
-        <View className="flex-row p-1 justify-center  w-full m-2">
+        <View className="flex-row p-1 justify-center  w-full mt-2">
           <TouchableOpacity
             // onPress={() => getInspectionreport()}
             onPress={() => rptSessionProps()}

@@ -145,6 +145,13 @@ const OnlineVerifications = () => {
                           SINDH (Driving License Verification), Click here
                         </Text>
                       </TouchableOpacity>
+
+                      <Text className="text-black text-lg font-bold"> Excise Vehicle Verification System-SINDH</Text>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://excise.gos.pk/vehicle/vehicle_search')}>
+                        <Text style={{color: 'blue'}}>
+                        Vehicle Verification, Click here
+                        </Text>
+                      </TouchableOpacity>
                      
             </View>
 
@@ -159,8 +166,8 @@ const OnlineVerifications = () => {
                       </TouchableOpacity>
                      
             </View>
-{/* Gilgit Baltistan*/}
-<View className="border bg-slate-200 p-2">
+                    {/* Gilgit Baltistan*/}
+                    <View className="border bg-slate-200 p-2">
                         
                         <Text className="text-black text-lg font-bold">Driver License Verification System Gilgit Baltistan</Text>
                         <TouchableOpacity onPress={() => Linking.openURL('https://dlmis.gbp.gov.pk/verify/')}>
@@ -169,9 +176,19 @@ const OnlineVerifications = () => {
                         </Text>
                       </TouchableOpacity>
                      
-            </View>
+                    </View>
+
+                    {/* Important Note */}
+                    <View className="border bg-slate-200 p-2">
+                        
+                        <Text className="text-red-800 text-lg font-bold">* Note: All login credentials for official purpose only.</Text>
+                        
+                     
+                    </View>
             
         </View>
+
+        
        
           
 

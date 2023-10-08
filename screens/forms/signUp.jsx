@@ -112,14 +112,14 @@ const getBeat = async (sector) => {
 };
 //==============================================================================================/>
  // Clear Data
-const  clearAll =()=>{
+function  clearAll (){
 
   setCnic("");
   setOfcrname("")
   setOfcrcnic("")
   setOfcrcell("")
   setOfcrpwd("")
-  setOfcrrank("")
+  setOfcrrank(" ")
   setOfcrRegion("")
   setOfcrzone("")
   setOfcrsector("")
@@ -280,7 +280,7 @@ return (
           <View className=" m-1  z-50">
               <SelectDropdown
                 data= {ranks}
-                
+                value={officerrank}
                 onSelect={(selectedItem, index) => {
                   setOfcrrank(selectedItem);
                 }}

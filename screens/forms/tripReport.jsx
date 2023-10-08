@@ -22,35 +22,35 @@ const TripReport = ({route}) => {
 const navigation = useNavigation();
 const [currentUser,setCurrentUser] = useState("")
   //=========================states
-const [v_psvNo, setpsvNo] =useState()
-const [v_routeStatus, setrouteStatus] =useState()
-const [v_routedate, setroutedate] =useState()
-const [v_companyName, setcompanyName] =useState()
-const [v_routePath, setroutePath] =useState()
-const [v_fitnessStatus, setfitnessStatus] =useState()
-const [v_fitnessdate, setfitnessdate] =useState()
-const [v_tyreStatus, settyreStatus] =useState()
-const [v_tyredate, settyredate] =useState()
-const [v_tyrecondition, settyrecondition] =useState()
-const [v_trackerStaus, settrackerStaus] =useState()
-const [v_exitGate, setexitGate] =useState()
-const [v_fireExt, setfireExt] =useState()
-const [v_fireExtdate, setfireExtdate] =useState()
-const [v_regPlate, setregPlate] =useState()
-const [v_tripCount, settripCount] =useState()
-const [v_seats, setseats] =useState()
-const [v_onBoardpassenger, setonBoardpassenger] =useState()
-const [d_dvrLicenseNo, setdvrLicenseNo] =useState()
-const [d_licenseType, setlicenseType] =useState()
-const [d_licenseStatus, setlicenseStatus] =useState()
-const [d_L_expiry, setDLexpiry] =useState()
-const [d_name, setDname] = useState();
-const [actionTaken, setActionTaken] =useState()
-const [roadworthy, setRoadWorthy] =useState()
-const [warning, setWarning] =useState()
-const [returned, setReturned] =useState()
-const [Enforcement, setEnforced] =useState()
-const [remarks, setremarks] =useState() 
+const [v_psvNo, setpsvNo] =useState('')
+const [v_routeStatus, setrouteStatus] =useState('')
+const [v_routedate, setroutedate] =useState('')
+const [v_companyName, setcompanyName] =useState('')
+const [v_routePath, setroutePath] =useState('')
+const [v_fitnessStatus, setfitnessStatus] =useState('')
+const [v_fitnessdate, setfitnessdate] =useState('')
+const [v_tyreStatus, settyreStatus] =useState('')
+const [v_tyredate, settyredate] =useState('')
+const [v_tyrecondition, settyrecondition] =useState('')
+const [v_trackerStaus, settrackerStaus] =useState('')
+const [v_exitGate, setexitGate] =useState('')
+const [v_fireExt, setfireExt] =useState('')
+const [v_fireExtdate, setfireExtdate] =useState('')
+const [v_regPlate, setregPlate] =useState('')
+const [v_tripCount, settripCount] =useState('')
+const [v_seats, setseats] =useState('')
+const [v_onBoardpassenger, setonBoardpassenger] =useState('')
+const [d_dvrLicenseNo, setdvrLicenseNo] =useState('')
+const [d_licenseType, setlicenseType] =useState('')
+const [d_licenseStatus, setlicenseStatus] =useState('')
+const [d_L_expiry, setDLexpiry] =useState('')
+const [d_name, setDname] = useState('');
+const [actionTaken, setActionTaken] =useState('')
+const [roadworthy, setRoadWorthy] =useState('')
+const [warning, setWarning] =useState('')
+const [returned, setReturned] =useState('')
+const [Enforcement, setEnforced] =useState('')
+const [remarks, setremarks] =useState('') 
 const [rptPsv, setRptPsv] =useState("")
 const [rptDriver, setDriver] =useState("")
 useEffect(()=>{
@@ -284,17 +284,44 @@ function setTripData(tripdata){
                 Report of BUS No: {v_psvNo}
               </Text>
             </View>
+           
+           {/*  Last inspection date */}
+           <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Last Inspection</Text>
+              </View>
+              <TouchableOpacity className="w-full px-1 rounded-md" >
+              <View className=" w-4/6  items-center">
+                    <Text className="text-black font-bold">--</Text>
+              </View>
+                </TouchableOpacity>
+            </View>
+
             {/*  Company Name */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Name of Company</Text>
               </View>
+              <TouchableOpacity className="w-full px-1 rounded-md" >
               <View className=" w-4/6  items-center">
-                <Text 
-                  className=" border-black rounded-md  text-black text-lg font-bold text-center "
-                >{v_companyName}</Text>
+                    <Text className="text-black font-bold">{v_companyName}</Text>
               </View>
+                </TouchableOpacity>
             </View>
+            {/* Sub Company */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Sub Company
+                </Text>
+              </View>
+              <TouchableOpacity className="w-full px-1 rounded-md" >
+              <View className=" w-4/6  items-center">
+                    <Text className="text-black font-bold">---</Text>
+              </View>
+              </TouchableOpacity>
+            </View>
+
             {/*  Route Permit Date */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
@@ -389,17 +416,7 @@ function setTripData(tripdata){
               </View>
                 </TouchableOpacity>
             </View>
-            {/* Vehicle Trip Count */}
-            <View className={styles.outerview}>
-              <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">
-                  Vehicle Trip Count(24 Hrs)
-                </Text>
-              </View>
-              <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">{v_tripCount}</Text> 
-               </View>
-            </View>
+          
             {/* Seating Capacity */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
@@ -428,7 +445,8 @@ function setTripData(tripdata){
               </View>
            </View>
             </View>
-                {/* Show Driver Tab and name */}
+
+                {/* Driver Complete information TAB */}
             <View className=" bg-[#5ec44a] p-1  rounded-md m-1 w-fit items-center justify-center flex-row-reverse ">
               <Text className="text-black text-lg rounded-md font-bold ">
                 Details of Driver: {d_name}
@@ -456,6 +474,43 @@ function setTripData(tripdata){
               </View>
               </TouchableOpacity>
             </View>
+
+              {/* Driver Trip Count */}
+              <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Driver Trip Count(24 Hrs)
+                </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text className="text-black font-bold">{v_tripCount}</Text> 
+               </View>
+            </View>
+
+               {/* Driver company */}
+               <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Driver Company
+                </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text className="text-black font-bold">-</Text> 
+               </View>
+            </View>
+
+             {/* Driver sub- company */}
+             <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Driver Sub-Company
+                </Text>
+              </View>
+              <View className="w-4/6 items-center">
+                <Text className="text-black font-bold">-</Text> 
+               </View>
+            </View>
+
              {/* Action Taken by officer */}
              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
