@@ -15,7 +15,7 @@ import AddOtherInfo from '../screens/forms/addOtherinfo';
 import Downloads from '../screens/downloads';
 import Profile from '../screens/profile'
 import FeedBack from '../screens/feedBack';
-import InspectionReport from '../screens/reports/VehicleinspectionHistory';
+import InspectionReport from '../screens/reports/inspectionHistory';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +24,7 @@ const MyStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="InspectionHistory" component={InspectionReport}
+      <Stack.Screen name="Inspection History" component={InspectionReport}
         options={{
           headerShown:false
         }}
