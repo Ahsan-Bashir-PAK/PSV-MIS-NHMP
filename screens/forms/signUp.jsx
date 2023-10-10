@@ -210,7 +210,7 @@ return (
         
         {/*   officer Name */}
         <View className={styles.outerview} >
-          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer Name</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer Name*</Text></View>
           <View className=" w-4/6  items-center">
             <TextInput
               placeholderTextColor={'grey'}
@@ -225,7 +225,7 @@ return (
 
 {/*   officer CNIC */}
 <View className={styles.outerview} >
-          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer CNIC</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer CNIC*</Text></View>
           <View className=" w-4/6  items-center">
             <TextInput
               placeholderTextColor={'grey'}
@@ -259,7 +259,7 @@ return (
 
         {/* Password */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">User Password</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">User Password*</Text></View>
           <View className="w-4/6 items-center">
             <TextInput
               placeholderTextColor={'grey'}
@@ -275,7 +275,7 @@ return (
 
         {/* Rank*/}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Rank</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Rank*</Text></View>
           <View className="w-4/6 items-center ">
           <View className=" m-1  z-50">
               <SelectDropdown
@@ -298,7 +298,7 @@ return (
 
         {/* Belt No. */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Belt No.</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Belt No.*</Text></View>
           <View className="w-4/6 items-center">
             <TextInput
               placeholderTextColor={'grey'}
@@ -313,7 +313,7 @@ return (
         
         {/* Region */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Region</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Region*</Text></View>
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
@@ -338,7 +338,7 @@ return (
         </View>
         {/* Zone */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Zone</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Zone*</Text></View>
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
@@ -363,7 +363,7 @@ return (
 
         {/* Sector */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Sector</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Sector*</Text></View>
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
@@ -388,7 +388,7 @@ return (
 
         {/* Beat */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Beat</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Beat*</Text></View>
           <View className="w-4/6 items-center">
           <View className=" m-1  z-50">
               <SelectDropdown
@@ -411,7 +411,7 @@ return (
 
         {/* Role*/}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Role</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Role*</Text></View>
           <View className="w-4/6 items-center">
           
           <View className=" m-1  z-50">
