@@ -43,7 +43,7 @@ const OnlineVerifications = () => {
 {/* Excise Vehicle Verifications TAB */}
         <View className=" border mt-5 bg-slate-200 rounded-md p-2  w-fit items-center justify-center flex flex-row">
             
-            <Text className="text-black text-lg rounded-md font-bold ">Excise verification of all Provinces</Text>
+            <Text className="text-black text-lg rounded-md font-bold ">Excise Verifications </Text>
             
         </View>
 {/* Excise All provinces links */}
@@ -90,7 +90,7 @@ const OnlineVerifications = () => {
 {/* Driving Licneses Verifications */}
 <View className=" mt-5 border bg-slate-200  rounded-md p-2  w-fit items-center justify-center flex flex-row">
             
-            <Text className="text-black text-lg rounded-md font-bold ">DL verification of All Provinces</Text>
+            <Text className="text-black text-lg rounded-md font-bold ">Driving License Verifications </Text>
             
         </View>
 
@@ -169,7 +169,7 @@ const OnlineVerifications = () => {
 
                  {/* National Repository */}
                  <View className="border p-2">
-                        <Text className="text-black text-lg font-bold"> National Driving Licnese Repoistory (NDLR)</Text>
+                        <Text className="text-black text-lg font-bold"> National Driving License Repoistory (NDLR)</Text>
                         {/* <Text></Text> */}
                         <TouchableOpacity onPress={() => Linking.openURL('https://nrdla.punjab.gov.pk/')}>
                         <Text style={{color: 'blue'}}>

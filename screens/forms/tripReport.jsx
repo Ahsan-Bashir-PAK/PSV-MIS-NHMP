@@ -26,6 +26,7 @@ const [v_psvNo, setpsvNo] =useState('')
 const [v_routeStatus, setrouteStatus] =useState('')
 const [v_routedate, setroutedate] =useState('')
 const [v_companyName, setcompanyName] =useState('')
+const [v_subCompanyName, setSubCompanyName] =useState('')
 const [v_routePath, setroutePath] =useState('')
 const [v_fitnessStatus, setfitnessStatus] =useState('')
 const [v_fitnessdate, setfitnessdate] =useState('')
@@ -37,7 +38,7 @@ const [v_exitGate, setexitGate] =useState('')
 const [v_fireExt, setfireExt] =useState('')
 const [v_fireExtdate, setfireExtdate] =useState('')
 const [v_regPlate, setregPlate] =useState('')
-const [v_tripCount, settripCount] =useState('')
+const [d_tripCount, settripCount] =useState('')
 const [v_seats, setseats] =useState('')
 const [v_onBoardpassenger, setonBoardpassenger] =useState('')
 const [d_dvrLicenseNo, setdvrLicenseNo] =useState('')
@@ -53,6 +54,15 @@ const [Enforcement, setEnforced] =useState('')
 const [remarks, setremarks] =useState('') 
 const [rptPsv, setRptPsv] =useState("")
 const [rptDriver, setDriver] =useState("")
+
+const [dvrCompany, setdvrCompany] =useState("")
+const [dvrSubCompany, setdvrSubCompany] =useState("")
+//================================================text box states
+const [lastInspection, setLastInspection] =useState("") 
+const [dvrlastInspection, setdvrLastInspection] =useState("") 
+//===============================================================inspection report states
+const [dvrlastinsp,setDvrinsp]= useState("")
+const [psvlastinsp,setPsvinsp]= useState("")
 useEffect(()=>{
 retrieveUserSession(setCurrentUser)
 retrieveDriverSession(setDriver)
@@ -114,69 +124,102 @@ function clearAllActionTaken () {
   setReturned("")
 }
   //================================================report generaation
+
+
+
+ async function previousInspection (){
+
+
+    await axios.get(`${global.BASE_URL}/rpt/dvrlastcheck/${rptDriver.dvrCnic}`).then(
+      async response =>{
+        const result = response.data[0]
+        if (result){
+          setDvrinsp(result)
+        }
+        else{
+          setDvrinsp("N/A")
+        }
+      }
+    )
+    //=============================================psv last inspection 
+    await axios.get(`${global.BASE_URL}/rpt/psvlastcheck/${rptPsv.psvLetter}-${rptPsv.psvModal}-${rptPsv.psvNumber}`).then(
+      async response =>{
+        const result = response.data[0]
+        if(result){
+          setPsvinsp(result)
+        }
+        else{
+          setPsvinsp("N/A")
+        }
+      }
+    )
+ 
+
+  }
   async function getInspectionreport() {
       if(rptPsv && rptDriver){
+     
+        try {
       
-    try {
-      
-      await axios
-        .get(
-          `${global.BASE_URL}/psv/getPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}`
-        )
-        .then(async response => {
-          const psvDetail = response.data[0];
-          if (psvDetail) {
-            
-            //------------------------getting driver data
-            await axios
-              .get(`${global.BASE_URL}/dvr/getDriver/${rptDriver.dvrCnic}`)
-              .then(async response => {
-                const driverDetail = response.data[0];
-                if (driverDetail) {
-                 
-                  //-------------------------geeting inspection report rpt/inspectPsv/
-                  await axios
-                    .get(`${global.BASE_URL}/rpt/inspectPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}/${rptDriver.dvrCnic}/${currentUser.location}`)
-                    .then(async response => {
-                      const inspection = response.data[0];
-                      if (inspection) {                            
-                              setTripData(inspection)
-                        await EncryptedStorage.setItem(
-                          'Report',
-                          JSON.stringify({
-                            psvData: psvDetail,
-                            dvrData: driverDetail,
-                           
-                            // tripReport: inspection,
-                          }),
-                        );
-                        
-                   
-                      } else {
-                        Alert.alert('Please Provide all Values');
-                      }
-                    });
-                } else {
-                  navigation.navigate('Home');
-                  Alert.alert('Driver not in record');
-                }
-              });
-          } else {
-            navigation.navigate('Home');
-            Alert.alert('PSV not in record');
-           
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
+          await axios
+            .get(
+              `${global.BASE_URL}/psv/getPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}`
+            )
+            .then(async response => {
+              const psvDetail = response.data[0];
+              if (psvDetail) {
+                
+                //------------------------getting driver data
+                await axios
+                  .get(`${global.BASE_URL}/dvr/getDriver/${rptDriver.dvrCnic}`)
+                  .then(async response => {
+                    const driverDetail = response.data[0];
+                    if (driverDetail) {
+                     
+                      //-------------------------geeting inspection report rpt/inspectPsv/
+                      await axios
+                        .get(`${global.BASE_URL}/rpt/inspectPsv/${rptPsv.psvLetter}/${rptPsv.psvModal}/${rptPsv.psvNumber}/${rptDriver.dvrCnic}/${currentUser.location}`)
+                        .then(async response => {
+                          const inspection = response.data[0];
+                          if (inspection) {                            
+                                  setTripData(inspection)
+                            await EncryptedStorage.setItem(
+                              'Report',
+                              JSON.stringify({
+                                psvData: psvDetail,
+                                dvrData: driverDetail,
+                              }),
+                            );
+                       
+                          } else {
+                            Alert.alert('Please Provide all Values');
+                          }
+                        });
+                    } else {
+                      navigation.navigate('Home');
+                      Alert.alert('Driver not in record');
+                    }
+                  });
+              } else {
+                navigation.navigate('Home');
+                Alert.alert('PSV not in record');
+               
+              }
+            });
+        } catch (error) {
+          console.log(error);
+        }
+ 
+
   }}
 //=============================================================//calling use effect
 // settripdata
 function setTripData(tripdata){
   
+    setLastInspection(psvlastinsp.addedDate?psvlastinsp.addedDate.split("T")[0].split("-").reverse().join("-") +" " + " at "+ psvlastinsp.addedTime.split("T")[1].slice(0,5) + " " + "-" + psvlastinsp.chkPoint : " "+" " + "-"+ psvlastinsp.addedTime?psvlastinsp.addedTime:"" + " " + ":" + psvlastinsp.chkPoint?psvlastinsp.chkPoint:"")
     setpsvNo(tripdata.psvNo)
-    setcompanyName(tripdata.companyName);
+    setcompanyName(tripdata.psvCompany);
+    setSubCompanyName(tripdata.psvSubCompany);
     setexitGate(tripdata.exitGate);
    
     setfireExt(tripdata.fireValidity);
@@ -193,19 +236,25 @@ function setTripData(tripdata){
     setregPlate(tripdata.numPlate);
     setseats(tripdata.seatingCap);
     
-    settripCount(tripdata.tripcount)
+    settripCount(tripdata.dvrTripcount)
     setlicenseType(tripdata.licenseType);
     setlicenseStatus(tripdata.licenseValidity)
     setdvrLicenseNo(tripdata.licenseNo)
     setDname(tripdata.driverName)
     setDLexpiry(tripdata.licenseExpiry)
+    setdvrCompany(tripdata.dvrCompany);
+    setdvrSubCompany(tripdata.dvrSubCompany);
+    setdvrLastInspection(dvrlastinsp.addedDate?dvrlastinsp.addedDate.split("T")[0].split("-").reverse().join("-") +" " + "at"+" "+ dvrlastinsp.addedTime.split("T")[1].slice(0,5) + " " + "-" + dvrlastinsp.chkPoint : " "+" " + "-"+ dvrlastinsp.addedTime?dvrlastinsp.addedTime:"" + " " + "-" + dvrlastinsp.chkPoint?dvrlastinsp.chkPoint:"N/A")
+
 }
   //===============================save report
   const today = new Date();
   const time = new Date().toLocaleTimeString();
   const reportData = {
+
     psvNo: v_psvNo,
-    companyName: v_companyName,
+    psvCompany: v_companyName,
+    psvSubCompany:v_subCompanyName,
     routeStatus: v_routeStatus,
     routePath: v_routePath,
     fitnessStatus: v_fitnessStatus,
@@ -214,16 +263,20 @@ function setTripData(tripdata){
     exitGate: v_exitGate,
     fireExt: v_fireExt,
     regPlate: v_regPlate,
-    tripCount: v_tripCount,
+    // dvrTripCount: d_tripCount,
     seats: v_seats,
     onBoardpassenger: v_onBoardpassenger,
+    dvrCnic:rptDriver.dvrCnic,
     dvrLicenseNo: d_dvrLicenseNo,
     licenseType: d_licenseType,
     licenseStatus: d_licenseStatus,
+    dvrCompany:dvrCompany,
+    dvrSubCompany:dvrSubCompany,
     actionTaken: actionTaken,
     remarks: remarks,
     addedBy: currentUser.userName,
     addedDate: today,
+    addedTime:time,
     chkPoint: currentUser.location,
   };
    const saveReport = async () => {
@@ -237,9 +290,11 @@ function setTripData(tripdata){
     await axios
       .post(`${global.BASE_URL}/rpt/addinspection`, reportData)
       .then(response => {
-        Alert.alert('Report has been saved.');
-       
-        navigation.navigate('Home')
+        Alert.alert('Trip Report Saved', ' ', [
+             
+          {text: 'Home', onPress: () =>  navigation.navigate("Home")},
+        ]);
+          
       })
       .catch(error => {
         console.log(error);
@@ -253,7 +308,7 @@ function setTripData(tripdata){
     
     return (
       <View className="flex justify-center,items-center">
-        <Text className ='text-2xl font-bold'>Loadind ......</Text>
+        <Text className ='text-2xl font-bold'>Loading ......</Text>
         </View>
     )
   }
@@ -263,8 +318,12 @@ function setTripData(tripdata){
     navigation.addListener('focus',
     ()=>{
       getInspectionreport()
+      // previousInspection ()
+
+
     })
     getInspectionreport()
+    // previousInspection ()
  return (
     <ScrollView >
       <View className="bg-slate-100  flex flex-col  p-2 justify-start">
@@ -286,23 +345,23 @@ function setTripData(tripdata){
             </View>
            
            {/*  Last inspection date */}
-           <View className={styles.outerview}>
+           {/* <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black  font-bold">Last Inspection</Text>
+                <Text className="text-black  font-bold">Previous Inspection</Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" >
               <View className=" w-4/6  items-center">
-                    <Text className="text-black font-bold">--</Text>
+                    <Text className="text-black font-bold">{lastInspection}</Text>
               </View>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/*  Company Name */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black  font-bold">Name of Company</Text>
               </View>
-              <TouchableOpacity className="w-full px-1 rounded-md" >
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})} >
               <View className=" w-4/6  items-center">
                     <Text className="text-black font-bold">{v_companyName}</Text>
               </View>
@@ -315,9 +374,9 @@ function setTripData(tripdata){
                   Sub Company
                 </Text>
               </View>
-              <TouchableOpacity className="w-full px-1 rounded-md" >
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})} >
               <View className=" w-4/6  items-center">
-                    <Text className="text-black font-bold">---</Text>
+                    <Text className="text-black font-bold">{v_subCompanyName}</Text>
               </View>
               </TouchableOpacity>
             </View>
@@ -353,8 +412,8 @@ function setTripData(tripdata){
                 <Text className="text-black  font-bold">Fitness </Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-                  <Text className={`${v_routeStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate?v_fitnessdate.split('T')[0].split("-").reverse().join("-"):""}</Text>
+              <View className={`${v_fitnessStatus == "Expired" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
+                  <Text className={`${v_fitnessStatus == "Expired" ? "text-white font-bold": "text-black font-bold"}`}>{v_fitnessStatus}:{v_fitnessdate?v_fitnessdate.split('T')[0].split("-").reverse().join("-"):""}</Text>
               </View>
                 </TouchableOpacity>
             </View>
@@ -376,8 +435,8 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">Tracker Installed</Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})}>
-              <View className={`${v_routeStatus == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
-                  <Text className={`${v_trackerStaus == "Not Installed" ? "text-white font-bold": "text-black font-bold"}`} >{v_trackerStaus}</Text>
+              <View className={`${v_trackerStaus == "Not Installed" ? "bg-red-600": "bg-green-500 "} w-4/6 items-center rounded-md`}>
+                  <Text className={`${v_trackerStaus == "Not Installed" ? "text-white  font-bold": "text-black font-bold"}`} >{v_trackerStaus}</Text>
               </View>
                 </TouchableOpacity>
             </View>
@@ -429,7 +488,7 @@ function setTripData(tripdata){
                 {/* on Boarded Passenger */}
                 <View className={styles.outerview}>
               <View className={`${styles.labelstyle} text-center items-center`}>
-                <Text className="text-black font-bold ">on Boarded Passenger</Text>
+                <Text className="text-black font-bold ">on Boarded Passenger *</Text>
               </View>
             <View className={`${styles.outerview}  text-center justify-center items-center  w-3/5`}>
               <View className="text-center items-center flex">
@@ -458,8 +517,9 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">License Details</Text>
               </View>
                 <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
-              <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">{d_licenseType} : {d_dvrLicenseNo} : {d_licenseStatus}</Text>
+              <View className=  {`${d_licenseStatus == "Expired" ? "bg-red-600 font-bold rounded-md text-white": "bg-green-500 font-bold text-black rounded-md"} w-4/6 items-center `}>
+                <Text className={`${d_licenseStatus == "Expired" ? "bg-red-600 font-bold rounded-md text-white": "bg-green-500 font-bold text-black rounded-md"} w-4/6 items-center `}>{d_licenseStatus} :{d_licenseType} : {d_dvrLicenseNo}  
+                </Text>
               </View>
                 </TouchableOpacity>
             </View>
@@ -476,16 +536,16 @@ function setTripData(tripdata){
             </View>
 
               {/* Driver Trip Count */}
-              <View className={styles.outerview}>
+              {/* <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Driver Trip Count(24 Hrs)
+                  Previous Checked on
                 </Text>
               </View>
               <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">{v_tripCount}</Text> 
+                <Text className="text-black font-bold">{dvrlastInspection?dvrlastInspection:"N/A"}</Text> 
                </View>
-            </View>
+            </View> */}
 
                {/* Driver company */}
                <View className={styles.outerview}>
@@ -494,9 +554,11 @@ function setTripData(tripdata){
                   Driver Company
                 </Text>
               </View>
+              <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
               <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">-</Text> 
+                <Text className="text-black font-bold">{dvrCompany}</Text> 
                </View>
+            </TouchableOpacity>
             </View>
 
              {/* Driver sub- company */}
@@ -506,15 +568,17 @@ function setTripData(tripdata){
                   Driver Sub-Company
                 </Text>
               </View>
+              <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
               <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">-</Text> 
+                <Text className="text-black font-bold">{dvrSubCompany}</Text> 
                </View>
+               </TouchableOpacity>
             </View>
 
              {/* Action Taken by officer */}
              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Action Taken</Text>
+                <Text className="text-black font-bold">Action Taken *</Text>
               </View>
               <View className="w-3/6 items-center">
                 <Text className="text-black font-bold ">{actionTaken}</Text>
@@ -533,13 +597,14 @@ function setTripData(tripdata){
               <TouchableOpacity onPress ={()=>setActionTakenWarning()} className=" bg-[#e2d741] border border-gray-300 w-1/5 p-3 items-center rounded-md shadow-md  shadow-blue-900 ">
                 <Text className="text-black font-bold">Warning</Text>
               </TouchableOpacity>
-               {/* Returned*/}
-               <TouchableOpacity onPress ={()=>setActionTakenReturned()}  className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
-                <Text className="text-black font-bold">Returned</Text>
-              </TouchableOpacity>
+               
               {/* Enforced */}
-              <TouchableOpacity onPress ={()=>setActionTakenEnforced()} className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
+              <TouchableOpacity onPress ={()=>setActionTakenEnforced()} className="border bg-[#eca240] border-gray-300 p-3 w-1/5 rounded-md  shadow-md  shadow-blue-900 items-center ">
                 <Text className="text-black font-bold">Enforced</Text>
+              </TouchableOpacity>
+              {/* Returned*/}
+              <TouchableOpacity onPress ={()=>setActionTakenReturned()}  className="border bg-[#db5151] border-gray-300 p-3 w-1/5 rounded-md shadow-md items-center   shadow-blue-900">
+                <Text className="text-black font-bold">Returned</Text>
               </TouchableOpacity>
             
             </View>

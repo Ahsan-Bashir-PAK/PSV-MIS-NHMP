@@ -193,11 +193,11 @@ async function retrieveUserSession() {
          
           {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
         ]);
-        // navigation.navigate("Trip Report")
+        
        
        }
      }else{
-      Alert.alert('PSV Documents record updated', ' ', [
+      Alert.alert('PSV Documents Record Updated', ' ', [
          
         {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
       ]);
@@ -217,7 +217,7 @@ async function retrieveUserSession() {
     
     }
   }
-    // {params:{letter:bus.letter, year:bus.year,no:bus.no}}
+  
 //-============================================ returnin UI
   return (
      <ScrollView>
@@ -246,7 +246,7 @@ async function retrieveUserSession() {
 
             {/*  Route Permit Number */}
             <View className={styles.outerview} >
-              <View className={styles.labelstyle}><Text className="text-black  font-bold">Rout Permit No.</Text></View>
+              <View className={styles.labelstyle}><Text className="text-black  font-bold">Rout Permit No. *</Text></View>
               <View className=" w-4/6  items-center">
                 <TextInput
                   placeholderTextColor={'grey'}
@@ -261,7 +261,7 @@ async function retrieveUserSession() {
            
             {/* Issuing Authority */}
             <View className={styles.outerview}>
-              <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority</Text></View>
+              <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority *</Text></View>
               <View className="w-4/6 items-center">
               <TextInput
                   placeholderTextColor={'grey'}
@@ -309,7 +309,7 @@ async function retrieveUserSession() {
 
             {/* Route Type*/}
             <View className={styles.outerview}>
-              <View className={styles.labelstyle}><Text className="text-black font-bold">Route Type</Text></View>
+              <View className={styles.labelstyle}><Text className="text-black font-bold">Route Type *</Text></View>
               <View className="w-4/6 items-center ">
               <View className=" items-center">
                 
@@ -386,13 +386,13 @@ async function retrieveUserSession() {
             <View className=" mt-1 w-full  ">
 
               <View className=" bg-yellow-400  p-1 m-1 w-fit items-center justify-center flex-row-reverse ">
-                <Text className="text-black text-lg rounded-md font-bold ">Fitness Certificate</Text>
+                <Text className="text-black text-lg rounded-md font-bold ">Fitness Certificate </Text>
                 <FileText  stroke="black" size={30}></FileText >
               </View>
 
               {/* Fitness Certifcate No */}
               <View className={styles.outerview}>
-                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Certificate Number</Text></View>
+                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Certificate No. *</Text></View>
                 <View className="w-4/6 items-center">
                   <TextInput
                     placeholderTextColor={'grey'}
@@ -437,7 +437,7 @@ async function retrieveUserSession() {
 
               {/* Fitness Issuing Autority */}
               <View className={styles.outerview}>
-                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Authority</Text></View>
+                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Authority *</Text></View>
                 <View className="w-4/6 items-center">
                   <TextInput
                     placeholderTextColor={'grey'}

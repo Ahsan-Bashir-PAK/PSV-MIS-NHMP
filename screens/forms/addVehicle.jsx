@@ -119,7 +119,7 @@ const AddVehicle = ({route}) => {
 //=======================================================end report  code
 
  function setPsvFiels(result) {
- //Alert.alert(result.seatingCap);
+
   setType(result.vehicleType);
    setLetter(result.prefixRegNo);
   setYear(result.vehicleModel.toString());
@@ -133,7 +133,8 @@ const AddVehicle = ({route}) => {
    setTracker(result.trackerStatus);
    setEmergencyExit(result.exitGate);
    setManfYear(result.manufactureYear.toString());
-   setCompany(result.companyName);
+   setValue(result.companyName);
+   setSubComp(result.subCompany);
     
  } 
 
@@ -163,8 +164,9 @@ const AddVehicle = ({route}) => {
    setEmergencyExit("");
    setManfYear("");
    setCompany("");
+   setSubComp("");
    setUpdateBtn("none")
-        setSaveBtn("block")
+   setSaveBtn("block")
 
   }
 
@@ -233,7 +235,9 @@ const getPsv = async()=>{
       trackerStatus:vehcile_tracker,
       exitGate: vehcile_emergencyExit,
       manufactureYear:vehcile_manf_year,
-      companyName:vehcile_company,
+      // companyName:vehcile_company,
+      companyName:value,
+      subCompany:subComp,
       formOneStatus:1,
       addedDate: today,
       addedTime: time,
@@ -251,25 +255,28 @@ const getPsv = async()=>{
         else if(vehicle_chasis == "") {Alert.alert("Please enter Chasis Number")}
         else if(vehcile_engine == "") {Alert.alert("Please enter Engine Number")}
         else if(vehcile_make == "") {Alert.alert("Please enter PSV Company")}
-        else if(vehicle_seats == "") {Alert.alert("Please enter seatin capacity")}
+        else if(vehicle_seats == "") {Alert.alert("Please enter seating capacity")}
         else if(vehcile_manf_year == "") {Alert.alert("Please enter Manufacturing Year")}
         else {
       
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
-      .then( (response)=> {
+      .then( async (response)=> {
 
         
-        Alert.alert('PSV Basic Inforamtion added in the record');
+        await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
+        Alert.alert('PSV Intial info. Saved', ' ', [
+             
+          {text: 'Next', onPress: () =>  navigation.navigate("Add Documentation")},
+        ]);
         
       })
       .catch((error) => {
         console.log(error);
       })
-     await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
     // 
 
       clearAllData()
-      navigation.navigate("Add Documentation")
+      
 
     }
   }
@@ -286,7 +293,9 @@ const upedtedPsv ={
   trackerStatus:vehcile_tracker,
   exitGate: vehcile_emergencyExit,
   manufactureYear:vehcile_manf_year,
-  companyName:vehcile_company,
+  // companyName:vehcile_company,
+  companyName:value,
+  subCompany:subComp,
   formOneStatus:1,
   editedOn: today,
   editedTime :time,
@@ -420,7 +429,7 @@ if(value != ""){
 
           {/*  Select vehcile Type */}
           <View className={`${styles.outerview} `} style={{}} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type *</Text></View>
             <View className=" w-4/6 items-center ">
               <View className=" m-1  z-50">
               <SelectDropdown
@@ -496,7 +505,7 @@ if(value != ""){
 
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number *</Text></View>
             <View className=" w-4/6 text-center items-center ">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -511,7 +520,7 @@ if(value != ""){
 
           {/* Add Engine Number */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Engine Number</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Engine Number *</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -526,7 +535,7 @@ if(value != ""){
 
           {/* Add Vehicle Make */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By *</Text></View>
             <View className="w-4/6 items-center">
             <View className=" m-1  z-50">
               <SelectDropdown
@@ -576,7 +585,7 @@ if(value != ""){
 
           {/* Seating Capapcity */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Seating Capacity</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Seating Capacity *</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -615,7 +624,7 @@ if(value != ""){
 
            {/* Manufacturing Year */}
            <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Manufacturing Year</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Manufacturing Year *</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}

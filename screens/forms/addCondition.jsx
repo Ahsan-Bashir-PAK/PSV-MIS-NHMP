@@ -156,30 +156,34 @@ async function retrieveUserSession() {
 
 
       if (tyrecondition !=""){    
-        // console.log(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`)
    await axios.patch(`${global.BASE_URL}/psv/updatePsvCondition/${currentPsv.psvLetter+currentPsv.psvModal+currentPsv.psvNumber}`, PsvDocuments
     )
-      .then(response => {
-        if(route.params["params"] == "report"){
-       
-          Alert.alert('Data Updated', ' ', [
-           
-            {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
-          ]);
-          // navigation.navigate("Trip Report")
-         
-         }
-       else{
-        Alert.alert('PSV tyre & Lights information updated', ' ', [
-           
-          {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
-        ]);
-            }
-    }
     
-    )
+        .then(response =>{
+          if(route.params){
+            if(route.params["params"] == "report"){
+           
+            Alert.alert('Data updated', ' ', [
+             
+              {text: 'Back to Report', onPress: () =>  navigation.navigate("Trip Report")},
+            ]);
+            
+           
+           }
+         }else{
+          Alert.alert('PSV Lights & Tyre Condtion info saved', ' ', [
+             
+            {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
+          ]);
+            
+            }
+    
+        }
+          
+          )
+    
 
-      .catch(error => console.error(error));
+      .catch(error => console.log(error));
     } else { Alert.alert("Please select Tyre Condition")}} 
 
   //==================================================
@@ -319,7 +323,7 @@ async function retrieveUserSession() {
  {/* Select Tyre Condition */}
  <View className={` justify-around flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md  shadow-md  shadow-blue-900 ${tyrecondition=="Excellent"?"bg-green-700":tyrecondition=="Good"?"bg-blue-500":tyrecondition=='Average'?"bg-yellow-500":tyrecondition=="Poor"?"bg-red-400":"bg-white"}`}> 
              <View className=" " >
-             <Text className={`text-black `}>{tyrecondition ===""?"Select Tyre Condition":tyrecondition}</Text>
+             <Text className={`text-black `}>{tyrecondition ===""?"Select Tyre Condition *":tyrecondition}</Text>
                     
             </View>
             </View>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User, PenSquare  } from 'lucide-react-native';
+import { UserPlus,  BadgePlus, BusFront,  UserCog2,  BookCopy, LogOutIcon, ArrowDownToLine, Link, UserCog2Icon, Plus, User, PenSquare, KeySquare  } from 'lucide-react-native';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
@@ -38,8 +38,16 @@ function Home() {
   const [dvrCnic, setDvrCnic] = useState("");
   const navigation = useNavigation("");
 
+  function clearAll(){
+    setReg("")
+    setYear("")
+    setNumber("")
+    setDvrCnic("")
+  }
+
   useEffect(() => {
     retrieveUserSession(setCurrentUser);
+    clearAll()
   }, []);
 
   // logout clear all sessions
@@ -131,8 +139,7 @@ function Home() {
          
         <View className=" w-5/6 ">
           <Text className="text-white items-center text-center font-extrabold text-lg">
-            NHMP PSVs Dashboard
-          </Text>
+            PSV-MIS (NHMP)          </Text>
         </View>
       </View>
       <View className="   mt-5 rounded-m  h-2/8  w-full text-center">
@@ -275,7 +282,7 @@ function Home() {
         <TouchableOpacity
           onPress={() => navigation.navigate('SignUp')}
           className="w-full   h-10 rounded-lg  justify-center items-center bg-[#2e3d94] ">
-          <View className="justify-center flex flex-row items-center  w-full gap-2">
+          <View className="justify-center flex flex-row items-center p-1 w-full gap-2">
             <Plus stroke="white" size={25} />
             <Text className=" font-bold font-white  text-lg text-white">
               Add New User
@@ -292,9 +299,9 @@ function Home() {
           onPress={() => navigation.navigate('Profile')}
           className=" h-10 rounded-lg  justify-center items-center bg-[#258f3c] ">
           <View className="justify-center flex flex-row items-center  w-full ">
-            <User stroke="white" size={25} />
+            <KeySquare stroke="white" size={25} />
             <Text className=" font-bold font-white  text-lg text-white">
-              User Profile
+              Change Password
             </Text>
           </View>
         </TouchableOpacity>

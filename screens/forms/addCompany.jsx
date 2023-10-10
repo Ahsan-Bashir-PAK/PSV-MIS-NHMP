@@ -109,7 +109,7 @@ const company ={
         className="text-black"
       />
 
-      <Text style={styles.label}>Sub Company or Terminal:</Text>
+      <Text style={styles.label}>Terminal:</Text>
       <TextInput
         style={styles.input}
         value={subCompany}

@@ -13,7 +13,7 @@ import axios from 'axios';
 const user_status = [ "User" ,"Admin"]; 
 
 
-let ranks = [ "SPO" ,"PO", "APO", "JPO", "Non-Uniform"];  
+let ranks = [ "SPO" ,"PO", "APO", "JPO", "ACP","UDC","LDC","PG"];  
  
 
 
@@ -142,7 +142,7 @@ const user ={
   beatId :officerbeat ,
   sectorId: officersector,
   zoneId:officerzone,
-  regionId:officerRegion
+  region:officerRegion
 
 }
 
@@ -161,7 +161,7 @@ const saveUser = async () => {
             Alert.alert('User created successfully');
             clearAll();
           } else {
-            Alert.alert('Failed to insert data');
+            Alert.alert('User already Exists');
           }
   
         })
@@ -242,7 +242,7 @@ return (
 
         {/* Cell No */}
         <View className={styles.outerview}>
-          <View className={styles.labelstyle}><Text className="text-black font-bold">Cell Number</Text></View>
+          <View className={styles.labelstyle}><Text className="text-black font-bold">Cell Number*</Text></View>
           <View className="w-4/6 items-center">
             <TextInput
               placeholderTextColor={'grey'}
