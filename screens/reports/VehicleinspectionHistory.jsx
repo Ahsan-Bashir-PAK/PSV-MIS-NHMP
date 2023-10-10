@@ -16,27 +16,31 @@ const InspectionReport = () => {
 
         <FlatList
             data={mydata}
-            renderItem={({ item }) => (
+            renderItem={({ item, key }) => (
 
 //====================================================================render
-                <View className="m-2 bg-gray-400 bottom-2">
-                    <View className=" p-2">
-                        <Text> Sector {item.sector}</Text>
+    // Sector : {item.sector} 
+    <View className="m-2 bg-gray-200 bottom-2 text-black rounded-md shadow-md border border-red-300">
+                    <View className="bg-green-500 p-2">
+                        <Text className="text-black font-bold"> Time & Date {item.date + " :" + item.time}</Text>
+                    </View>
+                    <View className="bg-green-500 p-2">
+                        <Text className="text-black font-bold"> {key}</Text>
                     </View>
                     <View>
-                        <Text>{item.beat}</Text>
+                        <Text> Beat {item.beat}</Text>
                     </View>
                     <View>
-                        <Text>{item.point}</Text>
+                        <Text>Location {item.point}</Text>
                     </View>
                     <View>
-                        <Text>{item.date + " :" + item.time}</Text>
+                        <Text> Time & Date {item.date + " :" + item.time}</Text>
                     </View>
                     <View>
-                        <Text>{item.action}</Text>
+                        <Text> Action Taken {item.action}</Text>
                     </View>
                     <View>
-                        <Text>{item.officer}</Text>
+                        <Text>Officer Name{item.officer}</Text>
                     </View>
                 </View>
 

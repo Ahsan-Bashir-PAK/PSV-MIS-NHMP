@@ -15,7 +15,7 @@ import AddOtherInfo from '../screens/forms/addOtherinfo';
 import Downloads from '../screens/downloads';
 import Profile from '../screens/profile'
 import FeedBack from '../screens/feedBack';
-import InspectionReport from '../screens/reports/inspectionHistory';
+import InspectionReport from '../screens/reports/VehicleinspectionHistory';
 
 
 const Stack = createNativeStackNavigator();
