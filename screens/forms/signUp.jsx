@@ -8,6 +8,7 @@ import '../../config'
 
 import SelectDropdown from 'react-native-select-dropdown';
 import axios from 'axios';
+import { verifyDuplicateUser } from '../../config/functions';
 
 
 const user_status = [ "User" ,"Admin"]; 
@@ -110,6 +111,8 @@ const getBeat = async (sector) => {
    
   });
 };
+
+//
 //==============================================================================================/>
  // Clear Data
 function  clearAll (){
@@ -234,7 +237,9 @@ return (
               maxLength={13}
               onChangeText={e=>setOfcrcnic(e)}
               value={officercnic}
-              className=' border-black text-black rounded-md  text-lg' />
+              className=' border-black text-black rounded-md  text-lg'
+              onBlur={()=>{verifyDuplicateUser(officercnic)}}
+              />
 
           </View>
         </View>

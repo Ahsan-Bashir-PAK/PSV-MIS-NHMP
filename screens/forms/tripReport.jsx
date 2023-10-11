@@ -345,16 +345,18 @@ function setTripData(tripdata){
             </View>
            
            {/*  Last inspection date */}
-           {/* <View className={styles.outerview}>
+           <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black  font-bold">Previous Inspection</Text>
+                <Text className="text-black font-bold">
+                  Inspection History
+                </Text>
               </View>
-              <TouchableOpacity className="w-full px-1 rounded-md" >
-              <View className=" w-4/6  items-center">
-                    <Text className="text-black font-bold">{lastInspection}</Text>
-              </View>
-                </TouchableOpacity>
-            </View> */}
+              <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("Inspection History",{params:"Vehicle"})}>
+              <View className="w-4/6 items-center">
+                <Text className="text-black font-bold">Click to View</Text> 
+               </View>
+            </TouchableOpacity>
+            </View>
 
             {/*  Company Name */}
             <View className={styles.outerview}>
@@ -536,16 +538,18 @@ function setTripData(tripdata){
             </View>
 
               {/* Driver Trip Count */}
-              {/* <View className={styles.outerview}>
+              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Previous Checked on
+                  Inspection History
                 </Text>
               </View>
+              <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("Inspection History",{params:"Driver"})}>
               <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">{dvrlastInspection?dvrlastInspection:"N/A"}</Text> 
+                <Text className="text-black font-bold">Click to View</Text> 
                </View>
-            </View> */}
+            </TouchableOpacity>
+            </View>
 
                {/* Driver company */}
                <View className={styles.outerview}>

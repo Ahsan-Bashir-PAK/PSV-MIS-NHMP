@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert, FlatList } from 'react-native';
 
+import { retrieveDriverSession,retrieveVehicleSession } from '../../config/functions';
+
+
 const mydata = [
+
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
@@ -9,7 +13,46 @@ const mydata = [
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
 ]
-const InspectionReport = () => {
+const InspectionReport = ({route}) => {
+  
+    const [rptPsv, setRptPsv] =useState("")
+    const [rptDriver, setDriver] =useState("")
+    const [historyData,setData]= useState([])
+
+   useEffect(()=>{
+    retrieveDriverSession(setDriver)
+    retrieveVehicleSession(setRptPsv)
+   })
+
+//=====================================================================
+const dvrInspectionHistory =()=>{
+    axios.get(`${global.BASE_URL}/rpt/dvrInspectionHistory/${rptDriver.dvrCnic}`).then(
+        async response =>{
+            const result = response.data[0]
+            result?setData(result):Alert.alert("No checking history of driver")
+        }
+    )
+}
+//=========================================================================
+const psvInspectionHistory =()=>{
+    axios.get(`${global.BASE_URL}/rpt/dvrInspectionHistory/${rptPsv.psvLetter}-${rptPsv.psvModal}-${rptPsv.psvNumber}`).then(
+        async response =>{
+            const result = response.data[0]
+            result?setData(result):Alert.alert("No checking history of Vehicle")
+        }
+    )
+}
+
+
+//===========================================================================
+   if(rptPsv && rptDriver){
+    if(route.params){
+        if(route.params["params"] =="Driver"){
+          dvrInspectionHistory()
+        }else{
+            psvInspectionHistory()
+        }
+      }
 
     return (
 
@@ -18,6 +61,7 @@ const InspectionReport = () => {
                     <Text className="text-black font-bold text-lg">Inspection History</Text>
                 </View>
         
+
         <FlatList
             data={mydata}
             renderItem={({ item, key }) => (
@@ -48,17 +92,12 @@ const InspectionReport = () => {
                         <Text>{item.officer}</Text>
                     </View>
                 </View>
-  
-                
-//===============================================================================
+  //===============================================================================
             )
-
-
             }
         />
 
 </View>
-
 
     )
 }
@@ -68,4 +107,5 @@ const styles ={
 }
 
 export default InspectionReport
+
 
