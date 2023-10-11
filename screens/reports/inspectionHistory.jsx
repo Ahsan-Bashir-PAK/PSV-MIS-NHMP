@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Switch, Alert, FlatList } from 'react-native';
 import { retrieveDriverSession,retrieveVehicleSession } from '../../config/functions';
-const mydata = [
+const data = [
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
     { sector: "North3", beat: "Beat-11", point: "78Nb", date: "2023-09-08", time: "16:24", action: "Returned", officer: "PO Ahsan " },
@@ -54,8 +54,8 @@ const psvInspectionHistory =()=>{
             data={mydata}
             renderItem={({ item, key }) => (
 
-//====================================================================render
-    // Sector : {item.sector} 
+//====================================================================render ui
+   
     <View className="m-2 bg-gray-200 bottom-2 text-black rounded-md shadow-md border border-red-300">
                     <View className="bg-green-500 p-2">
                         <Text className="text-black font-bold"> Time & Date {item.date + " :" + item.time}</Text>
