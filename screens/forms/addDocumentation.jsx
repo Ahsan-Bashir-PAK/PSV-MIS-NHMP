@@ -55,7 +55,7 @@ const [currentUser,setCurrentUser] = useState({})
 const [psvreport , setPsvReportData] = useState("");
 const [vehicleNo,setVehicleNo] =useState()
 
-
+const [noroute, setNoRoute] = useState("")
 
 
 // SET DATA INTO FIELDS
@@ -174,11 +174,15 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
-      if(vroute == "") { Alert.alert("Please enter Route Permit or type N.A");  }
-        else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority or type N.A ")  }
-        else if (route_type=="") {Alert.alert("Select Route Type")}
-        else if (fitnessno =="") { Alert.alert("Please Enter Fitness Certificate No. or type N.A")}
-        else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Issuing Authority No. or type N.A")}
+    
+      if(route_type !="No-Route") {   
+          if (vroute== "") {Alert.alert(" Please enter Route Permit No. or type")  }
+            else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority ")  }
+              else if (fitnessno =="") { Alert.alert("Please Enter Fitness Certificate No.")}
+              else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Certificate No.")}
+       } else if (route_type =="No-Route" && fitnessno== "") 
+                {{Alert.alert(" Please enter Fitness Certifcate No. ")  }}
+         else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Issuing Autority")}
         else {
     try {
       
@@ -197,7 +201,7 @@ async function retrieveUserSession() {
        
        }
      }else{
-      Alert.alert('PSV Documents Record Updated', ' ', [
+      Alert.alert('PSV Documents Record added', ' ', [
          
         {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
       ]);
@@ -216,8 +220,9 @@ async function retrieveUserSession() {
     }
     
     }
-  }
   
+  
+}
 //-============================================ returnin UI
   return (
      <ScrollView>
@@ -241,14 +246,42 @@ async function retrieveUserSession() {
               
             </View>
 
+           
+            {/* Route Type*/}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Route Type*</Text>
+              </View>
+              <View className="w-4/6 items-center ">
+              <View className=" items-center">
+                
+              <SelectDropdown
+                className="bg-white border"
+                data= {select_route_type}
+                onSelect={(selectedItem, index) => {
+                  setRouteType(selectedItem)
+                  setNoRoute(selectedItem)
+                }}
+                defaultButtonText={route_type}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}
+                />
+                </View>
+            </View>
+            </View>
 
 
-
-            {/*  Route Permit Number */}
+            {/*  Route Permit Number className={`${noroute == " " ?"hidden":"block"}`}*/}
+             <View  className={`${noroute == "No-Route" ?"hidden":"block"}`}>   
             <View className={styles.outerview} >
-              <View className={styles.labelstyle}><Text className="text-black  font-bold">Rout Permit No. *</Text></View>
+              <View className={styles.labelstyle}>
+                <Text className="text-black  font-bold">Rout Permit No.*</Text>
+              </View>
               <View className=" w-4/6  items-center">
                 <TextInput
+                  
                   placeholderTextColor={'grey'}
                   placeholder='Route Permit No.'
                   maxLength={50}
@@ -261,7 +294,9 @@ async function retrieveUserSession() {
            
             {/* Issuing Authority */}
             <View className={styles.outerview}>
-              <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority *</Text></View>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">Issuing Authority *</Text>
+              </View>
               <View className="w-4/6 items-center">
               <TextInput
                   placeholderTextColor={'grey'}
@@ -307,27 +342,6 @@ async function retrieveUserSession() {
               </View>
             </View>
 
-            {/* Route Type*/}
-            <View className={styles.outerview}>
-              <View className={styles.labelstyle}><Text className="text-black font-bold">Route Type *</Text></View>
-              <View className="w-4/6 items-center ">
-              <View className=" items-center">
-                
-              <SelectDropdown
-                className="bg-white border"
-                data= {select_route_type}
-                onSelect={(selectedItem, index) => {
-                  setRouteType(selectedItem)
-                }}
-                defaultButtonText={route_type}
-                buttonStyle={{
-                  backgroundColor:'white',
-                    
-                }}
-                />
-                </View>
-            </View>
-            </View>
             {/* Route From */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}><Text className="text-black font-bold">Route From</Text></View>
@@ -372,7 +386,8 @@ async function retrieveUserSession() {
               </View>
               </View>
             </View>
-
+             </View>
+              {/*end of hidden view */}
             {/* Upload Route Permit */}
             {/* <View className={styles.outerview}>
               <View className={styles.labelstyle}><Text className="text-black font-bold">Upload Route Permit</Text></View>

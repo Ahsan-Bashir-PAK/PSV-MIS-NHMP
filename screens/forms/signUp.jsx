@@ -210,7 +210,25 @@ return (
           {/* <Search stroke='black' /> */}
           {/* </View>
         </View> */}
-        
+
+{/*   officer CNIC */}
+<View className={styles.outerview} >
+          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer CNIC*</Text></View>
+          <View className=" w-4/6  items-center">
+            <TextInput
+              placeholderTextColor={'grey'}
+              placeholder='0000000000000'
+              keyboardType='numeric'
+              maxLength={13}
+              onChangeText={e=>setOfcrcnic(e)}
+              value={officercnic}
+              className=' border-black text-black rounded-md  text-lg'
+              onBlur={()=>{verifyDuplicateUser(officercnic,clearAll)}}
+              />
+
+          </View>
+        </View>
+
         {/*   officer Name */}
         <View className={styles.outerview} >
           <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer Name*</Text></View>
@@ -226,23 +244,7 @@ return (
           </View>
         </View>
 
-{/*   officer CNIC */}
-<View className={styles.outerview} >
-          <View className={styles.labelstyle}><Text className="text-black  font-bold">Officer CNIC*</Text></View>
-          <View className=" w-4/6  items-center">
-            <TextInput
-              placeholderTextColor={'grey'}
-              placeholder='0000000000000'
-              keyboardType='numeric'
-              maxLength={13}
-              onChangeText={e=>setOfcrcnic(e)}
-              value={officercnic}
-              className=' border-black text-black rounded-md  text-lg'
-              onBlur={()=>{verifyDuplicateUser(officercnic)}}
-              />
 
-          </View>
-        </View>
 
 
         {/* Cell No */}

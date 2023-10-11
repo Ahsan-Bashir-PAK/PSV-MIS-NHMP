@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Switch,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {BusFront, Navigation, Scroll, User} from 'lucide-react-native';
@@ -28,6 +29,7 @@ const [v_routedate, setroutedate] =useState('')
 const [v_companyName, setcompanyName] =useState('')
 const [v_subCompanyName, setSubCompanyName] =useState('')
 const [v_routePath, setroutePath] =useState('')
+const [v_routetype, setrouteType] =useState('')
 const [v_fitnessStatus, setfitnessStatus] =useState('')
 const [v_fitnessdate, setfitnessdate] =useState('')
 const [v_tyreStatus, settyreStatus] =useState('')
@@ -226,9 +228,16 @@ function setTripData(tripdata){
     setfireExtdate(tripdata.fireExpiry);
     setfitnessStatus(tripdata.fitnessValidity);
     setfitnessdate(tripdata.fitnessExpiryDate);
+    if (tripdata.routeType !='No-Route') {
     setroutePath(tripdata.routeFrom + " " + " to " + " " +tripdata.routeTo);
     setrouteStatus(tripdata.routeValidity);
     setroutedate(tripdata.routeExpiryDate);
+    } else {
+      setroutePath("No Route")
+    setrouteStatus("No Route")
+    setroutedate('')
+    setrouteType(tripdata.routeType)
+    }
     settyredate(tripdata.tyreExpiry);
     settyreStatus(tripdata.tyreStatus);
     settyrecondition(tripdata.tyreCondition);
@@ -308,7 +317,8 @@ function setTripData(tripdata){
     
     return (
       <View className="flex justify-center,items-center">
-        <Text className ='text-2xl font-bold'>Loading ......</Text>
+        {/* <Text className ='text-2xl font-bold'>Loading ......</Text> */}
+        <ActivityIndicator size="large" color="blue" />
         </View>
     )
   }
@@ -389,9 +399,9 @@ function setTripData(tripdata){
                 <Text className="text-black  font-bold ">  Route Permit</Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Documentation",{params:"report"})}>
-              <View className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 text-black "} w-4/6 items-center rounded-md `}>
+              <View className={`${v_routeStatus == "Expired" || v_routetype == "No-Route"  ? "bg-red-600 text-white": "bg-green-500 text-black "} w-4/6 items-center rounded-md `}>
               
-                    <Text className={`${v_routeStatus == "Expired" ? "bg-red-600 text-white": "bg-green-500 text-black "} font-bold `}>{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
+                    <Text className={`${v_routeStatus == "Expired" || v_routetype == "No-Route" ? "bg-red-600 text-white": "bg-green-500 text-black "} font-bold `}>{v_routeStatus} :{v_routedate?v_routedate.split('T')[0].split("-").reverse().join("-"):""}
                     
                      </Text>
               </View>

@@ -212,12 +212,14 @@ const getPsv = async()=>{
 
       }
       else {
-        Alert.alert("PSV does not exist in Record.")
+        Alert.alert("Vehicle not in record.")
+        
       }
   })
   await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
  
 }
+
 
 
 //----------------Insert form 1
@@ -249,9 +251,9 @@ const getPsv = async()=>{
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
       if(Vehicle_type == "") {Alert.alert("Please select vehicle type")}
-        else if(Vehicle_letter == "" ) {Alert.alert("Please enter Alphabet")}
-        else if(Vehicle_year == "" ) {Alert.alert("Please enter Registeration Year")}
-        else if(Vehicle_number == "" ) {Alert.alert("Please enter Registeration Number")}
+        else if(Vehicle_letter == "" ) {Alert.alert("Please enter Alphabet e.g. LES")}
+        else if(Vehicle_year == "" ) {Alert.alert("Please enter Registeration Year e.g 2015")}
+        else if(Vehicle_number == "" ) {Alert.alert("Please enter Registeration Number e.g. 1234")}
         else if(vehicle_chasis == "") {Alert.alert("Please enter Chasis Number")}
         else if(vehcile_engine == "") {Alert.alert("Please enter Engine Number")}
         else if(vehcile_make == "") {Alert.alert("Please enter PSV Company")}
@@ -427,27 +429,7 @@ if(value != ""){
             </View>
           </View>
 
-          {/*  Select vehcile Type */}
-          <View className={`${styles.outerview} `} style={{}} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type *</Text></View>
-            <View className=" w-4/6 items-center ">
-              <View className=" m-1  z-50">
-              <SelectDropdown
-                data= {Vehicletype}
-                onSelect={(selectedItem, index) => {
-                  setType(selectedItem)            
-                }}
-                defaultButtonText={Vehicle_type}
-                buttonStyle={{
-                  backgroundColor:'white',
-                    
-                }}                
-                />
-              
-            </View>
-            </View>
-          </View>
-
+          
           {/* Enter Bus Reg Number [ABC] [2019] [1234] */}
           <View className={styles.outerview} >
 
@@ -482,7 +464,7 @@ if(value != ""){
               <TextInput
                 
                 placeholderTextColor={'grey'}
-                placeholder='[0000]'
+                placeholder='[1234]'
                 maxLength={4}
                 keyboardType='phone-pad'
                 value={Vehicle_number}
@@ -502,6 +484,28 @@ if(value != ""){
                    
                 
           </View>
+
+        {/*  Select vehcile Type */}
+        <View className={`${styles.outerview} `} style={{}} >
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type *</Text></View>
+            <View className=" w-4/6 items-center ">
+              <View className=" m-1  z-50">
+              <SelectDropdown
+                data= {Vehicletype}
+                onSelect={(selectedItem, index) => {
+                  setType(selectedItem)            
+                }}
+                defaultButtonText={Vehicle_type}
+                buttonStyle={{
+                  backgroundColor:'white',
+                    
+                }}                
+                />
+              
+            </View>
+            </View>
+          </View>
+
 
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >

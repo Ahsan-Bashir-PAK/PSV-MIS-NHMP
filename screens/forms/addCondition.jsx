@@ -171,7 +171,7 @@ async function retrieveUserSession() {
            
            }
          }else{
-          Alert.alert('PSV Lights & Tyre Condtion info saved', ' ', [
+          Alert.alert('PSV Lights & Tyre Condition record added', ' ', [
              
             {text: 'Next', onPress: () =>  navigation.navigate("Other Info")},
           ]);

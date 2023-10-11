@@ -24,14 +24,15 @@ const MyStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Inspection History" component={InspectionReport}
+     
+        <Stack.Screen name="Login" component={Login}
         options={{
           headerShown:false
         }}
         />
-        <Stack.Screen name="Login" component={Login}
+         <Stack.Screen name="Inspection History" component={InspectionReport}
         options={{
-          headerShown:false
+          headerShown:true
         }}
         />
         <Stack.Screen name="Home" component={Home} 

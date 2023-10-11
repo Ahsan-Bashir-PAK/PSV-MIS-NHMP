@@ -2,7 +2,7 @@
 import axios from "axios";
 import { User } from "lucide-react-native";
 import EncryptedStorage from "react-native-encrypted-storage/";
-
+import { Alert } from "react-native";
 //============================user retriving session
 async function retrieveUserSession(valueSetter) {
    
@@ -75,12 +75,13 @@ async function retrieveVehicleSession(setter) {
 
   //===================================================================check user
 
-  const verifyDuplicateUser =(user)=>{
+  const verifyDuplicateUser =(user,func)=>{
     axios.get(`${global.BASE_URL}/users/getUser/${user}`).then(
       async response=>{
         const userData = response.data
         if(userData){
           Alert.alert("User already registered")
+          func()
         }
       }
     )

@@ -130,9 +130,9 @@ function clearAll(){
         <View className='  flex justify-center items-center h-screen bg-blue-800  '>
 
             {/* ============================================== */}
-          <TouchableOpacity className="bg-white p-2 rounded-md" onPress={()=>navigation.navigate("InspectionHistory")}>
+          {/* <TouchableOpacity className="bg-white p-2 rounded-md" onPress={()=>navigation.navigate("Inspection History")}>
             <Text> Inspection History</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>  */}
 
           {/* ============================================== */}
 
