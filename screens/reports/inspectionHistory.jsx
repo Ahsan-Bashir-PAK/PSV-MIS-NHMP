@@ -66,22 +66,23 @@ if(rptPsv && rptDriver){
 
     return (
                
-        
         <View >
+
             
                 <View className=" bg-yellow-400  rounded-md p-2 m-1 w-fit items-center justify-center flex-row-reverse ">
                     <Text className="text-black font-bold text-lg">{rptName} Inspection History</Text>
                 </View>
         
-
-        <FlatList
+        
+        <FlatList className="bg-gray-300 mb-16"
+            
             data={historyData}
             renderItem={({ item, key }) => (
 
 //====================================================================render
     // Sector : {item.sector} 
     
-    <View className="m-2 bg-gray-200 p-2 text-black rounded-md shadow-md border border-gray-400  shadow-black">
+    <View className="m-2  bg-gray-200 p-2 text-black rounded-md shadow-md border border-gray-600  shadow-black ">
                     <View className="bg-grey-800 p-1 flex flex-row rounded-md">
                         <Text className={styles.container}> Date </Text>
                         <Text className="text-black font-bold">{item.date +"  "+ " Time:- " + item.time}</Text>
@@ -119,8 +120,8 @@ if(rptPsv && rptDriver){
             }
         />
 
-</View>
 
+</View>
 
     )
 }

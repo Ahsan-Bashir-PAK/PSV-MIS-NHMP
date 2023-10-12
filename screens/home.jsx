@@ -128,21 +128,23 @@ function Home() {
   return (
     // <SafeAreaView>
    
-    <View className="p-2 h-screen w-full bg-white">
-      <View className=" flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center  overflow-hidden">
-      <ImageBackground source={require('../img/bground.jpg')}  resizeMode="cover" style={{ height:'100%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
+    <View className="p-2  w-full bg-white">
+    
+      <View className="flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center  overflow-hidden">
+       <ImageBackground source={require('../img/bg.png')}  resizeMode="cover" style={{ height:'120%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
         <Image
-          source={require('../img/logo.png')}
+          source={require('../img/logo1.png')}
           style={{width: 60, height: 60}}
           className="pl-2"
         />
          
-        <View className=" w-5/6 ">
-          <Text className="text-white items-center text-center font-extrabold text-lg">
+        <View className=" w-5/6  ">
+          <Text className="text-blue-900 text-start font-extrabold text-2xl ml-10">
             PSV-MIS (NHMP)          </Text>
         </View>
       </View>
       <View className="   mt-5 rounded-m  h-2/8  w-full text-center">
+    
         {/* View Input Type */}
         <View className=" flex-row m-2">
           <TextInput
@@ -200,6 +202,8 @@ function Home() {
           />
         </View>
         <View className="flex-row p-1 justify-center  w-full mt-2">
+
+      
           <TouchableOpacity
             // onPress={() => getInspectionreport()}
             onPress={() => rptSessionProps()}

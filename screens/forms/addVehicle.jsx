@@ -145,12 +145,34 @@ const AddVehicle = ({route}) => {
   getPsv()
 }
 
+// clear all fields when vehicle not found
+
+function clearAllData1(){
+
+    
+  setType();
+  setChasis("");
+  setEngine("");
+  setMake("");
+  setColor("");
+  setAc("");
+  setVehicleSeats("");
+  setTracker("");
+  setEmergencyExit("");
+  setManfYear("");
+  setCompany("");
+  setSubComp("");
+  setUpdateBtn("none")
+  setSaveBtn("block")
+
+ }
 
 
   function clearAllData(){
 
     
    setType("");
+  //  setType(Vehicle_type);
    setLetter("");
    setYear("");
    setNumber("");
@@ -213,6 +235,7 @@ const getPsv = async()=>{
       }
       else {
         Alert.alert("Vehicle not in record.")
+        clearAllData1()
         
       }
   })
@@ -266,7 +289,7 @@ const getPsv = async()=>{
 
         
         await  storeVehicleSession(Vehicle_letter,Vehicle_year,Vehicle_number)
-        Alert.alert('PSV Intial info. Saved', ' ', [
+        Alert.alert('PSV Initial information Saved', ' ', [
              
           {text: 'Next', onPress: () =>  navigation.navigate("Add Documentation")},
         ]);
@@ -495,7 +518,7 @@ if(value != ""){
                 onSelect={(selectedItem, index) => {
                   setType(selectedItem)            
                 }}
-                defaultButtonText={Vehicle_type}
+                defaultButtonText='Select an option.'
                 buttonStyle={{
                   backgroundColor:'white',
                     
@@ -687,10 +710,10 @@ if(value != ""){
 
           </View>
  
-{/* Sub Company Name */}
+{/* Terminal*/}
 <View className={`${styles.outerview}  `}>
             <View className={styles.labelstyle}>
-              <Text className="text-black font-bold">Sub Company Name</Text>
+              <Text className="text-black font-bold">Terminal</Text>
             </View>
                 <View className = "w-3/5 pl-3">
             <Dropdown 

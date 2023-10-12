@@ -174,16 +174,24 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
-    
-      if(route_type !="No-Route") {   
-          if (vroute== "") {Alert.alert(" Please enter Route Permit No. or type")  }
-            else if (issue_Authority== "") {Alert.alert(" Please enter Issuing Authority ")  }
-              else if (fitnessno =="") { Alert.alert("Please Enter Fitness Certificate No.")}
-              else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Certificate No.")}
-       } else if (route_type =="No-Route" && fitnessno== "") 
-                {{Alert.alert(" Please enter Fitness Certifcate No. ")  }}
-         else if (fitness_auth =="") { Alert.alert("Please Enter Fitness Issuing Autority")}
-        else {
+
+        if(route_type !="No-Route") {
+            if(vroute == "") { Alert.alert("Please enter Route Number.") }
+              else if(issue_Authority== "") {Alert.alert("Please enter Route Issuing Authority")}
+              else if(fitnessno == "") {Alert.alert("Please enter Fitness Certificate No.")}
+              else if(fitness_auth== "") {Alert.alert("Please enter Fitness Issuing Authority") } 
+                  else { AddDocs() }
+        } else {
+              if (route_type == "No-Route" && fitnessno == "") {
+
+                   Alert.alert("Please enter Fitness Certificate No.") }
+                else if(fitness_auth == "") {Alert.alert("Please enter Fitness Issuing Authority")}
+                     else { AddDocs()}
+             
+           }
+          
+              
+ function AddDocs() {      
     try {
       
    
@@ -201,7 +209,7 @@ async function retrieveUserSession() {
        
        }
      }else{
-      Alert.alert('PSV Documents Record added', ' ', [
+      Alert.alert('PSV Documents Record added.', ' ', [
          
         {text: 'Next', onPress: () =>  navigation.navigate("Add Condition")},
       ]);
@@ -218,11 +226,10 @@ async function retrieveUserSession() {
      catch (error) {
       console.log(error)
     }
-    
-    }
+  }   
+} 
   
-  
-}
+
 //-============================================ returnin UI
   return (
      <ScrollView>

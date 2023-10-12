@@ -601,7 +601,7 @@ getSubCompany()
 {/* Sub Company Name */}
 <View className={`${styles.outerview}  `}>
 <View className={styles.labelstyle}>
-  <Text className="text-black font-bold">Sub Company Name</Text>
+  <Text className="text-black font-bold">Terminal</Text>
 </View>
     <View className = "w-3/5 pl-3">
 <Dropdown 
