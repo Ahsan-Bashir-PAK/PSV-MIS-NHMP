@@ -273,15 +273,19 @@ const getPsv = async()=>{
 
     //-----------------------------------save vehicle 
     const addPsvFormOne = async()=>{
-      if(Vehicle_type == "") {Alert.alert("Please select vehicle type")}
-        else if(Vehicle_letter == "" ) {Alert.alert("Please enter Alphabet e.g. LES")}
+      if(Vehicle_letter == "") {Alert.alert("Please enter Alphabet e.g. LES")}
+      
         else if(Vehicle_year == "" ) {Alert.alert("Please enter Registeration Year e.g 2015")}
         else if(Vehicle_number == "" ) {Alert.alert("Please enter Registeration Number e.g. 1234")}
+        else if(Vehicle_type == "" ) {Alert.alert("Please select vehicle type")}
         else if(vehicle_chasis == "") {Alert.alert("Please enter Chasis Number")}
         else if(vehcile_engine == "") {Alert.alert("Please enter Engine Number")}
-        else if(vehcile_make == "") {Alert.alert("Please enter PSV Company")}
+        else if(vehcile_make == "") {Alert.alert("Please enter Vehicle Manufacture company")}
+        else if(vehcile_color == "") {Alert.alert("Please enter Vehicle color")}
         else if(vehicle_seats == "") {Alert.alert("Please enter seating capacity")}
         else if(vehcile_manf_year == "") {Alert.alert("Please enter Manufacturing Year")}
+        else if(value == "") {Alert.alert("Please Vehicle Company")}
+        else if(subComp == "") {Alert.alert("Please select Terminal")}
         else {
       
       axios.post(`${global.BASE_URL}/psv/addPsv`, psv )
@@ -510,7 +514,7 @@ if(value != ""){
 
         {/*  Select vehcile Type */}
         <View className={`${styles.outerview} `} style={{}} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Vehicle Type*</Text></View>
             <View className=" w-4/6 items-center ">
               <View className=" m-1  z-50">
               <SelectDropdown
@@ -532,7 +536,7 @@ if(value != ""){
 
           {/*  Add Chaisis No */}
           <View className={styles.outerview} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Chassis Number*</Text></View>
             <View className=" w-4/6 text-center items-center ">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -547,7 +551,7 @@ if(value != ""){
 
           {/* Add Engine Number */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Engine Number *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Engine Number*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -562,7 +566,7 @@ if(value != ""){
 
           {/* Add Vehicle Make */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Make By*</Text></View>
             <View className="w-4/6 items-center">
             <View className=" m-1  z-50">
               <SelectDropdown
@@ -584,7 +588,7 @@ if(value != ""){
 
           {/* Add Vehicle Color */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Color</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Vehicle Color*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -612,7 +616,7 @@ if(value != ""){
 
           {/* Seating Capapcity */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Seating Capacity *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Seating Capacity*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -651,7 +655,7 @@ if(value != ""){
 
            {/* Manufacturing Year */}
            <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Manufacturing Year *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Manufacturing Year*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {BusFront, Navigation, Scroll, User} from 'lucide-react-native';
+import {BusFront, ChevronDown, Navigation, MousePointerClick} from 'lucide-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Bus} from 'lucide-react-native';
@@ -19,8 +19,10 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import { retrieveDriverSession, retrieveVehicleSession,retrieveUserSession } from '../../config/functions';
+
 const TripReport = ({route}) => {
-const navigation = useNavigation();
+  const inputRef = useRef(null);
+  const navigation = useNavigation();
 const [currentUser,setCurrentUser] = useState("")
   //=========================states
 const [v_psvNo, setpsvNo] =useState('')
@@ -28,6 +30,7 @@ const [v_routeStatus, setrouteStatus] =useState('')
 const [v_routedate, setroutedate] =useState('')
 const [v_companyName, setcompanyName] =useState('')
 const [v_subCompanyName, setSubCompanyName] =useState('')
+const [v_color, setColor] =useState('')
 const [v_routePath, setroutePath] =useState('')
 const [v_routetype, setrouteType] =useState('')
 const [v_fitnessStatus, setfitnessStatus] =useState('')
@@ -222,6 +225,7 @@ function setTripData(tripdata){
     setpsvNo(tripdata.psvNo)
     setcompanyName(tripdata.psvCompany);
     setSubCompanyName(tripdata.psvSubCompany);
+    setColor(tripdata.vehicleColor)
     setexitGate(tripdata.exitGate);
    
     setfireExt(tripdata.fireValidity);
@@ -293,6 +297,9 @@ function setTripData(tripdata){
     
     if(v_onBoardpassenger == "" || v_onBoardpassenger == undefined ) {
       Alert.alert("Please enter onboarded passengers")
+      inputRef.current.focus();
+      // inputRef.current.style.backgroundColor="red";
+      
     } else if (actionTaken == "" || actionTaken == undefined) {
       Alert.alert("Please Take action against PSV")
     } else {
@@ -356,14 +363,17 @@ function setTripData(tripdata){
            
            {/*  Last inspection date */}
            <View className={styles.outerview}>
+           
+
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
                   Inspection History
                 </Text>
               </View>
               <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("Inspection History",{params:"Vehicle"})}>
-              <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">Click to View</Text> 
+              <View className="w-4/6 flex flex-row justify-center">
+                <Text className="text-black font-bold">Click here to view</Text> 
+                <MousePointerClick  stroke="black" size={20}/>
                </View>
             </TouchableOpacity>
             </View>
@@ -379,11 +389,11 @@ function setTripData(tripdata){
               </View>
                 </TouchableOpacity>
             </View>
-            {/* Sub Company */}
+            {/* Sub Company
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Sub Company
+                  Terminal
                 </Text>
               </View>
               <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})} >
@@ -391,7 +401,22 @@ function setTripData(tripdata){
                     <Text className="text-black font-bold">{v_subCompanyName}</Text>
               </View>
               </TouchableOpacity>
-            </View>
+            </View> */}
+
+             {/* Color */}
+            <View className={styles.outerview}>
+              <View className={styles.labelstyle}>
+                <Text className="text-black font-bold">
+                  Vehicle Color
+                </Text>
+              </View>
+              <TouchableOpacity className="w-full px-1 rounded-md" onPress={()=>navigation.navigate("Add Vehicle",{params:"report"})} >
+              <View className=" w-4/6  items-center">
+                    <Text className="text-black font-bold">{v_color}</Text>
+              </View>
+              </TouchableOpacity>
+            </View> 
+
 
             {/*  Route Permit Date */}
             <View className={styles.outerview}>
@@ -500,11 +525,13 @@ function setTripData(tripdata){
                 {/* on Boarded Passenger */}
                 <View className={styles.outerview}>
               <View className={`${styles.labelstyle} text-center items-center`}>
-                <Text className="text-black font-bold ">on Boarded Passenger *</Text>
+                <Text className="text-black font-bold ">On Boarded Passenger *</Text>
               </View>
             <View className={`${styles.outerview}  text-center justify-center items-center  w-3/5`}>
               <View className="text-center items-center flex">
               <TextInput
+                  ref ={inputRef}
+                  inputMode='numeric'
                   placeholderTextColor={'grey'}
                   placeholder=" Enter Boarded Passenger"
                   maxLength={3} 
@@ -512,6 +539,7 @@ function setTripData(tripdata){
                   onChangeText={e => setonBoardpassenger(e)}
                   value={v_onBoardpassenger}
                   className="text-black justify-center text-center pl-4"
+                  id ="onboard"
                   />
               </View>
            </View>
@@ -551,12 +579,13 @@ function setTripData(tripdata){
               <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Inspection History
+                  Travel History
                 </Text>
               </View>
               <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("Inspection History",{params:"Driver"})}>
-              <View className="w-4/6 items-center">
-                <Text className="text-black font-bold">Click to View</Text> 
+              <View className="w-4/6 flex flex-row justify-center">
+                <Text className="text-black font-bold">Click here to view</Text> 
+                <MousePointerClick  stroke="black" size={20}/>
                </View>
             </TouchableOpacity>
             </View>
@@ -565,7 +594,7 @@ function setTripData(tripdata){
                <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Driver Company
+                  Driver PSV Company
                 </Text>
               </View>
               <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
@@ -575,11 +604,11 @@ function setTripData(tripdata){
             </TouchableOpacity>
             </View>
 
-             {/* Driver sub- company */}
+             {/* Driver sub- company
              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
                 <Text className="text-black font-bold">
-                  Driver Sub-Company
+                  
                 </Text>
               </View>
               <TouchableOpacity className="w-4/6 items-center" onPress={()=>navigation.navigate("AddDrivernew",{params:"report"})}>
@@ -587,12 +616,12 @@ function setTripData(tripdata){
                 <Text className="text-black font-bold">{dvrSubCompany}</Text> 
                </View>
                </TouchableOpacity>
-            </View>
+            </View> */}
 
              {/* Action Taken by officer */}
              <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Action Taken *</Text>
+                <Text className="text-black font-bold">Action Taken*</Text>
               </View>
               <View className="w-3/6 items-center">
                 <Text className="text-black font-bold ">{actionTaken}</Text>

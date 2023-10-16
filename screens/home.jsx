@@ -130,16 +130,16 @@ function Home() {
    
     <View className="p-2  w-full bg-white">
     
-      <View className="flex flex-row bg- bg-[#29378a]  rounded-sm  h-[80]  w-full  text-center items-center  overflow-hidden">
-       <ImageBackground source={require('../img/bg.png')}  resizeMode="cover" style={{ height:'120%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
+      <View className="flex flex-row    h-[120]  w-full  text-center items-center  overflow-hidden rounded-md">
+       <ImageBackground source={require('../img/bg.png')}  resizeMode="cover" style={{ height:'100%', width:518, opacity:0.9, flex:1, justifyContent:'center'}}  />
         <Image
-          source={require('../img/logo1.png')}
+          source={require('../img/logo.png')}
           style={{width: 60, height: 60}}
           className="pl-2"
         />
          
         <View className=" w-5/6  ">
-          <Text className="text-blue-900 text-start font-extrabold text-2xl ml-10">
+          <Text className="text-yellow-300 text-center font-extrabold text-2xl  ">
             PSV-MIS (NHMP)          </Text>
         </View>
       </View>

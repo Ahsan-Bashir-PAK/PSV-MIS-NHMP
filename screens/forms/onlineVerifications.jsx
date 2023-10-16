@@ -37,11 +37,17 @@ const OnlineVerifications = () => {
           
          <View className=" border bg-yellow-400  rounded-md p-3  w-fit items-center justify-center flex flex-row">
             <FileSymlink  stroke="black" size={35} />
-            <Text className="text-black text-lg rounded-md font-bold ">Important Documents Verifications links all over Pakistan</Text>
+            <Text className="text-black text-lg rounded-md font-bold ">Important Documents Verifications Links</Text>
+            
+        </View>
+
+        <View className="  bg-red-600 mt-2 rounded-md p-1  w-fit items-center justify-center flex flex-row">
+       
+            <Text className="text-white text-lg rounded-md font-bold ">For Official use only.</Text>
             
         </View>
 {/* Excise Vehicle Verifications TAB */}
-        <View className=" border mt-5 bg-slate-200 rounded-md p-2  w-fit items-center justify-center flex flex-row">
+        <View className=" border mt-3 bg-slate-200 rounded-md p-2  w-fit items-center justify-center flex flex-row">
             
             <Text className="text-black text-lg rounded-md font-bold ">Excise Verifications </Text>
             

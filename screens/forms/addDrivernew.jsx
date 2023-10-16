@@ -425,7 +425,7 @@ getSubCompany()
           
           {/*  Driver Name */}
           <View className={styles.outerview} >
-            <View className={styles.labelstyle}><Text className="text-black  font-bold">Driver Name *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black  font-bold">Driver Name*</Text></View>
             <View className=" w-4/6  items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -500,7 +500,7 @@ getSubCompany()
 
           {/* Enter CNIC */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">CNIC *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">CNIC*</Text></View>
             <View className="w-4/6 items-center">
             <TextInput
                 placeholderTextColor={'grey'}
@@ -517,7 +517,7 @@ getSubCompany()
 
           {/* Cell No. */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Cell No. *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Cell No.*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -634,7 +634,7 @@ getSubCompany()
 
            {/* License Number */}
            <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">License Number *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">License Number*</Text></View>
             <View className="w-4/6 items-center">
               <TextInput
                 placeholderTextColor={'grey'}
@@ -648,7 +648,7 @@ getSubCompany()
 
           {/* License Type */}
           <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">License Type *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">License Type*</Text></View>
             <View className="w-4/6 items-center">
             <SelectDropdown
                 data= {License_type}
@@ -665,7 +665,7 @@ getSubCompany()
 
            {/* Issuing Authority */}
            <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Issuing Authority*</Text></View>
             <View className="w-4/6 items-center">
               <SelectDropdown
                 data= {provinces}
@@ -714,7 +714,7 @@ getSubCompany()
 
            {/* License Expiry Date */}
            <View className={styles.outerview}>
-            <View className={styles.labelstyle}><Text className="text-black font-bold">Expiry Date *</Text></View>
+            <View className={styles.labelstyle}><Text className="text-black font-bold">Expiry Date*</Text></View>
             <View className="w-4/6 items-center">
             <View className="flex flex-row gap-1">
             

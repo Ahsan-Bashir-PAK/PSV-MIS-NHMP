@@ -321,9 +321,9 @@ async function retrieveUserSession() {
            
 
  {/* Select Tyre Condition */}
- <View className={` justify-around flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md  shadow-md  shadow-blue-900 ${tyrecondition=="Excellent"?"bg-green-700":tyrecondition=="Good"?"bg-blue-500":tyrecondition=='Average'?"bg-yellow-500":tyrecondition=="Poor"?"bg-red-400":"bg-white"}`}> 
+ <View className={` justify-around flex flex-row mb-1 mx-2 border border-gray-300 p-1 rounded-md  shadow-md  shadow-blue-900 ${tyrecondition=="Excellent"?"bg-green-700 ":tyrecondition=="Good"?"bg-blue-500":tyrecondition=='Average'?"bg-yellow-500":tyrecondition=="Poor"?"bg-red-400":"bg-white"}`}> 
              <View className=" " >
-             <Text className={`text-black `}>{tyrecondition ===""?"Select Tyre Condition *":tyrecondition}</Text>
+             <Text className={`font-bold text-white `}>{tyrecondition ===""?"Select Tyre Condition*":tyrecondition}</Text>
                     
             </View>
             </View>

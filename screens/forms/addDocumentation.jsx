@@ -174,7 +174,7 @@ async function retrieveUserSession() {
   
   
   const updatePsvDocs =async ()=>{
-
+        
         if(route_type !="No-Route") {
             if(vroute == "") { Alert.alert("Please enter Route Number.") }
               else if(issue_Authority== "") {Alert.alert("Please enter Route Issuing Authority")}
@@ -302,7 +302,7 @@ async function retrieveUserSession() {
             {/* Issuing Authority */}
             <View className={styles.outerview}>
               <View className={styles.labelstyle}>
-                <Text className="text-black font-bold">Issuing Authority *</Text>
+                <Text className="text-black font-bold">Issuing Authority*</Text>
               </View>
               <View className="w-4/6 items-center">
               <TextInput
@@ -414,7 +414,7 @@ async function retrieveUserSession() {
 
               {/* Fitness Certifcate No */}
               <View className={styles.outerview}>
-                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Certificate No. *</Text></View>
+                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Certificate No.*</Text></View>
                 <View className="w-4/6 items-center">
                   <TextInput
                     placeholderTextColor={'grey'}
@@ -459,7 +459,7 @@ async function retrieveUserSession() {
 
               {/* Fitness Issuing Autority */}
               <View className={styles.outerview}>
-                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Authority *</Text></View>
+                <View className={styles.labelstyle}><Text className="text-black font-bold">Fitness Authority*</Text></View>
                 <View className="w-4/6 items-center">
                   <TextInput
                     placeholderTextColor={'grey'}

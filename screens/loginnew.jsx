@@ -140,7 +140,7 @@ function clearAll(){
             {/* Logo VIEW */}
             <View className="w-full  h-2/5 bg-blue-800 flex justify-center items-center  rounded-tl-full border-l-[50px] border-t-yellow-500 border-l-yellow-500   ">
                 <Image source={require('../img/logo.png')} style={{width:180, height:180}} className='w-[270] h-[300] border ' />
-                <Text className='font-extrabold text-3xl  text-white'>PSV MIS</Text>
+                <Text className='font-extrabold text-3xl  text-white'>PSV-MIS</Text>
                 <Text className='font-extrabold sm:text-2xl text-lg text-yellow-500'>National Highways & Motorway Police</Text>
                 <Text className="text-white font-light font-mono italic">(Version: 1.0.0)</Text>
             </View>

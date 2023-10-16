@@ -21,11 +21,11 @@ const InspectionReport = ({route}) => {
     retrieveVehicleSession(setRptPsv)
     if(route.params){
         if(route.params["params"] =="Driver"){
-                setRptName("Driver's")
+                setRptName("Driver's Travelling")
                 setDvr('none')
                 setPsv('block')
             }else{
-                setRptName("Vehicle's")
+                setRptName("Vehicle's Inspection")
                 setDvr('block')
                 setPsv('none')
                 }
@@ -70,7 +70,7 @@ if(rptPsv && rptDriver){
 
             
                 <View className=" bg-yellow-400  rounded-md p-2 m-1 w-fit items-center justify-center flex-row-reverse ">
-                    <Text className="text-black font-bold text-lg">{rptName} Inspection History</Text>
+                    <Text className="text-black font-bold text-lg">{rptName} History</Text>
                 </View>
         
         
