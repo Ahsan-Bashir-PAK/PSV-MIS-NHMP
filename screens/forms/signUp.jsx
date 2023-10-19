@@ -447,12 +447,12 @@ return (
                 </TouchableOpacity>
               </View>
 
-
+{/* 
               <View className="">
                 <TouchableOpacity className="bg-[#29378a] px-7 py-2 rounded-md m-2">
                   <Text className="text-white  text-lg">Update</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View className="">
                 <TouchableOpacity onPress={()=>clearAll()} className="bg-[#a54932] px-8 py-2 rounded-md m-2">
                   <Text className="text-white text-lg">Clear</Text>

@@ -148,7 +148,7 @@ const OnlineVerifications = () => {
         <View className=" bg-white p-2 flex flex-row justify-center ">
        
                 <TouchableOpacity 
-                  onPress={()=>Linking.openURL('http://52.29.248.107/VidCentral/Login.aspx?ReturnUrl=%2fVidCentral%2fAdminApp%2fIn')}
+                  onPress={()=>Linking.openURL('http://52.29.248.107/VidCentral/Login.aspx')}
                   className='p-2 bg-[#039fbe] text-center rounded-md w-3/12 ml-1' >
                   <Text className='text-white text-center font-bold text-lg'>Punjab</Text>
                 </TouchableOpacity>
